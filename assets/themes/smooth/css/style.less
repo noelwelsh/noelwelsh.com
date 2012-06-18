@@ -1,5 +1,6 @@
 @border-color: #cdc;
 @accent-color: #392;
+@sidebar-width: 300px;
 
 body {
   background-color: #eee;
@@ -11,28 +12,34 @@ body {
 
 #container-navigation {
 
-  @indent: 20px;
+  @indent: 30px;
 
-  width: 200px;
+  width: @sidebar-width;
+  padding-top: 100px;
   float: left;
 
   a {
-    color: black;
+    color: inherit;
     text-decoration: none;
   }
 
   h1 {
     padding-left: @indent;
+    padding-right: @indent;
     padding-top: 20px;
     padding-bottom: 20px;
-    font-weight: 100;
+    font-weight: bold;
+    font-size: 40px;
+    color: #333;
   }
 
   p {
     padding-left: @indent;
-    font-size: 16px;
+    padding-right: @indent;
+    font-size: 18px;
     padding-bottom: 10px;
-    font-weight: 100;
+    font-weight: 200;
+    color: #333;
   }
 
   ul {
@@ -48,13 +55,20 @@ body {
       line-height: 40px;
       border-bottom: 1px solid @border-color;
       padding-left: @indent;
+      padding-right: @indent;
+      font-weight: 200;
+      font-size: 14px;
 
       &:hover {
         background-color: @accent-color;
         color: white;
       }
 
-      a { color: inherit; }
+      a {
+        color: inherit;
+        width: 100%;
+        display: block;
+      }
     }
   }
 }
@@ -63,16 +77,50 @@ body {
   padding: 0;
   margin: 0;
   border-left: 1px solid @border-color;
-  margin-left: 200px;
+  margin-left: @sidebar-width;
+  background-color: #fff;
+  min-height: 600px;
 
   #content {
-    padding: 20px;
-    background-color: #fff;
+    padding-left: 40px;
+    padding-top: 20px;
+    width: 600px;
+
+    .page {
+      padding-top: 20px;
+
+      h1 {
+        padding-bottom: 10px;
+      }
+    }
+
+    .post {
+      padding-top: 20px;
+      h1 {
+        padding-bottom: 10px;
+
+        .date {
+          font-weight: 200;
+          font-size: 25px;
+        }
+
+        a { color: black; }
+      }
+      padding-bottom: 40px;
+      border-bottom: 1px solid @border-color;
+
+      code { color: #333; }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
   }
 }
 
 #footer {
   border-top: 1px solid @border-color;
+  clear: both;
 }
 
 footer {
