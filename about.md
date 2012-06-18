@@ -6,7 +6,7 @@ name: about
 ---
 {% include JB/setup %}
 
-I'm Noel, but you've worked that out already.
+I'm Noel, but you've worked that out already. I'm [@noelwelsh](http://twitter.com/noelwelsh) on Twitter, and also [noelwelsh](https://github.com/noelwelsh) on Github.
 
 I have a passion for the digital computer, which I see as the most powerful invention of modern times. I am interested in all aspects of computing, with a particular interest in machine learning. The latter led me to get a MSc and PhD in the subject.
 
