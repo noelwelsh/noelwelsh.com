@@ -18,4 +18,4 @@ I contribute to a number of open-source projects. Most of my personal project ar
 
 ## Commercial
 
-Right now, my main project is [Myna](http://mynaweb.com/) and various consultancy projects.
+Right now, my main projects are [Myna](http://mynaweb.com/) and my ever-changing consultancy jobs.

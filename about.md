@@ -14,10 +14,10 @@ I'm a founder of [Myna](http://mynaweb.com/), a product for web content optimisa
 
 At [Underscore](http://underscoreconsulting.com) I provide consultancy services centered around the [Scala](http://scala-lang.org) language. Our main focus is software architecture and implementation for scalable and performant systems, be it on the web or other.
 
-I live in Birmingham, UK with my wife, two deranged rompasaurs, and a deliquent alley cat.
+I live in Birmingham, UK with my wife, two deranged rompasaurs, and a delinquent alley cat.
 
 ## About this Blog
 
-This blog is built with [Jekyll bootstrap](http://jekyllbootstrap.com/). A previous version was built using Octopress, but I found this too complex.
+This blog is built with [Jekyll bootstrap](http://jekyllbootstrap.com/). A previous version was built using Octopress, but I found Octopress too complex for my needs.
 
 The theme is one of my own devising, heavily inspired by [Syte](http://rigoneri.github.com/syte/) and [Svbtle](https://svbtle.com/).
