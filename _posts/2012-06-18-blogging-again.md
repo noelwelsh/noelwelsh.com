@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Bloging Again
+title: Blogging Again
 description: ""
 category:
 tags: []
