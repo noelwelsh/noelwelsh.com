@@ -5,6 +5,7 @@ permalink: /:categories/:year/:month/:day/:title
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
 auto: true
 pygments: true
+safe: true
 
 # Themes are encouraged to use these universal variables
 # so be sure to set them if your theme uses them.
@@ -99,7 +100,7 @@ JB :
   analytics :
     provider : google
     google :
-        tracking_id : 'UA-27398439-1'
+        tracking_id : "UA-27398439-1"
     getclicky :
       site_id :
     mixpanel :
