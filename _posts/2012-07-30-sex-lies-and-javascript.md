@@ -11,7 +11,7 @@ tags: [node, jvm, performance]
 
 Let's start with Ryan Dahl's comment on HN, which suggests a certain amount of [cognitive dissonance](http://en.wikipedia.org/wiki/Cognitive_dissonance):
 
-> Node is popular because it allows normal people to do high concurrency servers. ... Syntax and overall vibe are important to me. I want programming computers to be like coloring with crayons and playing with duplo blocks. If my job was keeping Twitter up, of course I'd [be] using a robust technology like the JVM. ... Node has a large number of newbie programmers. I'm proud of that; I want to make things that lots of people use.
+> Node is popular because it allows normal people to do high concurrency servers. ... Syntax and overall vibe are important to me. I want programming computers to be like coloring with crayons and playing with duplo blocks. If my job was keeping Twitter up, of course I'd \[be\] using a robust technology like the JVM. ... Node has a large number of newbie programmers. I'm proud of that; I want to make things that lots of people use.
 
 Let's leave aside the many arguments[^arguments] we could have about these statements, and just focus on the odd internal inconsistency. Node is popular with new programmers, and it's popular because it makes concurrency easy. Yet strangely it isn't a good fit for high concurrency applications because it isn't robust. And how many new programmers are jumping straight into concurrency? What to make of that?
 
