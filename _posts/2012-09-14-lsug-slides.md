@@ -7,4 +7,4 @@ tags: [ml, big-data, streaming-algorithms, online-learning]
 ---
 {% include JB/setup %}
 
-Following my [LSUG talk on streaming algorithms](http://www.meetup.com/london-scala/events/77517962/) you can now download my [slides](/assests/downalods/lsug-streaming-algorithms.pdf) and view the [video](http://skillsmatter.com/podcast/scala/making-big-data-small-streaming-algorithms-in-scala). Enjoy!
+Following my [LSUG talk on streaming algorithms](http://www.meetup.com/london-scala/events/77517962/) you can now download my [slides](/assets/downlaods/lsug-streaming-algorithms.pdf) and view the [video](http://skillsmatter.com/podcast/scala/making-big-data-small-streaming-algorithms-in-scala). Enjoy!
