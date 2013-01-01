@@ -37,7 +37,7 @@ Here's the essentials of what I suggest:
 
 ## Movements
 
-Movement is that foundation of any exercise program. Indeed movement is all that exercise really is. Here we'll look at the basic movements and how to combine that into workouts.
+Movement is the foundation of any exercise program. Indeed movement is all that exercise really is. Here we'll look at the basic movements and how to combine that into workouts.
 
 ### Basic Movements
 
