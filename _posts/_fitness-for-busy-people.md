@@ -37,7 +37,7 @@ Here's the essentials of what I suggest:
 
 ## Movements
 
-Movement is the foundation of any exercise program. Indeed movement is all that exercise really is. Here we'll look at the basic movements and how to combine that into workouts.
+Movement is the foundation of any exercise program. Indeed movement is all that exercise really is. Here we'll look at the basic movement patterns, some specific movements, and some useful and inexpensive equipment.
 
 ### Basic Movements
 
@@ -49,9 +49,35 @@ I divide movements into three groups of two pairs:
 
 A push is a movement that primarily uses the muscles on the front of your body. A pull primarily uses the muscles on the back of your body.
 
-You should aim for balance in your workouts. Over a week or two you should work each pair equally, and upper and lower body equally.
+### Scaling
+
+To progress we need ways to increase (or decrease!) the difficulty of movements. Some of the links above show progressions. Where progressions aren't given there are some general principles you can use.
+
+*Increasing leverage* is one method for making a bodyweight movement harder. For example, the increase in difficulty from a tucked to a full front lever is accomplished by the increasing the leverage applied by the body against the active muscles. You can apply the same trick to many movements. For example you make push-ups easier by raising your hands relative to your body (e.g. put them on stairs) and make them harder by raising your feet relative to your hands.
+
+*Removing a limb* doesn't require drastic surgery. Simply using one hand or leg where you'd use two will make an exercise much harder. Consider, for example, the difference between a one-handed and a normal pullup! You can find intermediate points by, say, raising or lowering one hand relative to the other. For example, if you do push-ups with one on a box you will make the exercise harder. The same applies to pull-ups, where you can use a towel or belt to bring one hand lower than the other, providing an intermediate step between a normal pull-up and a one handed pull-up.
+
+You can also combine these ideas. For example, you can progress to full one arm push-ups by starting with one handed push-up on three or four stairs and working your way to the ground as your strength increases.
+
+### Equipment
+
+There are a few inexpensive pieces of equipment that will greatly assist your workouts.
+
+[Gymnastics rings](http://en.wikipedia.org/wiki/Rings_%28gymnastics%29) are one of the most versatile and challenging pieces of equipment for training your upper body. Inexpensive rings are available from sites like eBay. Push-ups, pull-ups, dips and the like can all be done of the rings for added difficulty. Moves like [360 pulls](https://www.gymnasticbodies.com/forum/topic/263-360-pulls-a-multi-plane-pulling-exercise/) can only be done on the rings. A partial list of moves can be found [here](http://www.drillsandskills.com/skills/Rings/).
+
+The only disadvantage of rings is that they require a lot of space to hang. Most people won't be able to hang them indoors
+
+A pull-up bar is the next best thing to rings, and has the advantage you can use it indoors during bad weather. The best type are those that clip under a doorway like the [Iron Gym](http://www.getirongym.com/) model.
+
+Dumbbells are easy to store, and you can get them second-hand quite cheaply.
 
 
+- Children
+
+
+
+
+## Workouts
 ### Rep Ranges
 
 - Reps and Sets
@@ -60,17 +86,11 @@ You should aim for balance in your workouts. Over a week or two you should work 
 -- Endurance
 - Training History
 
-### Scaling
 
-- Increasing Leverage
-- Using Fewer limbs
+## Programs
 
-### Equipment
+You should aim for balance in your workouts. Over a week or two you should work each pair equally, and upper and lower body equally.
 
-- Rings
-- Pullup bar
-- Dumbbells
-- Children
 
 ## Process
 
