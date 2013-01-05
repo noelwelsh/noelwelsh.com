@@ -57,22 +57,22 @@ To progress we need ways to increase (or decrease!) the difficulty of movements.
 
 *Removing a limb* doesn't require drastic surgery. Simply using one hand or leg where you'd use two will make an exercise much harder. Consider, for example, the difference between a one-handed and a normal pullup! You can find intermediate points by, say, raising or lowering one hand relative to the other. For example, if you do push-ups with one on a box you will make the exercise harder. The same applies to pull-ups, where you can use a towel or belt to bring one hand lower than the other, providing an intermediate step between a normal pull-up and a one handed pull-up.
 
-You can also combine these ideas. For example, you can progress to full one arm push-ups by starting with one handed push-up on three or four stairs and working your way to the ground as your strength increases.
+You can also combine these ideas. For example, you can progress to full one arm push-ups by starting with one handed push-ups on three or four steps and working your way to the ground as your strength increases.
 
 ### Equipment
 
-There are a few inexpensive pieces of equipment that will greatly assist your workouts.
+There are a few inexpensive pieces of equipment that will greatly assist your workouts. [Ross Training](http://www.rosstraining.com/articles.html) has instructions for making a lot of equipment, if you're that way inclined. If not, everything I mention below can be acquired quite cheaply if you're prepared to search a bit.
 
-[Gymnastics rings](http://en.wikipedia.org/wiki/Rings_%28gymnastics%29) are one of the most versatile and challenging pieces of equipment for training your upper body. Inexpensive rings are available from sites like eBay. Push-ups, pull-ups, dips and the like can all be done of the rings for added difficulty. Moves like [360 pulls](https://www.gymnasticbodies.com/forum/topic/263-360-pulls-a-multi-plane-pulling-exercise/) can only be done on the rings. A partial list of moves can be found [here](http://www.drillsandskills.com/skills/Rings/).
+[Gymnastics rings](http://en.wikipedia.org/wiki/Rings_%28gymnastics%29) are one of the most versatile and challenging pieces of equipment for training your upper body. Push-ups, pull-ups, dips and the like can all be done of the rings for added difficulty. Moves like [360 pulls](https://www.gymnasticbodies.com/forum/topic/263-360-pulls-a-multi-plane-pulling-exercise/) can only be done on the rings. A partial list of moves can be found [here](http://www.drillsandskills.com/skills/Rings/).
 
-The only disadvantage of rings is that they require a lot of space to hang. Most people won't be able to hang them indoors
+Inexpensive rings are available from sites like eBay. The only disadvantage of rings is that they require a lot of space to hang. Most people won't be able to hang them indoors, but a sturdy tree branch or piece of play equipment will do the job.
 
 A pull-up bar is the next best thing to rings, and has the advantage you can use it indoors during bad weather. The best type are those that clip under a doorway like the [Iron Gym](http://www.getirongym.com/) model.
 
-Dumbbells are easy to store, and you can get them second-hand quite cheaply.
+Dumbbells are easy to store, and you can get them second-hand quite cheaply. In addition to all the classic movements you'll find on a site like [ExRx.net](http://www.exrx.net/) you can put the weights into a strong backpack to increase the difficulty of push-ups, pull-ups, and so on.
 
+Chldren can hardly be considered inexpensive, but if you got 'em you might as well use 'em. Doing push-ups with children on your back is entertaining for both you and them. They also get you a free pass into any playground, where you can use the equipment to the appreciation of all present.
 
-- Children
 
 
 
@@ -90,6 +90,8 @@ Dumbbells are easy to store, and you can get them second-hand quite cheaply.
 ## Programs
 
 You should aim for balance in your workouts. Over a week or two you should work each pair equally, and upper and lower body equally.
+
+Avoiding injury
 
 
 ## Process
