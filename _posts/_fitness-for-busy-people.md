@@ -28,7 +28,7 @@ Mobility is an essential
 
 Here's the essentials of what I suggest:
 
-- Bodyweight movements will be the mainstay of your workouts. You will require no special equipment except possibly an inexpensive pull-up bar or gymnastics rings, and some shoes. They are time efficient as they work large amounts of muscle mass at once, and can be scaled down to the most basic beginner or up to the Olympic contender.
+- Bodyweight movements will be the mainstay of your workouts. These require no special equipment except possibly an inexpensive pull-up bar or gymnastics rings, and some shoes. They are time efficient as they work large amounts of muscle mass at once, and can be scaled down to the most basic beginner or up to the Olympic contender.
 - At a minimum, you can fit most of your training into short bursts done during the day, supplemented with two to four twenty minute sessions for more intense activity.
 - Eat a sensible diet.
 - Play with movement. Enjoy using your body. If you have kids, throw them into the air (just catch them on the way down, ok?)
@@ -48,6 +48,8 @@ I divide movements into three groups of two pairs:
 - Lower body pull and push. The [squat](http://www.exrx.net/WeightExercises/Quadriceps/BBSquat.html) and [deadlift](http://www.exrx.net/WeightExercises/GluteusMaximus/BBDeadlift.html) are the paradigmatic lower body push and pull respectively. Bodyweight movements tend to be less effective for lower body strength development then their barbell cousins, but there are still some great options. [One-legged squats](http://www.beastskills.com/one-legged-squat-the-pistol/) are the good push exercise, as is jumping. Sprinting is an excellent lower body pulling exercise, as is the [shrimp squat](http://idoportal.blogspot.co.uk/2009/08/explosive-leg-workout.html), and the [bodyweight hamstring curl](http://rosstraining.com/blog/2009/02/14/homemade-hamstring-training/) (requires a bit of equipment).
 
 A push is a movement that primarily uses the muscles on the front of your body. A pull primarily uses the muscles on the back of your body.
+
+Movement criteria: use lots of muscle mass through a full ROM.
 
 ### Scaling
 
@@ -71,20 +73,34 @@ A pull-up bar is the next best thing to rings, and has the advantage you can use
 
 Dumbbells are easy to store, and you can get them second-hand quite cheaply. In addition to all the classic movements you'll find on a site like [ExRx.net](http://www.exrx.net/) you can put the weights into a strong backpack to increase the difficulty of push-ups, pull-ups, and so on.
 
-Chldren can hardly be considered inexpensive, but if you got 'em you might as well use 'em. Doing push-ups with children on your back is entertaining for both you and them. They also get you a free pass into any playground, where you can use the equipment to the appreciation of all present.
-
-
-
-
+Chldren can hardly be considered inexpensive, but if you got 'em you might as well use 'em. Doing push-ups with children on your back is entertaining for both you and them. Children also get you a free pass into any playground, where you can use the equipment to the appreciation of all present.
 
 ## Workouts
-### Rep Ranges
 
-- Reps and Sets
--- Strength
--- Hypertrophy
--- Endurance
-- Training History
+A group of movements performed in the same time period makes up a workout. Here we'll talk about how to create good workouts.
+
+### Rep and Sets
+
+Reps and sets are the basic units of construction of a workout. A rep, or repetition, is one complete movement. A number of reps done one after another is a set. A workout usually consists of number of sets, each of a number of reps. Inbetween sets you might rest or do some other movements. It all depends on your goals.
+
+This brings us to the main point: reps and sets must be chosen to support the goals of the workout. More is not necessarily better. In fact less might be. So how does it work?
+
+We can divide sets into different bands based on the number of reps they contain, which in term determines the effect they will have. Broadly speaking, as the number of reps increases the training effect shifts from pure strength, to size (hypertrophy), to endurance. Here's a typical table:
+
+- 1-3 Reps: Limit strength (i.e. maximum amount you can lift)
+- 4-8 Reps: Strength
+- 8-12 Reps: Hypertrophy (size)
+- 13+ Reps: Endurance
+
+These rep ranges assume that you will be extremely taxed to perform another rep. If you can perform, say, 20 push-ups, you can't do sets of 3 reps and expect to get stronger.
+
+Finally, don't take these rep ranges as absolutes. Everybody is different.
+
+Now we know about reps, how many sets should we perform? The answer depends on two factors: the number of reps and training history.
+
+What do you do between sets? Rest (strength), or do something else (hypertrophy, endurances, conditioning).
+
+http://articles.elitefts.com/training-articles/throw-out-the-rep-ranges-a-different-perspective/
 
 
 ## Programs
