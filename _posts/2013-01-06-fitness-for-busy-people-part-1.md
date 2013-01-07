@@ -88,3 +88,13 @@ Chldren can hardly be considered inexpensive, but if you got 'em you might as we
 ## Tune In Next Time!
 
 That's it for now. Next time we'll look at combining movements into effective workouts.
+
+<!-- Begin MailChimp Signup Form -->
+<div id="mc_embed_signup">
+<form action="http://noelwelsh.us6.list-manage.com/subscribe/post?u=8f6a767dbf715c379e19f6f79&amp;id=34204334f8" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+	<label for="mce-EMAIL">Want to learn more? Sign up to receive email when the next article is published.</label>
+	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+	<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+</form>
+</div>
+<!--End mc_embed_signup-->
