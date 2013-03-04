@@ -1,24 +1,24 @@
 ---
 layout: post
 title: "Why I Don't Like Akka Actors"
-description: ""
-category:
-tags: []
+description: "The Three Deadly Sins of Actors"
+category: programming
+tags: [punditry]
 ---
 {% include JB/setup %}
 
-We recently rewrote [Myna's](http://www.mynaweb.com/) back-end service. The architecture changed dramatically, and it now both faster and easier to extend. One of the significant architectural changes was removing all [Akka](http://akka.io) [actors](http://en.wikipedia.org/wiki/Actor_model). Having used them extensively in the first version of the back-end, I have come to prefer other methods of managing concurrency. Since Akka's actors are so prominent within the Scala community I thought it might be of interest to describe why we removed them.
+We recently rewrote [Myna's](http://www.mynaweb.com/) back-end service. The architecture changed dramatically, and it now both faster and easier to extend. One of the significant architectural changes was removing all [Akka](http://akka.io) [actors](http://en.wikipedia.org/wiki/Actor_model). Having used them extensively in the first version of the back-end, I have come to prefer other methods of managing concurrency. Since Akka's actors are so prominent within the Scala community I thought it might be of interest to describe why we made this change.
 
 
 ## Actors are Coarse Abstractions
 
 In the actor world view they are all you need for concurrent programming. That is, they are presented as a unifying abstraction for concurrency, in the same way that Scala unifies Java's primitive and object types, or Python tries to represent all values as mutable dictionaries.
 
-There is an appealing conceptual unity to this approach, but it becomes a problem when important distinctions are hidden. In programming languages this usually comes up when performance counts. For example, the distinction between primitive and object types really matters if you care about speed. Scala gets away with this for the most part through clever compilation in both the Scala compiler and Hotspot, but writing high performance code can still be something of a dark art[^Python].
+There is an appealing conceptual unity to this approach, but it becomes a problem when important distinctions are hidden. In programming languages this usually comes up when discussing performance. For example, the distinction between primitive and object types really matters if you care about speed. Scala gets away with this for the most part through clever compilation in both the Scala compiler and Hotspot, but writing high performance code can still be something of a dark art[^Python].
 
-[^Python]: Python basically does nothing about this issue, which is why it's so slow. In fact the decision to make everything a mutable dictionary is one big reason it's so hard to optimise Python. I know about [PyPy](http://www.pypy.org/). It has taken about 8 years and several million currency units to get where it is today.
+[^Python]: Python basically does nothing about this issue, which is why it's so slow. In fact the decision to make everything a mutable dictionary is one big reason it's so hard to optimise Python. [PyPy](http://www.pypy.org/), a JIT compiler for Python, has consumed 10 years and several million currency units and is still not widely deployed.
 
-Concurrent programming involves at least three distinct concerns: concurrency, mutual exclusion, and synchronisation. With actors the first two always come combined, and you're left to hand-roll your own synchronisation through custom message protocols. It's an unhappy state of affairs if you want to do something as simple as separating control of concurrency and mutual exclusion. This is not an esoteric concern -- it is exactly what a [ConcurrentHashMap](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentHashMap.html) provides, for example. If you're really seeking performance then you probably want to use [lock-free algorithms](http://en.wikipedia.org/wiki/Non-blocking_algorithm). Again, these don't fit into the actor model. So basically the actor model is forcing us to give up a lot of tools so we can fit within its rigid conception of a concurrent program.
+Concurrent programming involves at least three distinct concerns: concurrency, mutual exclusion, and synchronisation. With actors the first two always come combined, and you're left to hand-roll your own synchronisation through custom message protocols. It's an unhappy state of affairs if you want to do something as simple as separating control of concurrency and mutual exclusion. This is not an esoteric concern -- it is exactly what a [ConcurrentHashMap](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentHashMap.html) provides, for example. If you're really seeking performance then you probably want to use [lock-free algorithms](http://en.wikipedia.org/wiki/Non-blocking_algorithm). Again, these don't fit into the actor model. Basically the actor model is forcing us to give up a lot of tools so we can fit within its rigid conception of a concurrent program.
 
 
 ## Actors do not Compose
@@ -34,11 +34,11 @@ Akka's actors give you static typing within a single actor, but the communicatio
 
 The type system is the reason we use Scala. Types allow use to guarantee certain properties of our programs. If you've never used a modern statically typed programming language you might be surprised just how far you can push this. We try to push it reasonably far, so we can guarantee that, for example, Myna's API generates useful error messages (this is important because the API is the UI for many users). In return for this awesome power we put up with a bit of extra complexity comparsed to a dynamically typed language.
 
-Akka supports a number of features, such as [become](http://nurkiewicz.blogspot.co.uk/2012/11/becomeunbecome-discovering-akka.html) and transparent distribution, that make statically typing messages difficult. This is the wrong tradeoff for me. We still have some inconvenience over dynamically typed languages but we lose
+Akka supports a number of features, such as [become](http://nurkiewicz.blogspot.co.uk/2012/11/becomeunbecome-discovering-akka.html) and transparent distribution, that make statically typing messages difficult. We still have some inconvenience over dynamically typed languages but we lose the benefits of static typing. This is the wrong tradeoff for me.
 
 Other languages, like Concurrent ML and Haskell, have demonstrated it's possible to have great concurrent and distributed programming abstractions in a statically typed language. I expect the same in Scala.
 
 
 ## So What Does Myna Use?
 
-So given the above, what does Myna use? We use Akka's Futures, which I think are fantastic,
+So given the above, what does Myna use? We use Akka's Futures, which I think are fantastic. We use plain-old locks for some simple cases where we want mutual exclusion, and we use a few of the utilities in `java.util.concurrent`. It's quite simple and it's quite fast: 2.5ms average response time, and well over 650 requests/s on a single core machine.

@@ -1,15 +1,15 @@
 ---
 layout: post
 title: "The case against the case against bandit testing"
-description: ""
-category:
-tags: []
+description: "No really, bandits work."
+category: opinion
+tags: [ml, big-data, online-learning, bandit]
 ---
 {% include JB/setup %}
 
-Dan McKinley, Principal Engineeer at Etsy, recently posted (The Case Against Bandit Testing)[http://mcfunley.com/the-case-against-bandit-testing]. While is some ways a good post (it quotes me several times) I believe it overgeneralises from Etsy's experience and makes a few incorrect assumptions about how bandit algorithms work.
+Dan McKinley, Principal Engineeer at Etsy, recently posted (The Case Against Bandit Testing)[http://mcfunley.com/the-case-against-bandit-testing]. While is some ways a good post (it quotes me several times) I believe it overgeneralises from Etsy's experience and makes a few incorrect assumptions about how bandit algorithms work. Let me attempt to address them.
 
-The post starts innocently enough. Dan sets out to tell us why Etsy doesn't use bandit testing. Now if we restrict the discussion to Etsy anything reasons Dan gives are valid. Maybe Etsy doesn't use bandits because they don't like the name, or they already have enough money, or they heard that everyone else was and they want to be different. Their company their rules. However by the end of this first section Dan has already expanded the scope of discussion to make general comments about bandit testing.
+The post starts innocently enough. Dan sets out to tell us why Etsy doesn't use bandit testing. Now if we restrict the discussion to Etsy, any reasons Dan gives are valid. Maybe Etsy doesn't use bandits because they don't like the name, or they already have enough money, or they heard that everyone else was and they want to be different. Their company their rules. However by the end of this first section Dan has already expanded the scope of discussion to make general comments about bandit testing.
 
 ## Traffic Police
 
@@ -33,7 +33,15 @@ There are various reasons to prefer one problem setup over another. It Etsy's ca
 
 ## Regularized Accounting
 
-Dan's next argument is entirely about Etsy's infrastructure.
+Dan's next argument mixes up issues with infrastructure and testing methodology.
+Let's try to tease them out.
+
+Dan makes various claims about the complexity of infrastructure to support bandit testing. I don't really want to get into this argument, because it depends a lot on your existing infrastructure and so on. My only point is this: if you have already built the infrastructure it's no extra work. That's what [Myna](http://mynaweb.com) is.
+
+Credit assigment
+
+Reward allocation
+
 
 ## Runaways Gone Fishing
 
