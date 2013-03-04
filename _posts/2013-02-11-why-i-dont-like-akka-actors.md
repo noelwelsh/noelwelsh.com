@@ -3,18 +3,18 @@ layout: post
 title: "Why I Don't Like Akka Actors"
 description: "The Three Deadly Sins of Actors"
 category: programming
-tags: [punditry]
+tags: [punditry, jvm]
 ---
 {% include JB/setup %}
 
-We recently rewrote [Myna's](http://www.mynaweb.com/) back-end service. The architecture changed dramatically, and it now both faster and easier to extend. One of the significant architectural changes was removing all [Akka](http://akka.io) [actors](http://en.wikipedia.org/wiki/Actor_model). Having used them extensively in the first version of the back-end, I have come to prefer other methods of managing concurrency. Since Akka's actors are so prominent within the Scala community I thought it might be of interest to describe why we made this change.
+We recently rewrote [Myna's](http://www.mynaweb.com/) back-end service. The architecture changed dramatically, and is now both faster and easier to extend. One of the significant architectural changes was removing all [Akka](http://akka.io) [actors](http://en.wikipedia.org/wiki/Actor_model). After heavily using them in the first version of the back-end, I have come to prefer other methods of managing concurrency. Since Akka's actors are so prominent within the Scala community I thought it might be of interest to describe why we made this change.
 
 
 ## Actors are Coarse Abstractions
 
-In the actor world view they are all you need for concurrent programming. That is, they are presented as a unifying abstraction for concurrency, in the same way that Scala unifies Java's primitive and object types, or Python tries to represent all values as mutable dictionaries.
+Actors are presented as a universal primitive for concurrency. That is, in the orthodox actor world view they are all you need for any concurrent program. There is an appealing conceptual simplicity to this approach, and the idea of finding an uber-abstraction has been successful in other contexts. For example, Scala's unification of Java's primitive and object types, or Python representing all values as mutable dictionaries as generally considered positive points by their respective language communities.
 
-There is an appealing conceptual unity to this approach, but it becomes a problem when important distinctions are hidden. In programming languages this usually comes up when discussing performance. For example, the distinction between primitive and object types really matters if you care about speed. Scala gets away with this for the most part through clever compilation in both the Scala compiler and Hotspot, but writing high performance code can still be something of a dark art[^Python].
+Problems arise when in the quest for simplicity important distinctions are hidden. In programming languages this usually comes up when discussing performance. The distinction between primitive and object types really matters if you care about speed. Scala gets away with this for the most part through clever compilation in both the Scala compiler and Hotspot, but writing high performance code can still be something of a dark art[^Python].
 
 [^Python]: Python basically does nothing about this issue, which is why it's so slow. In fact the decision to make everything a mutable dictionary is one big reason it's so hard to optimise Python. [PyPy](http://www.pypy.org/), a JIT compiler for Python, has consumed 10 years and several million currency units and is still not widely deployed.
 
@@ -32,7 +32,7 @@ Actors don't compose. By default actors hard-code the receiver of any messages t
 
 Akka's actors give you static typing within a single actor, but the communication between actors -- the complex bits that are most likely to go wrong -- are not typed in any useful manner. I could live with the above two issues, but this one really gets me.
 
-The type system is the reason we use Scala. Types allow use to guarantee certain properties of our programs. If you've never used a modern statically typed programming language you might be surprised just how far you can push this. We try to push it reasonably far, so we can guarantee that, for example, Myna's API generates useful error messages (this is important because the API is the UI for many users). In return for this awesome power we put up with a bit of extra complexity comparsed to a dynamically typed language.
+The type system is the reason we use Scala. Types allow use to guarantee certain properties of our programs. If you've never used a modern statically typed programming language you might be surprised just how far you can push this. We try to push it reasonably far, so we can guarantee that, for example, Myna's API generates useful error messages (this is important because the API is the UI for many users). In return for this awesome power we put up with a bit of extra complexity compared to a dynamically typed language.
 
 Akka supports a number of features, such as [become](http://nurkiewicz.blogspot.co.uk/2012/11/becomeunbecome-discovering-akka.html) and transparent distribution, that make statically typing messages difficult. We still have some inconvenience over dynamically typed languages but we lose the benefits of static typing. This is the wrong tradeoff for me.
 
