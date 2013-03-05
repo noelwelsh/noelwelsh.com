@@ -32,7 +32,7 @@ Actors don't compose. By default actors hard-code the receiver of any messages t
 
 Akka's actors give you static typing within a single actor, but the communication between actors -- the complex bits that are most likely to go wrong -- are not typed in any useful manner. I could live with the above two issues, but this one really gets me.
 
-The type system is the reason we use Scala. Types allow use to guarantee certain properties of our programs. If you've never used a modern statically typed programming language you might be surprised just how far you can push this. We try to push it reasonably far, so we can guarantee that, for example, Myna's API generates useful error messages (this is important because the API is the UI for many users). In return for this awesome power we put up with a bit of extra complexity comparsed to a dynamically typed language.
+The type system is the reason we use Scala. Types allow us to guarantee certain properties of our programs. If you've never used a modern statically typed programming language you might be surprised just how far you can push this. We try to push it reasonably far, so we can guarantee that, for example, Myna's API generates useful error messages (this is important because the API is the UI for many users). In return for this awesome power we put up with a bit of extra complexity comparsed to a dynamically typed language.
 
 Akka supports a number of features, such as [become](http://nurkiewicz.blogspot.co.uk/2012/11/becomeunbecome-discovering-akka.html) and transparent distribution, that make statically typing messages difficult. We still have some inconvenience over dynamically typed languages but we lose the benefits of static typing. This is the wrong tradeoff for me.
 
