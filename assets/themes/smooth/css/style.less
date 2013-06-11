@@ -1,14 +1,30 @@
 @border-color: #cdc;
 @accent-color: #392;
 @sidebar-width: 300px;
-
+@indent: 30px;
 body {
   background-color: #eee;
 }
 
-.container-smooth {
-  border-top: 3px solid @accent-color;
+.site-menu {
+  text-align: left;
+  margin-top: @indent;
+  margin-bottom: 2 * @indent;
 }
+
+.site-menu div {
+  border-bottom: 1px solid @accent-color;
+  padding-bottom: @indent / 2;
+}
+
+  #social {
+
+    img {
+      width: 34px;
+      height: 34px;
+      padding-right: @indent * .5;
+    }
+  }
 
 #container-navigation {
 
@@ -72,16 +88,7 @@ body {
     }
   }
 
-  #social {
-    padding-left: @indent;
-    padding-top: @indent;
 
-    img {
-      width: 34px;
-      height: 34px;
-      padding-right: @indent * .5;
-    }
-  }
 }
 
 #container-content {

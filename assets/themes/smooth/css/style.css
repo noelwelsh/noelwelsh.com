@@ -1,8 +1,19 @@
 body {
   background-color: #eee;
 }
-.container-smooth {
-  border-top: 3px solid #339922;
+.site-menu {
+  text-align: left;
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+.site-menu div {
+  border-bottom: 1px solid #339922;
+  padding-bottom: 15px;
+}
+#social img {
+  width: 34px;
+  height: 34px;
+  padding-right: 15px;
 }
 #container-navigation {
   width: 300px;
@@ -54,15 +65,6 @@ body {
   color: inherit;
   width: 100%;
   display: block;
-}
-#container-navigation #social {
-  padding-left: 30px;
-  padding-top: 30px;
-}
-#container-navigation #social img {
-  width: 34px;
-  height: 34px;
-  padding-right: 15px;
 }
 #container-content {
   padding: 0;
