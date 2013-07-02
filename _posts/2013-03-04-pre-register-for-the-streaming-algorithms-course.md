@@ -2,7 +2,7 @@
 layout: post
 title: "Pre-register for the Streaming Algorithms Course"
 description: ""
-category: streaming-algorithms
+category: data
 tags: [online-learing, streaming-algorithms, teaching, ml, big-data]
 ---
 {% include JB/setup %}

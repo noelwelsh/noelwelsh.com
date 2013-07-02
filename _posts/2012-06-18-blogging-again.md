@@ -2,7 +2,7 @@
 layout: post
 title: Blogging Again
 description: ""
-category:
+category: other
 tags: []
 ---
 {% include JB/setup %}

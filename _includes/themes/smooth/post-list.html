@@ -1,14 +1,10 @@
-<div class="row">
-  <div class="span8">
-  {% for post in site.posts limit:5 %}
-  <div class="post">
-    <h1>{{ post.title }}</h1>
-    <p class="date">Published on {{ post.date | date: "%d %B %Y" }}</p>
+{% for post in site.posts limit:5 %}
+  <div class="post {% if forloop.last %}last{% endif %}">
+    <h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
+    <p class="published">Published on {{ post.date | date: "%d %B %Y" }}</p>
 
     {% if post.tagline %}<h2><small>{{ post.tagline }}</small></h2>{% endif %}
 
     {{ post.content }}
   </div>
-  {% endfor %}
-  </div>
-</div>
+{% endfor %}

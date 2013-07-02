@@ -2,8 +2,8 @@
 layout: post
 title: "Fitness for Busy People I"
 date: 2013-01-06 22:29
-category: fitness
-tags: [guide]
+category: other
+tags: [guide, fitness]
 ---
 
 This post is the first in a series about attaining or maintaining a good level of fitness without using a lot of time and money. It comes from my own experience. After 20 years of general gym rattery, my regular workouts were brought to a halt by the arrival of two children and the decision to found a company. Suddenly, finding the time to get to the gym was difficult, and it was hard to justify the expense given my increasing outgoings and meagre income. I wanted to maintain (or even improve) my fitness, and so far I've been able to. If you're in a similar situation, where you don't have the time to get to a gym and can't equip your home with a lot of workout equipment, I my methods will work for you.

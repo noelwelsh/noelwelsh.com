@@ -2,7 +2,7 @@
 layout: post
 title: "The case against the case against bandit testing"
 description: "No really, bandits work."
-category: opinion
+category: data
 tags: [ml, big-data, online-learning, bandit]
 ---
 {% include JB/setup %}

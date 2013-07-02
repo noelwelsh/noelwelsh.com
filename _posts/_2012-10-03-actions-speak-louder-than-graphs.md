@@ -2,7 +2,7 @@
 layout: post
 title: "Actions Speak Louder than Graphs"
 description: "The big data value chain and why you need to move up it."
-category: streaming-algorithms
+category: data
 tags: [business, ml, big-data, streaming-algorithms, online-learning]
 ---
 {% include JB/setup %}

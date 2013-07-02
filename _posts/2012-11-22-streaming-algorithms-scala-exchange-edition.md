@@ -2,8 +2,8 @@
 layout: post
 title: "Streaming Algorithms, Scala eXchange Edition. Or, Stop Analysing and Start Acting"
 description: "Slides and video from my streaming algorithms talk at Scala eXchange 2012"
-category: streaming-algorithms
-tags: [ml, big-data, streaming-algorithms, online-learning]
+category: data
+tags: [talk, ml, big-data, streaming-algorithms, online-learning]
 ---
 {% include JB/setup %}
 

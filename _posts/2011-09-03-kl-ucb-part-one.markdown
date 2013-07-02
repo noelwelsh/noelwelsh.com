@@ -3,7 +3,7 @@ layout: post
 title: "KL UCB Part One"
 date: 2011-09-03 21:38
 comments: true
-categories: 
+category: data
 ---
 
 If you've read this blog so far, you're probably thinking "where's the maths?" So, let's get started.
@@ -47,11 +47,11 @@ We'll start by introducing the algorithm and then delve into how and why it work
  - The Bernoulli KL divergence `\(d(p,q) = p \log \frac{p}{q} + (1 - p) \log \frac{1-p}{1-q} \)`
  - A real non-negative parameter `\(c\)`, which is recommended to set to 0
 
-Then: 
+Then:
 
  1. Play each arm once to initialise it
  2. Once all arms are initialised, we calculate an upper confidence bound given by:
 
     `\[ \max \left\{ q \in [0,1] : N[a] d \left( \frac{S[a]}{N[a]}, q \right) \leq \log(t) + c\log(\log(t)) \right\} \]`
-    
+
   and play the arm with the highest confidence bound

@@ -2,7 +2,7 @@
 layout: post
 title: "The Bloom Filter"
 description: "A simple general-purpose "
-category: streaming-algorithms
+category: data
 tags: [ml, big-data, streaming-algorithms, online-learning]
 ---
 {% include JB/setup %}

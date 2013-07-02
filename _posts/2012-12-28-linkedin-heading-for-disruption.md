@@ -2,7 +2,7 @@
 layout: post
 title: "Is LinkedIn Heading for Disruption?"
 date: 2012-12-28 20:52
-category: opinion
+category: other
 tags: [social-networks, business, punditry]
 ---
 

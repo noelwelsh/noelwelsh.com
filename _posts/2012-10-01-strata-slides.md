@@ -2,8 +2,8 @@
 layout: post
 title: "Streaming Algorithms, Strata Edition"
 description: "Slides from my streaming algorithms talk at Strata London"
-category: streaming-algorithms
-tags: [ml, big-data, streaming-algorithms, online-learning]
+category: data
+tags: [talk, ml, big-data, streaming-algorithms, online-learning]
 ---
 {% include JB/setup %}
 

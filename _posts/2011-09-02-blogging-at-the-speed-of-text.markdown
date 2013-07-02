@@ -3,7 +3,7 @@ layout: post
 title: "Blogging at the Speed of Text"
 date: 2011-09-02 20:52
 comments: true
-categories: 
+category: other
 ---
 
 I've had a [two](http://monospaced.blogspot.com/) [blogs](http://monospaced.posterous.com/) in the past, and, as a quick glance will show, have maintained neither. On the other hand, I've maintained journal in written and digital form for over twenty years. This 1) makes me feel old and 2) suggests that blogging should work for me. So, why not? WHY OH WHY!

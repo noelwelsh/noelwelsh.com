@@ -2,7 +2,7 @@
 layout: post
 title: "COLT and ICML"
 description: "A quick overview of my highlights from COLT and ICML 2012"
-category: machine-learning
+category: data
 tags: [ml, icml, colt, bandit, topic-model, online-learning]
 ---
 {% include JB/setup %}

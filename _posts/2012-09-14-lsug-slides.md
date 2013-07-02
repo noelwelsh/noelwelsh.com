@@ -2,8 +2,8 @@
 layout: post
 title: "Streaming Algorithms, LSUG Edition"
 description: "Slides and video from my streaming algorithms talk at LSUG"
-category: streaming-algorithms
-tags: [ml, big-data, streaming-algorithms, online-learning]
+category: data
+tags: [talk, ml, big-data, streaming-algorithms, online-learning]
 ---
 {% include JB/setup %}
 

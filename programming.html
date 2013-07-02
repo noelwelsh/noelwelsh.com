@@ -1,0 +1,14 @@
+---
+layout: page
+title: All Posts on Programming
+---
+{% include JB/setup %}
+
+{% for category in site.categories %}
+  {% if category[0] == 'programming' %}
+    <ul>
+      {% assign pages_list = category[1] %}
+      {% include JB/pages_list %}
+    </ul>
+  {% endif %}
+{% endfor %}
