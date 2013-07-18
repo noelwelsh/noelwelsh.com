@@ -1,3 +1,11 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Georgia;
+}
 body {
   background-color: #fcfbf5;
   color: #1e1e36;
@@ -31,6 +39,10 @@ pre {
 }
 .site-menu .about a {
   color: #005497;
+}
+#mc_embed_signup {
+  background-color: #f5f3e2;
+  padding: 30px;
 }
 #content h1 a {
   color: #1e1e36;
