@@ -54,7 +54,7 @@ pre {
 #content .post {
   margin-bottom: 30px;
   padding-bottom: 30px;
-  border-bottom: solid 1px #f5f3e2;
+  border-bottom: solid 1px #ded6a1;
 }
 #content .post.last {
   border-bottom: none;
@@ -68,7 +68,7 @@ pre {
 }
 #footer {
   clear: both;
-  border-top: solid 1px #f5f3e2;
+  border-top: solid 1px #ded6a1;
   padding-top: 30px;
   margin-top: 30px;
 }
