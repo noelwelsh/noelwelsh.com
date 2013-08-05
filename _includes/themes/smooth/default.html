@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }}</title>
     {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
     <meta name="author" content="{{ site.author.name }}">
@@ -12,8 +13,7 @@
     <![endif]-->
 
     <!-- Le styles -->
-    <link href="{{ ASSET_PATH }}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ ASSET_PATH }}/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/main.min.css?body=1" rel="stylesheet" type="text/css" media="all">
 
     <script type="text/javascript"
 src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async="true"></script>
@@ -47,16 +47,16 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
   <body>
     <div class="container">
       <div class="row site-menu">
-        <div class="span4 blog"><a href="/">Blog</a></div>
-        <div class="span4 projects"><a href="/projects.html">Projects</a></div>
-        <div class="span4 about"><a href="/about.html">About</a></div>
+        <div class="col-lg-4 menu blog"><a href="/">Blog</a></div>
+        <div class="col-lg-4 menu projects"><a href="/projects.html">Projects</a></div>
+        <div class="col-lg-4 menu about"><a href="/about.html">About</a></div>
       </div>
       <div id="content" class="{{ page.name }}">
         <div class="row">
-          <div class="span8">
+          <div class="col-lg-8">
             {{ content }}
           </div>
-          <div class="span4">
+          <div class="col-lg-4">
             {% include themes/smooth/side-bar.html %}
           </div>
       </div>
@@ -65,7 +65,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
     <div class="container" id="footer">
       <footer>
         <div class="row">
-          <div class="span3">
+          <div class="col-lg-3">
             <h4>Blog</h4>
             <ul>
               <li><a href="/data.html">Data</a></li>
@@ -74,7 +74,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
               <li><a href="/archive.html">Complete archive</a></li>
             </ul>
           </div>
-          <div class="span3">
+          <div class="col-lg-3">
             <h4>Work</h4>
             <ul>
               <li><a href="//mynaweb.com/">Myna</a></li>
@@ -82,7 +82,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
               <li><a href="//underscoreconsulting.com">Underscore</a></li>
             </ul>
           </div>
-          <div class="span3">
+          <div class="col-lg-3">
             <h4>Social</h4>
             <ul>
               <li><a href="https://twitter.com/noelwelsh/">Twitter</a></li>
@@ -91,7 +91,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
               <li><a href="https://github.com/noelwelsh/">Github</a></li>
             </ul>
           </div>
-          <div class="span3">
+          <div class="col-lg-3">
             <h4>Contact</h4>
             <ul>
               <li>noelwelsh at Gmail</li>
