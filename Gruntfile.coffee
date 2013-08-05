@@ -19,6 +19,9 @@ module.exports = (grunt) ->
                                          'components/bootstrap/js/scrollspy.js',
                                          'components/bootstrap/js/button.js',
                                          'components/bootstrap/js/affix.js']
+      mailchimp:
+        files:
+          'assets/js/mailchimp.min.js' : 'assets/js/mailchimp.js'
     copy: 
       bootstrap: 
         files: [
@@ -30,7 +33,7 @@ module.exports = (grunt) ->
       serve: 
         cmd: 'jekyll serve --watch'
       deploy: 
-        cmd: 'rsync --progress -a --delete -e "ssh -q" _site/ myuser@host:mydir/'
+        cmd: 'rsync --progress -a --delete -e "ssh -q" _site/ admin@unweb.com:/srv/noelwelsh.com/public/htdocsg/'
     bower: 
       install: {}
 

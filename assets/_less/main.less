@@ -1,24 +1,41 @@
 // Core variables and mixins
 @import "bootstrap.less";
 
-
 @sidebar-width: 300px;
 @indent: 30px;
+
+@background-color: rgb(245, 244, 241);
 @nightwall: #1E1E36;
 @accent-color: #f5f3e2;
-@hard-accent-color: #ded6a1;
+@dark-accent-color: #ded6a1;
+
+// Bootstrap overrides
+@body-bg: @background-color;
+@text-color: @nightwall;
+
+@input-border: @dark-accent-color;
+
+@pagination-bg: @background-color;
+@pagination-border: @dark-accent-color;
+
+@pre-bg: @accent-color;
+@pre-border-color: @dark-accent-color;
+
+@panel-bg: @accent-color;
+@panel-border: @dark-accent-color;
+
+
+.input-group-addon {
+  background-color: @background-color;
+}
 
 h1, h2, h3, h4, h5, h6 {
   font-family: Georgia;
 }
 
 body {
-  background-color: rgb(252, 251, 245);
+  background-color: @background-color;
   color: @nightwall;
-}
-
-pre {
-  background-color: @accent-color;
 }
 
 .site-menu {
@@ -30,10 +47,6 @@ pre {
   font-size: @font-size-large;
 
   .menu {
-    -webkit-box-sizing: border-box; 
-    -moz-box-sizing: border-box; 
-    box-sizing: border-box;    
-
     padding-bottom: @indent / 2;
 
     a {
@@ -43,27 +56,22 @@ pre {
   }
 
   .blog {
-    @blog-color: #D62F2F;
+    @blog-color: rgb(244, 122, 51);
     border-bottom: @border-size solid @blog-color;
     a { color: @blog-color; }
   }
 
   .projects {
-    @project-color: #00A68A;
+    @project-color: rgb(34, 186, 168);
     border-bottom: @border-size solid @project-color;
     a { color: @project-color; }
   }
 
   .about {
-    @about-color: #005497;
+    @about-color: rgb(34, 164, 186);
     border-bottom: @border-size solid @about-color;
     a { color: @about-color; }
   }
-}
-
-#mc_embed_signup {
-  background-color: @accent-color;
-  padding: @indent;
 }
 
 #content {
@@ -80,13 +88,18 @@ pre {
  .post {
    margin-bottom: @indent;
    padding-bottom: @indent;
-   border-bottom: solid 1px @hard-accent-color;
+   border-bottom: solid 1px @dark-accent-color;
 
    &.last {
      border-bottom: none;
      padding-bottom: 0;
      margin-bottom: 0;
    }
+ }
+
+ #mc_embed_signup {
+   margin-top: @indent;
+   padding: @indent;
  }
 }
 
@@ -101,7 +114,7 @@ pre {
 
 #footer {
   clear: both;
-  border-top: solid 1px @hard-accent-color;
+  border-top: solid 1px @dark-accent-color;
   padding-top: @indent;
   margin-top: @indent;
 
