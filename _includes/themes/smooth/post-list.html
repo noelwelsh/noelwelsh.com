@@ -5,6 +5,8 @@
 
     {% if post.tagline %}<h2><small>{{ post.tagline }}</small></h2>{% endif %}
 
-    {{ post.content }}
+    {{ post.lead }}
+
+    <p><a href="{{ post.url }}">Read more</a></p>
   </div>
 {% endfor %}
