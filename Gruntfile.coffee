@@ -1,48 +1,118 @@
 #global module:false
+
+"use strict"
+
 module.exports = (grunt) ->
-  # Project configuration.
+  grunt.loadNpmTasks "grunt-bower-task"
+  grunt.loadNpmTasks "grunt-contrib-connect"
+  grunt.loadNpmTasks "grunt-contrib-copy"
+  grunt.loadNpmTasks "grunt-contrib-less"
+  grunt.loadNpmTasks "grunt-contrib-uglify"
+  grunt.loadNpmTasks "grunt-contrib-watch"
+  grunt.loadNpmTasks "grunt-exec"
+
   grunt.initConfig
-    less: 
-      production: 
-        options: 
-          paths: ["bower_components/bootstrap/less"]
+    less:
+      screen:
+        options:
+          paths: [
+            "bower_components/bootstrap/less"
+            "_assets/css"
+          ]
           yuicompress: true
-        files: 
-          "assets/css/main.min.css": "assets/_less/main.less"
-    uglify: 
-      jquery: 
-        files: 
-          'assets/js/jquery.min.js': 'bower_components/jquery/jquery.js'
-      bootstrap: 
-        files: 
-          'assets/js/bootstrap.min.js': ['bower_components/bootstrap/js/collapse.js',
-                                         'bower_components/bootstrap/js/scrollspy.js',
-                                         'bower_components/bootstrap/js/button.js',
-                                         'bower_components/bootstrap/js/affix.js']
-      mailchimp:
         files:
-          'assets/js/mailchimp.min.js' : 'assets/js/mailchimp.js'
-    copy: 
-      bootstrap: 
-        files: [
-          {expand: true, cwd: 'bower_components/bootstrap/img/', src: ['**'], dest: 'assets/img/'}
-        ]
-    exec: 
-      build: 
-        cmd: 'jekyll build'
-      serve: 
-        cmd: 'jekyll serve --watch --drafts'
-      deploy: 
-        cmd: 'rsync --progress -a --delete -e "ssh -q" _site/ admin@unweb.com:/srv/noelwelsh.com/public/htdocsg/'
-    bower: 
+          "assets/css/main.min.css": "assets/_less/main.less"
+
+    uglify:
+      site:
+        files:
+          "assets/js/site.js": [
+            "bower_components/jquery/jquery.js"
+            "bower_components/bootstrap/js/collapse.js"
+            "bower_components/bootstrap/js/scrollspy.js"
+            "bower_components/bootstrap/js/button.js"
+            "bower_components/bootstrap/js/affix.js"
+            "bower_components/respond/respond.src.js"
+          ]
+
+    copy:
+      bootstrap:
+        files: [{
+          expand: true
+          cwd: "bower_components/bootstrap/img/"
+          src: ["**"]
+          dest: "assets/img/"
+        }]
+
+    exec:
+      install:
+        cmd: "bundle install"
+      jekyll:
+        cmd: "bundle exec jekyll build --trace --drafts"
+      deploy:
+        cmd: 'rsync --progress -a --delete -e "ssh -q" _site/ admin@help.mynaweb.com:/srv/help.mynaweb.com/public/htdocs/'
+
+    bower:
       install: {}
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-exec');
-  grunt.loadNpmTasks('grunt-bower-task');
-   
-  grunt.registerTask('default', [ 'less', 'uglify', 'copy', 'exec:serve' ]);
-  grunt.registerTask('deploy', [ 'less', 'uglify', 'copy', 'exec:build', 'exec:deploy' ]);
+    watch:
+      options:
+        livereload: true
+      css:
+        files: [
+          "assets/_Less/**/*"
+        ]
+        tasks: [
+          "less"
+          "exec:jekyll"
+        ]
+      js:
+        files: [
+          "assets/js/**/*"
+        ]
+        tasks: [
+          "uglify"
+          "exec:jekyll"
+        ]
+      html:
+        files: [
+          "_config.yml"
+          "*.md" 
+          "_includes/**/*"
+          "_layouts/**/*"
+          "_plugins/**/*"
+          "_posts/**/*"
+          "_drafts/**/*"
+        ]
+        tasks: [
+          "copy"
+          "exec:jekyll"
+        ]
 
+    connect:
+      server:
+        options:
+          port: 4000
+          base: '_site'
+
+  grunt.registerTask "build", [
+    "less"
+    "uglify"
+    "copy"
+    "exec:jekyll"
+  ]
+
+  grunt.registerTask "serve", [
+    "build"
+    "connect:server"
+    "watch"
+  ]
+
+  grunt.registerTask "deploy", [
+    "build"
+    "exec:deploy"
+  ]
+
+  grunt.registerTask "default", [
+    "serve"
+  ]
