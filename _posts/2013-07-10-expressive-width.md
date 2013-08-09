@@ -3,7 +3,7 @@ layout: post
 title: "Expressive Width in Programming Languages"
 description: ""
 category: programming
-tags: []
+lead: Programmers often talk about expressivity, but this doesn't capture a lot of what is useful about a programming language. Real programs run in a specific implementation, and implementations differ in how much control they give you over the machine. How well do languages balance the two?
 ---
 {% include JB/setup %}
 

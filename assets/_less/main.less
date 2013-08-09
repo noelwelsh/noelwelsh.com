@@ -24,7 +24,9 @@
 @panel-bg: @accent-color;
 @panel-border: @dark-accent-color;
 
-@font-family-serif: "Fauna One", Georgia, "Times New Roman", Times, serif;
+@jumbotron-bg: @accent-color;
+
+@font-family-serif: "Droid Serif", Georgia, "Times New Roman", Times, serif;
 @font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 .input-group-addon {
@@ -81,6 +83,14 @@ body {
  h1 a {
    color: @nightwall;
  }
+
+ .post-list {
+   .published {
+     font-weight: normal;
+     font-size: @font-size-small;
+   } 
+ }
+
 
  .published {
    font-size: 16px;

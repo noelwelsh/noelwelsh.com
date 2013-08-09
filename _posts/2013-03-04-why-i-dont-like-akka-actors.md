@@ -4,6 +4,7 @@ title: "Why I Don't Like Akka Actors"
 description: "The Three Deadly Sins of Actors"
 category: programming
 tags: [punditry, jvm]
+lead: Akka's actor framework very popular in the Scala community, but I think they are the wrong model for managing concurrency in Scala. Here are three reasons why I don't think Akka has got it right.
 ---
 {% include JB/setup %}
 

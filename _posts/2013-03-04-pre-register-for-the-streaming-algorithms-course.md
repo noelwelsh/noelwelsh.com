@@ -3,9 +3,14 @@ layout: post
 title: "Pre-register for the Streaming Algorithms Course"
 description: ""
 category: data
-tags: [online-learing, streaming-algorithms, teaching, ml, big-data]
+tags: [online-learning, streaming-algorithms, teaching, ml, big-data]
+lead: I wrote this post to gauge interest in a course on streaming algorithms. I didn't get the response I wanted, so the course is on the back-burner.
 ---
 {% include JB/setup %}
+
+<div class="well">
+I didn't get the response I wanted to run the course. I still hope it will go ahead some day. If you're interested, sign up to my newsletter and you'll receive announcements (and other interesting content) there.
+</div>
 
 I have given [a](/streaming-algorithms/2012/11/22/streaming-algorithms-scala-exchange-edition) [number](/streaming-algorithms/2012/10/01/strata-slides) [of](/streaming-algorithms/2012/09/14/lsug-slides) [talks](/streaming-algorithms/2012/08/29/lean-data) on streaming algorithms and had requests for more depth on the material. I would like to expand my talks into a course, but in a true data-driven way I first want to gauge interest. Hence I'm asking interested people to [pre-register](https://docs.google.com/forms/d/1ajnHie3QHy13AvOU8ivYVcjG9ERHdq_09QrIFc8BziQ/viewform) now (no monetary commitment required) so I know if it's worthwhile going ahead.
 
@@ -36,3 +41,7 @@ The course will be very practical. Although we'll be focused mostly on algorithm
 I'd like to offer two options for the course: in person, and online. The former will run in London over a day and cost less than £500 per person. The online course will be self paced and cost less than £100.
 
 Once again, if you're interested tell me by [signing up](https://docs.google.com/forms/d/1ajnHie3QHy13AvOU8ivYVcjG9ERHdq_09QrIFc8BziQ/viewform) and I'll let you know if and when the course goes ahead.
+
+<div class="well">
+I didn't get the response I wanted to run the course. I still hope it will go ahead some day. If you're interested, sign up to my newsletter and you'll receive announcements (and other interesting content) there.
+</div>

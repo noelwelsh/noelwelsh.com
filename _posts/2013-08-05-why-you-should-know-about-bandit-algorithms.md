@@ -4,7 +4,7 @@ title: "Why You Should Know About Bandit Algorithms"
 description: ""
 category: data
 tags: [bandits]
-lead: I think bandit algorithms are great -- so much so that I'm running a free course on them. This post trys to give a quick overview of why I feel such enthusiasm for them, and tells you how you can sign up to my free course.
+lead: I think bandit algorithms are great &mdash; so much so that I'm running a free course on them. This post trys to give a quick overview of why I feel such enthusiasm for them, and tells you how you can sign up to my free course.
 ---
 {% include JB/setup %}
 

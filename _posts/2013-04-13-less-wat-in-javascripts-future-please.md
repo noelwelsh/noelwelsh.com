@@ -4,6 +4,7 @@ title: "Less Wat in Javascript's Future, Please"
 description: ""
 category: programming
 tags: [punditry]
+lead: Prominent members of the Javascript community are working on a standard for Promises (or Futures) in Javascript. The proposed design is lacking in fundamental ways, repeating mistakes from Javascript's past. Isn't it time we did better?
 ---
 {% include JB/setup %}
 

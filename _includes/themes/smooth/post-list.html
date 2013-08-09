@@ -1,12 +1,21 @@
-{% for post in site.posts limit:5 %}
-  <div class="post {% if forloop.last %}last{% endif %}">
-    <h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
-    <p class="published">Published on {{ post.date | date: "%d %B %Y" }}</p>
-
-    {% if post.tagline %}<h2><small>{{ post.tagline }}</small></h2>{% endif %}
-
-    {{ post.lead }}
-
-    <p><a href="{{ post.url }}">Read more</a></p>
+<div class="post-list">
+  <div class="jumbotron">
+    <h1>Hi, I'm Noel</h1>
+    <p>I blog here about data, programming, and business.</p>
   </div>
-{% endfor %}
+  {% for post in site.posts limit:5 %}
+    <div class="post">
+      <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+      <p class="published">{{ post.date | date: "%d %B %Y" }}</p>
+
+      {% if post.tagline %}<h2><small>{{ post.tagline }}</small></h2>{% endif %}
+
+      <p>{{ post.lead }}</p>
+
+      <p><a href="{{ post.url }}">Read more</a></p>
+    </div>
+  {% endfor %}
+    <div class="post last">
+      <h3>More posts on <a href="/data.html">data</a>, <a href="/programming.html">programming</a>, and <a href="/other.html">other topics</a>.</h3>
+    </div>
+</div>
