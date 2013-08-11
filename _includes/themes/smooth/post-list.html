@@ -10,7 +10,11 @@
 
       {% if post.tagline %}<h2><small>{{ post.tagline }}</small></h2>{% endif %}
 
+      {% if post.lead %}
       <p>{{ post.lead }}</p>
+      {% else %}
+      {{ post.excerpt }}
+      {% endif %}
 
       <p><a href="{{ post.url }}">Read more</a></p>
     </div>
