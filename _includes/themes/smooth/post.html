@@ -9,7 +9,11 @@
   {% if page.category == 'data' or page.category == 'programming' %}
   <!-- Begin MailChimp Signup Form -->
   <div id="mc_embed_signup" class="panel">
+    {% if page.list_cta %}
+    <p>{{ page.list_cta }}</p>
+    {% else %}
     <p>Interested in reading more? Sign up for my newsletter on data science and software development.</p>
+    {% endif %}
     <form action="http://noelwelsh.us6.list-manage.com/subscribe/post?u=8f6a767dbf715c379e19f6f79&amp;id=9036487887" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" target="_blank" novalidate>
       <p class="mc-field-group input-group">
         <span class="input-group-addon"><span class="icon-envelope"></span></span>
