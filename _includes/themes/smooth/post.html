@@ -9,26 +9,42 @@
   {% if page.category == 'data' or page.category == 'programming' %}
   <!-- Begin MailChimp Signup Form -->
   <div id="mc_embed_signup" class="panel">
-    {% if page.list_cta %}
-    <p>{{ page.list_cta }}</p>
-    {% else %}
-    <p>Interested in reading more? Sign up for my newsletter on data science and software development.</p>
-    {% endif %}
     <form action="http://noelwelsh.us6.list-manage.com/subscribe/post?u=8f6a767dbf715c379e19f6f79&amp;id=9036487887" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" target="_blank" novalidate>
-      <p class="mc-field-group input-group">
-        <span class="input-group-addon"><span class="icon-envelope"></span></span>
-        <input id="mce-EMAIL" type="email" class="form-control required" name="EMAIL" placeholder="me@example.org" />
-      </p>
-      <p class="help-block"><small>No spam. Unsubscribe at any time.</small></sp>
-      <p>
-        <button id="mc-embedded-subscribe" type="submit" class="btn btn-success">Keep me posted</button>
-      </p>
 
-      <div id="mce-responses" class="clear">
-        <div class="response" id="mce-error-response" style="display:none"></div>
-        <div class="response" id="mce-success-response" style="display:none"></div>
-      </div>
-    </form>
+      <fieldset>
+        {% if page.list_cta %}
+        <legend>{{ page.list_cta }}</legend>
+        {% else %}
+        <legend>Interested in reading more? Sign up for my newsletter on data science and software development.</legend>
+        {% endif %}
+
+
+        <p class="mc-field-group form-group">
+          <label for="mce-EMAIL">Email address</label>
+          <input id="mce-EMAIL" type="email" class="form-control required" name="EMAIL" placeholder="me@example.org" />
+        </p>
+
+        <p class="mc-field-group form-group">
+          <label for="mce-FNAME">First name (optional)</label>
+          <input id="mce-FNAME" type="text" class="form-control" name="FNAME" placeholder="Leonardo" />
+        </p>
+        <p class="mc-field-group form-group">
+          <label for="mce-LNAME">Last name (optional)</label>
+          <input id="mce-LNAME" type="text" class="form-control" name="LNAME" placeholder="Da Vinci" />
+        </p>
+
+        <p>
+          <button id="mc-embedded-subscribe" type="submit" class="btn btn-success">Keep me posted</button>
+        </p>
+        <p class="help-block"><small>No spam. Unsubscribe at any time.</small></sp>
+
+        <div id="mce-responses" class="clear">
+          <div class="response" id="mce-error-response" style="display:none"></div>
+          <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>
+      </fieldset>
+
+      </form>
   </div>
   <!--End mc_embed_signup-->
   {% endif %}
