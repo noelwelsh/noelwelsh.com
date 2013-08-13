@@ -3,7 +3,6 @@
 permalink: /:categories/:year/:month/:day/:title
 
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "components", "node_modules", "bower_components"]
-auto: true
 pygments: true
 safe: true
 markdown: kramdown
