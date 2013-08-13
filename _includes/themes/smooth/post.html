@@ -1,5 +1,5 @@
 <div class="post last">
-  <h1>{{ page.title }}</h1>
+  <h1 class="myna-{{ page.id | myna_id }}" data-bind="text">{{ page.title }}</h1>
   <p class="published">Published on {{ page.date | date: "%d %B %Y" }}</p>
 
   {% if page.tagline %}<h2><small>{{ page.tagline }}</small></h2>{% endif %}
@@ -34,7 +34,7 @@
         </p>
 
         <p>
-          <button id="mc-embedded-subscribe" type="submit" class="btn btn-success">Keep me posted</button>
+          <button class="myna-{{ page.id | myna_id }}" id="mc-embedded-subscribe" type="submit" class="btn btn-success" data-goal="click">Keep me posted</button>
         </p>
         <p class="help-block"><small>No spam. Unsubscribe at any time.</small></sp>
 
