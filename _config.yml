@@ -2,10 +2,22 @@
 # For more see: https://github.com/mojombo/jekyll/wiki/Permalinks
 permalink: /:categories/:year/:month/:day/:title
 
-exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "components", "node_modules", "bower_components"]
+exclude: 
+  - ".rvmrc"
+  - ".rbenv-version"
+  - "README.md"
+  - "Rakefile"
+  - "changelog.md"
+  - "components"
+  - "node_modules"
+  - "bower_components"
 pygments: true
 safe: false
 markdown: kramdown
+
+analytics:
+  ga:
+    tracking_id: "UA-27398439-1"
 
 # Themes are encouraged to use these universal variables
 # so be sure to set them if your theme uses them.
@@ -100,7 +112,7 @@ JB :
   analytics :
     provider : google
     google :
-        tracking_id : "UA-27398439-1"
+        tracking_id : 
     getclicky :
       site_id :
     mixpanel :
