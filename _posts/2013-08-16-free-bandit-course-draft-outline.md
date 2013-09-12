@@ -5,7 +5,7 @@ category: data
 list_cta: Sign up for my free course on bandit algorithms.
 ---
 
-In a [previous post]({% post_url 2013-08-05-why-you-should-know-about-bandit-algorithms %}) IO argued for the usefulness of bandit algorithms to marketers and data scientists. In short, they allow us to perform faster A/B testing, to personalise offers to customers, and to recommend rapidly changing content. I also mentioned I'm running a free course on bandit algorithms. It is starting next week, and I've been busy working on the course material. I now have a clearer idea of the course outline and how the material will be delivered, which I'd like to share with you.
+In a [previous post]({% post_url 2013-08-05-why-you-should-know-about-bandit-algorithms %}) I argued for the usefulness of bandit algorithms to marketers and data scientists. In short, they allow us to perform faster A/B testing, to personalise offers to customers, and to recommend rapidly changing content. I also mentioned I'm running a free course on bandit algorithms. It is starting next week, and I've been busy working on the course material. I now have a clearer idea of the course outline and how the material will be delivered, which I'd like to share with you.
 
 (If you're interested in the course and just want to sign up, scroll to the bottom of the page.)
 
