@@ -50,7 +50,7 @@ module.exports = (grunt) ->
       jekyll:
         cmd: "bundle exec jekyll build --trace --drafts"
       deploy:
-        cmd: 'rsync --progress -a --delete -e "ssh -q" _site/ admin@noelwelsh.com:/srv/noelwelsh.com/public/htdocs/'
+        cmd: 'rsync --progress -a -e "ssh -q" _site/ admin@noelwelsh.com:/srv/noelwelsh.com/public/htdocs/'
 
     bower:
       install: {}
