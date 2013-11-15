@@ -72,7 +72,7 @@ Let's go through these in order.
 
 ## Type Definitions
 
-The type `OptionT[M, A]` is a monad transformer that constructs an `Option[A]` inside the monad `M`. So the first important point is the monad transformers are built from the inside out.
+The type `OptionT[M[_], A]` is a monad transformer that constructs an `Option[A]` inside the monad `M`. So the first important point is the monad transformers are built from the inside out.
 
 Note that I define a type alias `Error` for the monad we wrap around the `Option`. Why is this the case? It has to do with type inference. `OptionT` expects `M` to have a type (technically, a kind) like `M[A]`. This is, `M` should have a single type parameter. `\/` has two type parameters, the left and the right types. We have to tell Scala has to get from two type parameters to one. One option is to use a type lambda:
 
@@ -109,14 +109,16 @@ val result: Result[Int] = OptionT(none[Int].point[Error])
 // result: Result[Int] = OptionT(\/-(None))
 {% endhighlight %}
 
-Here I've used Scalaz's `none` and `point` on `Error`.
+Here I've used Scalaz's `none`, and `point` on `Error` to construct the value of the correct type, before wrapping it in an `OptionT`.
 
-If we want to create a left `\/` we need to do a bit more work:
+If we want to create a left `\/` we go about it the same way:
 
 {% highlight scala %}
 val result: Result[Int] = OptionT("Error message".left : Error[Option[Int]])
 // result: Result[Int] = OptionT(-\/(Error message))
 {% endhighlight %}
+
+Note the type declaration, needed to assist type inference.
 
 
 ## Using the Monad
@@ -131,4 +133,57 @@ result.flatMap(_ => "Yeah!".point[Result])
 // scalaz.OptionT[Error,java.lang.String] = OptionT(\/-(Some(Yeah!)))
 {% endhighlight %}
 
-Of course we might not want to unwrap all the layers of our monad.
+Of course we might not want to unwrap all the layers of our monad. We can manually unwrap our data if need be. All monad transformers in Scalaz return their data if you call the `run` method. With this we can do whatever we want, such as folding over the `\/`.
+
+{% highlight scala %}
+val result = 42.point[Result]
+result.run
+// Error[Option[Int]] = \/-(Some(42))
+result.run.fold(
+  l = err => "So broken",
+  r = ok  => "It worked!"
+)
+// java.lang.String = It worked!
+{% endhighlight %}
+
+What about some utility functions to help with this? There are no such methods defined for all monad transformers, that I know of, but in the particular case of `OptionT` we can use the `flatMapF` method. For a type `Option[F[_], A]` the normal `flatMap` has type
+
+{% highlight scala %}
+flatMap[B](f: A => OptionT[F, B]): OptionT[F, B]
+{% endhighlight %}
+
+whereas `flatMapF` has type
+
+{% highlight scala %}
+flatMapF[B](f: A => F[B]): OptionT[F, B]
+{% endhighlight %}
+
+(Note I removed an implicit parameter from the method signatures above.)
+
+For our `Result[Int]` type this means the parameter `f` to `flatMap` should have type `Int => \/[String, B]`. Note that `B` is *not* wrapped in an `Option`; `flatMapF` will do this for us. We also don't have to wrap our result in `OptionT`.
+
+Here is an example:
+
+{% highlight scala %}
+// this is a fairly silly function, but it serves as an example
+def positive(in: Int): \/[String, Boolean] =
+  if(in > 0)
+    true.right
+  else
+    "Not positive".left
+
+val good = 42.point[Result]
+good flatMapF positive
+// scalaz.OptionT[Error,Boolean] = OptionT(\/-(Some(true)))
+
+val bad = -3.point[Result]
+bad flatMapF positive
+// scalaz.OptionT[Error,Boolean] = OptionT(-\/(Not positive))
+{% endhighlight %}
+
+
+# Conclusion
+
+Once you start using monads it's quite easy to find yourself using a lot of them. For example, if you do asynchronous programming in Scala you are likely using `Future` which is a monad[^scalaz-contrib]. Debugging futures can be hard. Futures don't give good stack traces due to the continual context switches, and logs are hard to interpret as output from many threads is mixed together. An alternative is to keep an in-memory log with each computation running in a `Future`, and output this log when the `Future` finishes. This can be accomplished using the `Writer` monad. As soon as you do this you have a stack of monads, and monad transformers become useful. Once you know what to look for you'll find them everywhere!
+
+[^scalaz-contrib]: See the [scalaz-contrib](https://github.com/typelevel/scalaz-contrib) package for `Monad` instances for `scala.concurrent.Future`.
