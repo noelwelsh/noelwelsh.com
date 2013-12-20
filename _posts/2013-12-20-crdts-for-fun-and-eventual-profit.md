@@ -4,6 +4,7 @@ title: "CRDTs for fun and eventual profit"
 description: ""
 category: programming
 lead:
+repost: underscore
 ---
 
 At [Velocity](http://velocityconf.com/velocityeu2013/public/schedule/detail/31058) I gave a talk on conflict-free replicated datatypes, or CRDTs for short. It wasn't the best received talk I have ever given; it was my first time at Velocity and I misjudged the audience. However I have had a chance to redeem myself at [Scala eXchange](http://skillsmatter.com/event/scala/scala-exchange-2013), where I gave what I think is a much better (and funnier) talk. Slides are [here](/assets/downloads/scala-exchange-2013-crdt.pdf) or you can watch [the video](http://skillsmatter.com/podcast/home/how-do-we-reconcile-eventually-consistent-data), If you want the Velocity edition, the slides are [here](velocity-2013-crdt.key). The talks are mostly the same in terms of content, but there are differences in organisation and layout.

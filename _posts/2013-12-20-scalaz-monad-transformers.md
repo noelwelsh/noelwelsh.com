@@ -3,7 +3,8 @@ layout: post
 title: "Scalaz Monad Transformers"
 description: ""
 category: programming
-lead:
+lead: Do you like monads? Do you like monads in your monads? If so, you'll love monad transformers. If you like monads in your monads, you like Scala, and you want to learn more about monad transformers then read on &hellip;
+repost: underscore
 ---
 
 Monad transformers allow us to stack monads. Say we have a monad, like `Option`, and we want to wrap it in another monad, like `\/`, in a convenient way (where convenient is to be defined shortly). Monad transformers let us do this. Scalaz comes with lots of monad transformers. Let's see how to use them and the benefits they supply.
