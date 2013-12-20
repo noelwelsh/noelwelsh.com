@@ -7,14 +7,16 @@
 @sidebar-width: 300px;
 @indent: 30px;
 
-@background-color: rgb(245, 244, 241);
-@nightwall: #1E1E36;
-@accent-color: #f5f3e2;
-@dark-accent-color: #ded6a1;
+@text-color: #1c1f21;
+@background-color: #f0f6fa;
+@accent-color: #c9e4f5;
+@dark-accent-color: #1e9be8;
+@dark-accent-color-2: #1d21e6;
+@complement-color: #a32164;
+@complement-color-2: #bd2071;
 
 // Bootstrap overrides
 @body-bg: @background-color;
-@text-color: @nightwall;
 
 @input-border: @dark-accent-color;
 
@@ -42,9 +44,17 @@ h1, h2, h3, h4, h5, h6 {
   font-family: @font-family-serif;
 }
 
+a {
+  color: @dark-accent-color;
+  
+  &:hover {
+    color: lighten(@dark-accent-color, 10%);
+  }
+}
+
 body {
   background-color: @background-color;
-  color: @nightwall;
+  color: @text-color;
 }
 
 .site-menu {
@@ -65,19 +75,19 @@ body {
   }
 
   .blog {
-    @blog-color: rgb(244, 122, 51);
+    @blog-color: @complement-color;
     border-bottom: @border-size solid @blog-color;
     a { color: @blog-color; }
   }
 
   .projects {
-    @project-color: rgb(34, 186, 168);
+    @project-color: @dark-accent-color-2;
     border-bottom: @border-size solid @project-color;
     a { color: @project-color; }
   }
 
   .about {
-    @about-color: rgb(34, 164, 186);
+    @about-color: @complement-color-2;
     border-bottom: @border-size solid @about-color;
     a { color: @about-color; }
   }
@@ -86,7 +96,7 @@ body {
 #content {
 
  h1 a {
-   color: @nightwall;
+   color: @text-color;
  }
 
  .post-list {
@@ -105,7 +115,7 @@ body {
  .post {
    margin-bottom: @indent;
    padding-bottom: @indent;
-   border-bottom: solid 1px @dark-accent-color;
+   border-bottom: solid 1px @text-color;
 
    &.last {
      border-bottom: none;
