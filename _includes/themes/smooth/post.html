@@ -4,6 +4,18 @@
 
   {% if page.tagline %}<h2><small>{{ page.tagline }}</small></h2>{% endif %}
 
+  {% if page.repost %}
+  <p><small>A version of this post appeared on
+    {% case page.repost %}
+    {% when 'underscore' %}
+    <a href="http://underscoreconsulting.com/blog">the Underscore blog.</a>
+    {% when 'myna' %}
+    <a href='http://blog.mynaweb.com/'>the Myna blog.</a>
+    {% endcase %}
+  </small></p>
+  {% endif %}
+
+
   {{ content }}
 
   {% if page.category == 'data' or page.category == 'programming' %}
