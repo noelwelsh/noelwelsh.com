@@ -14,6 +14,7 @@
 @dark-accent-color-2: #1d21e6;
 @complement-color: #a32164;
 @complement-color-2: #bd2071;
+@rule-color: lighten(@text-color, 50%);
 
 // Bootstrap overrides
 @body-bg: @background-color;
@@ -115,7 +116,7 @@ body {
  .post {
    margin-bottom: @indent;
    padding-bottom: @indent;
-   border-bottom: solid 1px lighten(@text-color, 50%);
+   border-bottom: solid 1px @rule-color;
 
    &.last {
      border-bottom: none;
@@ -141,7 +142,7 @@ body {
 
 #footer {
   clear: both;
-  border-top: solid 1px @dark-accent-color;
+  border-top: solid 1px @rule-color;
   padding-top: @indent;
   margin-top: @indent;
 
