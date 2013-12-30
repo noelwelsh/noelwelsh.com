@@ -3,6 +3,7 @@ layout: post
 title: Machine Learning Meetup Talk on Bandits
 category: data
 list_cta: Sign up for my free course on bandit algorithms.
+tags: talk
 ---
 
 Last night I was lucky enough to speak at the [London Machine Learning Meetup](http://www.meetup.com/London-Machine-Learning-Meetup/events/134360802/). I gave a general overview of bandit algorithms. [My slides are online.](/assets/downloads/ml-meetup-2013.pdf)
