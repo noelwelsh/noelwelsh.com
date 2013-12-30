@@ -1,27 +1,28 @@
 <div class="post last">
-  <h1 class="myna-{{ page.id | myna_id }}" data-bind="text">{{ page.title }}</h1>
-  <p class="published">Published on {{ page.date | date: "%d %B %Y" }}</p>
+  <div class="heading">
+    <h1 class="myna-{{ page.id | myna_id }}" data-bind="text">{{ page.title }}</h1>
+    <p class="published">Published on {{ page.date | date: "%d %B %Y" }}</p>
 
-  {% if page.tagline %}<h2><small>{{ page.tagline }}</small></h2>{% endif %}
+    {% if page.tagline %}<h2><small>{{ page.tagline }}</small></h2>{% endif %}
 
-  {% if page.repost %}
-  <p><small>A version of this post appeared on
-    {% case page.repost %}
-    {% when 'underscore' %}
-    <a href="http://underscoreconsulting.com/blog">the Underscore blog.</a>
-    {% when 'myna' %}
-    <a href='http://blog.mynaweb.com/'>the Myna blog.</a>
-    {% endcase %}
-  </small></p>
-  {% endif %}
-
+    {% if page.repost %}
+    <p class="repost"><small>A version of this post appeared on
+      {% case page.repost %}
+      {% when 'underscore' %}
+      <a href="http://underscoreconsulting.com/blog">the Underscore blog.</a>
+      {% when 'myna' %}
+      <a href='http://blog.mynaweb.com/'>the Myna blog.</a>
+      {% endcase %}
+    </small></p>
+    {% endif %}
+  </div>
 
   {{ content }}
 
   {% if page.category == 'data' or page.category == 'programming' %}
   <!-- Begin MailChimp Signup Form -->
   <div id="mc_embed_signup" class="panel">
-    <form action="http://noelwelsh.us6.list-manage.com/subscribe/post?u=8f6a767dbf715c379e19f6f79&amp;id=9036487887" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" target="_blank" novalidate>
+    <form action="http://noelwelsh.us6.list-manage.com/subscribe/post?u=8f6a767dbf715c379e19f6f79&amp;id=9036487887" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-horizontal" target="_blank" novalidate>
 
       <fieldset>
         {% if page.list_cta %}
@@ -31,19 +32,26 @@
         {% endif %}
 
 
-        <p class="mc-field-group form-group">
-          <label for="mce-EMAIL">Email address</label>
-          <input id="mce-EMAIL" type="email" class="form-control required" name="EMAIL" placeholder="me@example.org" />
-        </p>
+        <div class="mc-field-group form-group">
+          <label class="col-sm-3" for="mce-EMAIL">Email address</label>
+          <div class="col-sm-9">
+            <input id="mce-EMAIL" type="email" class="form-control required" name="EMAIL" placeholder="me@example.org" />
+          </div>
+        </div>
 
-        <p class="mc-field-group form-group">
-          <label for="mce-FNAME">First name (optional)</label>
-          <input id="mce-FNAME" type="text" class="form-control" name="FNAME" placeholder="Leonardo" />
-        </p>
-        <p class="mc-field-group form-group">
-          <label for="mce-LNAME">Last name (optional)</label>
-          <input id="mce-LNAME" type="text" class="form-control" name="LNAME" placeholder="Da Vinci" />
-        </p>
+        <div class="mc-field-group form-group">
+          <label class="col-sm-3" for="mce-FNAME">First name (optional)</label>
+          <div class="col-sm-9">
+            <input id="mce-FNAME" type="text" class="form-control" name="FNAME" placeholder="Leonardo" />
+          </div>
+        </div>
+
+        <div class="mc-field-group form-group">
+          <label class="col-sm-3" for="mce-LNAME">Last name (optional)</label>
+          <div class="col-sm-9">
+            <input id="mce-LNAME" type="text" class="form-control" name="LNAME" placeholder="Da Vinci" />
+          </div>
+        </div>
 
         <p>
           <button class="myna-{{ page.id | myna_id }} btn btn-success" id="mc-embedded-subscribe" type="submit" data-goal="click">Keep me posted</button>

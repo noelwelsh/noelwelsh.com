@@ -50,27 +50,35 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
   </head>
 
   <body>
-    <div class="container">
-      <div class="row site-menu">
-        <div class="col-lg-4 menu blog"><a href="/">Blog</a></div>
-        <div class="col-lg-4 menu projects"><a href="/projects.html">Projects</a></div>
-        <div class="col-lg-4 menu about"><a href="/about.html">About</a></div>
+    <nav class="navbar navbar-default navbar-top" role="navigation">
+      <div class="container">
+        <div class="nav navbar-header">
+          <a class="navbar-brand" href="/">/</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href="/projects.html">Projects</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
       </div>
+    </nav>
+
+    <div class="container">
       <div id="content" class="{{ page.name }}">
         <div class="row">
-          <div class="col-lg-8">
+          <div class="col-md-8">
             {{ content }}
           </div>
-          <div class="col-lg-4">
+          <div class="col-md-3 col-md-offset-1">
             {% include themes/smooth/side-bar.html %}
           </div>
+        </div>
       </div>
     </div>
 
-    <div class="container" id="footer">
-      <footer>
+    <nav class="navbar navbar-default navbar-bottom" id="footer" role="navigation">
+      <footer class="container">
         <div class="row">
-          <div class="col-lg-3">
+          <div class="col-md-3">
             <h4>Blog</h4>
             <ul>
               <li><a href="/data.html">Data</a></li>
@@ -79,7 +87,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
               <li><a href="/archive.html">Complete archive</a></li>
             </ul>
           </div>
-          <div class="col-lg-3">
+          <div class="col-md-3">
             <h4>Work</h4>
             <ul>
               <li><a href="//mynaweb.com/">Myna</a></li>
@@ -87,7 +95,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
               <li><a href="//underscoreconsulting.com">Underscore</a></li>
             </ul>
           </div>
-          <div class="col-lg-3">
+          <div class="col-md-3">
             <h4>Social</h4>
             <ul>
               <li><a href="https://twitter.com/noelwelsh/">Twitter</a></li>
@@ -96,7 +104,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
               <li><a href="https://github.com/noelwelsh/">Github</a></li>
             </ul>
           </div>
-          <div class="col-lg-3">
+          <div class="col-md-3">
             <h4>Contact</h4>
             <ul>
               <li>noelwelsh at Gmail</li>
@@ -107,7 +115,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
         <p><small>All content &copy; copyright {{ site.author.name }}</small></p>
 
       </footer>
-    </div> <!-- /container -->
+    </nav>
     {% include analytics %}
   </body>
 </html>

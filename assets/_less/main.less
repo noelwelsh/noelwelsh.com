@@ -1,22 +1,24 @@
 // Pygments colors
-@import (less) "autumn.css";
+@import (less) "pastie.css";
 
 // Core variables and mixins
 @import "bootstrap.less";
 
-@sidebar-width: 300px;
-@indent: 30px;
+@indent: 2 * @font-size-base;
 
-@text-color: #1c1f21;
-@background-color: #f0f6fa;
-@accent-color: #c9e4f5;
-@dark-accent-color: #1e9be8;
-@dark-accent-color-2: #1d21e6;
-@complement-color: #a32164;
-@complement-color-2: #bd2071;
+@base-hue: 338;
+@text-color: #353535;
+@background-color: hsl(@base-hue, 100%, 99%);
+@accent-color: hsl(@base-hue, 100%, 40%);
+@dark-accent-color: darken(@accent-color, 20%);
+@dark-accent-color-2: spin(@dark-accent-color, 10);
+@complement-color: spin(@accent-color, 180);
+@complement-color-2: spin(@complement-color, 10);
 @rule-color: lighten(@text-color, 50%);
 
 // Bootstrap overrides
+//@font-size-base: 16px;
+
 @body-bg: @background-color;
 
 @input-border: @dark-accent-color;
@@ -24,13 +26,15 @@
 @pagination-bg: @background-color;
 @pagination-border: @dark-accent-color;
 
-@pre-bg: @accent-color;
+@pre-bg: @background-color;
 @pre-border-color: @dark-accent-color;
 
-@panel-bg: @accent-color;
-@panel-border: @dark-accent-color;
+@panel-bg: @background-color;
+@panel-inner-border: @dark-accent-color;
 
-@jumbotron-bg: @accent-color;
+@jumbotron-bg: @background-color;
+@jumbotron-heading-color: @dark-accent-color;
+//@jumbotron-lead-color: @dark-accent-color;
 
 @legend-border-color: @dark-accent-color;
 
@@ -41,15 +45,39 @@
   background-color: @background-color;
 }
 
+.monochrome {
+  color: @text-color;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: @font-family-serif;
+  color: @dark-accent-color;
+
+  a {
+    color: @dark-accent-color;
+    text-decoration: none;
+  }
 }
 
 a {
-  color: @dark-accent-color;
+  color: @text-color;
+  text-decoration: underline;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: @dark-accent-color;
+  -moz-text-decoration-line: underline;
+  -moz-text-decoration-style: solid;
+  -moz-text-decoration-color: @dark-accent-color;
+  -webkit-text-decoration-line: underline;
+  -webkit-text-decoration-style: solid;
+  -webkit-text-decoration-color: @dark-accent-color;
+  -ms-text-decoration-line: underline;
+  -ms-text-decoration-style: solid;
+  -ms-text-decoration-color: @dark-accent-color;
+
   
   &:hover {
-    color: lighten(@dark-accent-color, 10%);
+    color: @accent-color;
   }
 }
 
@@ -58,70 +86,52 @@ body {
   color: @text-color;
 }
 
-.site-menu {
+.navbar {
+  &.navbar-top {
+    border-bottom: 2px solid @dark-accent-color;
+    margin-bottom: 2 * @indent;
+  }
+
+  &.navbar-bottom {
+    border-top: 2px solid @dark-accent-color;
+    margin-bottom: 0;
+  }
+
   text-align: left;
-  margin-top: @indent;
-  margin-bottom: 2 * @indent;
-  
-  @border-size: 2px;
-  font-size: @font-size-large;
+  font-size: @font-size-small;
 
-  .menu {
-    padding-bottom: @indent / 2;
-
-    a {
-      display: inline-block;
-      width: 100%;
+  a {
+    color: @dark-accent-color;
+    text-decoration: none;
+    text-transform: uppercase;
+    
+    &:hover {
+      color: @accent-color;
     }
   }
 
-  .blog {
-    @blog-color: @complement-color;
-    border-bottom: @border-size solid @blog-color;
-    a { color: @blog-color; }
-  }
-
-  .projects {
-    @project-color: @dark-accent-color-2;
-    border-bottom: @border-size solid @project-color;
-    a { color: @project-color; }
-  }
-
-  .about {
-    @about-color: @complement-color-2;
-    border-bottom: @border-size solid @about-color;
-    a { color: @about-color; }
-  }
 }
 
 #content {
 
- h1 a {
-   color: @text-color;
- }
-
- .post-list {
-   .published {
-     font-weight: normal;
-     font-size: @font-size-small;
-   } 
- }
-
-
- .published {
-   font-size: 16px;
-   font-weight: bold;
- }
+  .published {
+    font-size: @font-size-small;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
 
  .post {
-   margin-bottom: @indent;
-   padding-bottom: @indent;
+   margin-bottom: 2 * @indent;
+   padding-bottom: 2 * @indent;
    border-bottom: solid 1px @rule-color;
 
    &.last {
      border-bottom: none;
      padding-bottom: 0;
-     margin-bottom: 0;
+   }
+
+   .heading {
+     padding-bottom: @indent;
    }
  }
 
@@ -129,6 +139,10 @@ body {
    margin-top: @indent;
    padding: @indent;
  }
+}
+
+#sidebar {
+  margin: 0 auto;
 }
 
 #social {
@@ -142,7 +156,6 @@ body {
 
 #footer {
   clear: both;
-  border-top: solid 1px @rule-color;
   padding-top: @indent;
   margin-top: @indent;
 
