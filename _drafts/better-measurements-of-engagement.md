@@ -4,6 +4,24 @@ category: data
 title: Better Measurements of Engagement
 ---
 
+# Introduction:
+anecdote hook. You've read this but you probably aren't going to finish ...
+
+# Context
+
+Before we get into details it is important to clarify that I'm talking about a site much like this one, where content is used as a brand building tool. The ultimate goal is to sell something to visitors, such as a product or consulting engagement, with intermediate steps such as signing up to a mailing list or connecting a warm fuzzy feeling to the brand. Ad-driven sites, particularly those that specialise in viral content, may have different goals due to the payment model used in ads (typically page views or clickthrough).
+
+Form a positive impression of. This may lead to sharing.
+
+# How Engagement is Typically Measured
+
+# So how can we do better?
+
+Site wide and over time.
+
+CTA. How do you measure engagement?
+
+
 Once you start blogging seriously (or start *content marketing*, to use the fancy term) it's natural to start wondering if anyone is actually reading what you write. Actually, asking people to read an article, from top to bottom, is [too much](www.slate.com/articles/technology/technology/2013/06/how_people_read_online_why_you_won_t_finish_this_article.html). But that's ok! There are many ways someone can interact with content (skimming it, if they're already familiar with the topic, reading a particular section that addresses a problem they have, and so on) and still find it valuable, so let's talk about measuring engagement instead.
 
 Before we get into details it is important to clarify that I'm talking about a site much like this one, where content is used as a brand building tool. The ultimate goal is to sell something to visitors, such as a product or consulting engagement, with intermediate steps such as signing up to a mailing list or connecting a warm fuzzy feeling to the brand. Ad-driven sites, particularly those that specialise in viral content, may have different goals due to the payment model used in ads (typically page views or clickthrough).
