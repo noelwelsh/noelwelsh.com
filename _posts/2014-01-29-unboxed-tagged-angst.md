@@ -2,6 +2,7 @@
 layout: post
 category: programming
 title: Unboxed Tagged Angst
+repost: underscore
 ---
 
 Type class based serialization is now standard in Scala JSON libaries such as [Play JSON](http://www.playframework.com/documentation/2.2.x/ScalaJsonCombinators). All our web applications these days are designed as JSON APIs, with the UI being just an API client. We usually find we want a few different serialization formats. Here are two examples that came up recently: logged-in users can see more information than anonymous users; and, as we're using Mongo, we want a serialization format for the database that includes more information than other clients can see. Thus we need to control which type class is used for serialization at each point.
