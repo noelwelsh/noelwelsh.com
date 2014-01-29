@@ -49,6 +49,8 @@ module.exports = (grunt) ->
         cmd: "bundle install"
       jekyll:
         cmd: "bundle exec jekyll build --trace --drafts"
+      jekyllDeploy:
+        cmd: "bundle exec jekyll build --trace"  
       deploy:
         cmd: 'rsync --progress -a -e "ssh -q" _site/ admin@noelwelsh.com:/srv/noelwelsh.com/public/htdocs/'
 
@@ -109,7 +111,7 @@ module.exports = (grunt) ->
   ]
 
   grunt.registerTask "deploy", [
-    "build"
+    "exec:jekyllDeploy"
     "exec:deploy"
   ]
 
