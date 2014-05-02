@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Rust: The Name of the Game
+title: Rust The Name of the Game
 category: post
 ---
 
