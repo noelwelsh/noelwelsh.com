@@ -13,9 +13,11 @@ With that out of the way, on to my comparison.
 
 ## Simplicity
 
-My number one reason for preferring React to AngularJS is its simplicity. In React there are three concepts: *components* with *properties* and *state*. Components are just code. Writing React is just writing code. And because there is so little to React, when I wanted to learn it I could read all the documentation in just one day.
+My number one reason for preferring React to AngularJS is its simplicity. This is very apparent when learning the frameworks. AngularJS introduces an explosion of new concepts. There is, at least, *controllers*, *directives*, *factories*, *scopes*, *services*, *transclusion*, the directives library, the module system, and more than I've no doubt forgotten about or haven't encountered yet. Add to that the famously bad documentation, and you have a learning curve like a cliff.
 
-In contrast AngularJS has an explosion of new concepts. There are, at least, *controllers*, *directives*, *factories*, *scopes*, *services*, the directives library, the module system, the dependency injection system, and quite possibly more I don't even know about yet. Add to that the famously bad documentation.
+In React there are just four important concepts: *components* with *properties* and *state*. and the internal DOM representation. Components are just code, as is DOM construction. There is so little to React that when I started to learn it I could read all the documentation in just one day. The documentation also made sense, a major advantage over AngularJS.
+
+## Composition
 
 ## Conclusions
 
