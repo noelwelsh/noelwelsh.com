@@ -23,12 +23,12 @@ In React there are just three important concepts: *components* with *properties*
 
 In React you compose programs out of components. As components are just code, composition works the way you, as a programmer, would expect. All the usual abstraction mechanisms of functions, objects, and so on, work in the usual way. React is just normal code and using React is just normal programming.
 
-In Angular you compose applications out of directives, which involves programming in both Javascript and HTML, and other stuff which is written in Javascript. As directives span both Javascript and HTML the composition rules are rather complicated. Add to that HTML does not make the basis for a great programming language. XML-ish syntax was a bad idea when I used [Ant](http://en.wikipedia.org/wiki/Apache_Ant) 15 years ago and remains a bad idea today.
+In Angular you compose applications out of directives, which involves programming in both Javascript and HTML, and other stuff which is written in Javascript. As directives span both Javascript and HTML the composition rules are rather complicated. Add to that HTML does not make the basis for a great programming experience. Programming in XML-ish syntax was a bad idea when I used [Ant](http://en.wikipedia.org/wiki/Apache_Ant) 15 years ago and remains a bad idea today.
 
 
 ## Architecture
 
-One-way data binding vs two-way data binding.
+Finally, I find React encourages a better architectural style than AngularJS. Now architecture is up to the programmer, and you can write spaghetti in any language, but nonetheless I believe one-way data binding, as offered by React, leads to clearer programs than AngularJS's two-way data binding. The reason is that data flow is much clearer. You can trace a React program from start to finish. An AngularJS program, on the other hand, is more like a constraint system, with no clear start and end point.
 
 
 ## Conclusions
