@@ -29,7 +29,7 @@ Strata was also my introduction to [Flink][flink]. It seems similar to Spark, bu
 For a while I've wanted to move back into the data world after focusing on general software development for a while. Attending Strata definitely strengthened this desire. As a result I've recently started working an internal data project. Watch this space for more information, and commercial offering in the big data space in due course.
 
 [strata-london-2015]: http://strataconf.com/big-data-conference-uk-2015
-[whats-there-to-know]: http://noelwelsh.com/assets/downloads/
+[whats-there-to-know]: http://noelwelsh.com/assets/downloads/what-to-know-about-ab.pdf
 [strata-london-2012]: {% post_url 2012-10-01-strata-slides %}
 [spark]: https://spark.apache.org/
 [julia-angwin]: http://juliaangwin.com/
