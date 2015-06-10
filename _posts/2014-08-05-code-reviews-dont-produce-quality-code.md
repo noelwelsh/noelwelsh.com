@@ -21,4 +21,4 @@ Code reviews work fantastically well if the code is of a reasonably high quality
 
 Code reviews fail when the code is of poor quality. In this case bringing the code up to standard may require redesigning the entire feature, essentially throwing away all the work that has been done to date.
 
-I agree with Deming (one of the founders of the Total Quality movement, which in turn inspired agile). You can't inspect in qualty -- the lag time is too high. If you have developers who aren't producing good code you need to fix that at the source, by using pair programming, training, and mentoring. If they are producing good code, however, then code reviews can be a very useful tool.
+I agree with Deming (one of the founders of the Total Quality movement, which in turn inspired agile). You can't inspect in quality -- the lag time is too high. If you have developers who aren't producing good code you need to fix that at the source, by using pair programming, training, and mentoring. If they are producing good code, however, then code reviews can be a very useful tool.
