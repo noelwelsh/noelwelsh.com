@@ -93,6 +93,6 @@ In the six or so years I've been using Scala this is what my programs have evolv
 
 Scala can be simple if you're prepared to be opinionated. In my opinion simplicity comes down to using algebraic datatypes, structural recursion, sequencing combinators, and type classes. I'm pleased to see Dotty, the next version of Scala, focusing on language simplicity. I think we, as the Scala community, need to have a larger discussion about how we use the language features we have. Other languages like Python have benefited from developing an accepted community style. I believe Scala can shed its image as a complex language, leads to a stronger and more cohesive community, if we do the same.
 
-[slides]: http://noelwelsh.com/downloads/scala-days-amsterdam-2015.pdf
+[slides]: http://noelwelsh.com/assets/downloads/scala-days-amsterdam-2015.pdf
 [periodic-table]: http://www.flotsam.nl/dispatch-periodic-table.html
 [essential-scala]: http://underscore.io/training/courses/essential-scala/
