@@ -3,6 +3,7 @@ layout: post
 title: Keeping Scala Simple
 author: Noel Welsh
 category: programming
+repost: underscore
 ---
 
 You don't have to venture far to find people arguing that Scala is a complex language, or that Scala needs to be more opinionated. Luckily I have plenty of opinions, specifically about how to make Scala simpler, and this is something I've been espousing in my recent talks at Scala Days SF and Amsterdam ([slides here][slides]). 
