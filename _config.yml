@@ -11,7 +11,7 @@ exclude:
   - "components"
   - "node_modules"
   - "bower_components"
-pygments: true
+highlighter: rouge
 safe: false
 markdown: kramdown
 
