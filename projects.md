@@ -1,33 +1,54 @@
 ---
-layout: page
 title: Projects
-description:
 ---
-{% include JB/setup %}
 
-Over time I've managed to do some stuff.
+# Projects
 
-## Myna
-
-[Myna](http://mynaweb.com/) is a next generation A/B testing tool. It's based on bandit algorithms, which provide a neat way of doing hypothesis testing-esque things without some of the problems of said tests.
-
-## Consultancy
-
-I offer consultancy services on data science and programming via [Underscore](//underscoreconsulting.com/) and [Untyped](//untyped.com/).
-
-## Talks
-
-Talks that have featured on this blog include:
+## Work
+I've founded a few companies:
 
 <ul>
-{% assign pages_list = site.tags.talk %}
-{% include JB/pages_list %}
+<li><a href="https://www.inner-product.com/">Inner Product</a> is a consultancy focused on Scala, primarily serving the US.</li>
+<li><a href="https://underscore.io/">Underscore</a> is a consultancy focused on Scala, primarily serving the UK.</li>
+<li><a href="http://www.mynaweb.com/">Myna</a> was an A/B testing SaaS. Our core innovation was using bandit algorithms to make more efficient use of data.</li>
+<li><a href="https://untyped.com/">Untyped</a> is a consultancy founded by my friend Dave and I. Untyped doesn't currently do much work directly, but it's involved in other projects.</li>
 </ul>
 
 ## Books
 
-I sometimes pretend to be writing a [book](http://noelwelsh.com/blueeyes/index.html) about the BlueEyes REST service framework.
+<dl>
+<dt><a href="https://creativescala.org/">Creative Scala</a></dt>
+<dd>An introduction to functional programming and generative art, aimed at people new to programming. Creative Scala is heavily inspired by <a href="https://htdp.org/">HtDP</a>, and like HtDP strives to present programming as a systematic process.</dd>
+<dt><a href="https://underscore.io/books/essential-scala/">Essential Scala</a></dt>
+<dd>An introduction to Scala for experienced developers, Essential Scala revolves around four core techniques in effective Scala programming: algebraic data types, structural recursion, sequencing computations, and type classes.</dd>
+<dt><a href="https://underscore.io/books/scala-with-cats/">Scala with Cats</a></dt>
+<dd>This book covers core functional programming abstractions such as monoids and monads, and shows how they can be used in the small and in the large.</dd>
+</dl>
 
-## Open Source
+## Code
 
-I contribute to a number of open-source projects. Most of my personal project are on [my Github account](https://github.com/noelwelsh). I'm a committer to the [BlueEyes](http://github.com/jdegoes/blueeeys) Scala REST framework, and to [Racket](https://github.com/plt/racket), a fine LISP descendant. [Bigtop](https://github.com/bigtop) is our utility library built on BlueEyes. Some other projects can be found on [Untyped's](http://github.com/untyped) page.
+At the moment my main open source project is <a href="https://github.com/creative-scala/doodle">Doodle</a>, a Scala library for visualisation and creative coding. Other projects can be found on my <a href="https://github.com/noelwelsh/">Github account</a>.
+
+## Talks
+
+<dl>
+
+<dt>Differentiable Functional Programming, 2018</dt>
+<dd>Scala Days NYC, Scala Days Berlin, Scala eXchange</dd>
+
+<dt>Maths for Programming, Fun, and Creativity, 2017</dt>
+<dd>With Dave Gurnell, [Lambda World Cadiz][lambda-world-cadiz-2017]</dd>
+
+<dt>Uniting Church and State: FP and OO Together, 2017<dt>
+<dd>[Scala Days Copenhagen][scala-days-copenhagen-2017], Scala Days Chicago, Scala eXchange</dd>
+
+<dt>The Structure of Programming Language Revolutions, 2016</dt>
+<dd>[Scala Days Berlin 2016][scala-days-berlin-2016], [Scala Days NYC 2016][scala-days-nyc-2016]</dd>
+
+<dt></dt><dd><em>To be continued...</em></dd>
+</dl>
+
+[lambda-world-cadiz-2017]: https://www.youtube.com/watch?v=4AbSJfu6S8M
+[scala-days-copenhagen-2017]: https://www.youtube.com/watch?v=IO5MD62dQbI
+[scala-days-berlin-2016]: https://www.youtube.com/watch?v=bL-CcjKW1lw
+[scala-days-nyc-2016]: https://www.youtube.com/watch?v=AL1J5AT4pfY

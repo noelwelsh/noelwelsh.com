@@ -1,17 +1,19 @@
 ---
-layout: page
 title: About
-description: ""
-name: about
 ---
-{% include JB/setup %}
 
-I'm Noel, but you've worked that out already. I'm [@noelwelsh](http://twitter.com/noelwelsh) on Twitter, and also [noelwelsh](https://github.com/noelwelsh) on Github.
+# About
 
-I'm a founder of [Myna](http://mynaweb.com/), a product for web content optimisation. Think A/B testing but using modern mathematics. As is the nature of startups, I work on anything and everything the business requires: machine learning, marketing, or just answering the phone.
+I'm Noel and this is my personal site. You can find me on Twitter as [\@noelwelsh](https://twitter.com/noelwelsh) or email me at [`noel@noelwelsh.com`](mailto:noel@noelwelsh.com).
 
-At [Underscore](http://underscoreconsulting.com) I provide consultancy services centered around the [Scala](http://scala-lang.org) language. Our main focus is software architecture and implementation for scalable and performant systems, be it on the web or other.
+I currently work at [Inner Product][inner-product] and [Underscore][underscore] where I split time between the business and technical sides. 
 
-I have a PhD in machine learning, and a background in machine learning and software development.
+I've been interested in computers for a long time, particularly the leverage that computers give to people. I followed this interest to a PhD in machine learning, focusing on Bayesian nonparameterics and reinforcement learning. 
 
-I live in Birmingham, UK with my wife and two deranged rompasaurs.
+I still find machine learning very interesting, but right now I'm more involved with programming and programming languages. A large part of my work is helping people become more effective with functional programming. This has put me in contact with the field of education, which I'm enjoying learning more about.
+
+In another life I might have been an artist. I enjoy creating art with the computer. [Creative Scala][creative-scala] is in some ways an outlet for this interest. 
+
+[inner-product]: https://inner-product.com/
+[underscore]: https://underscore.io/
+[creative-scala]: https://creativescala.org/

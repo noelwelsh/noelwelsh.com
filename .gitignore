@@ -1,3 +1,4 @@
+_cache/*
 _site/*
 _theme_packages/*
 
@@ -15,3 +16,4 @@ components
 bower_components
 **/*.min.js
 **/*.min.css
+
