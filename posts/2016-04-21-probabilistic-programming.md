@@ -60,9 +60,9 @@ We can annotate this with types to illustrate how this problem might work. We us
 
 The core part of this model is where we connect `Distribution[Topic]` and `Topic => Distribution[Words]` to create the `Distribution[Words]` from which we can construct a document. Symbolically, what do we replace `???` with to make the following equation hold?
 
-{% highlight scala %}
+``` scala
 Distribution[Topic] ??? Topic => Distribution[Words] = Distribution[Words]
-{% endhighlight %}
+```
 
 The answer is `flatMap` and thus we have a monad. (You can check the monad laws hold as well, if you don't trust me, though we need to define the semantics of `flatMap` in this case. See below.)
 

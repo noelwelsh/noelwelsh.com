@@ -13,46 +13,46 @@ As better approach, and the one we've been using, is to tag the data and the typ
 
 Let's say we have a basic `User` class
 
-{% highlight scala %}
+``` scala
 case class User(name: String, email: String)
-{% endhighlight %}
+```
 
 In Play we can construct a serializer like so:
 
-{% highlight scala %}
+``` scala
 import play.api.libs.json._
 
 implicit val userWrite: Writes[User] = Json.writes[User]
-{% endhighlight %}
+```
 
 A `Writes[User]` is a type class that can write a `User` as JSON. If we want to write a `User` we can call `Json.toJson(user)` and the usual implicit resolution rules will look for a `Writes` in scope.
 
 Now suppose we don't want to display email addresses to anonymous users. We can define a new `Writes` easily enough.
 
-{% highlight scala %}
+``` scala
 implicit val anonymousUserWrites = new Writes[User] {
   def writes(in: User): JsValue =
     Json.obj("name" -> in.name)
 }
-{% endhighlight %}
+```
 
 The question is: how do we make sure this implicit is used at the correct points, in a way that the compiler will complain to us if we get it wrong?
 
 We've followed Scalaz's lead, using [unboxed tagged types](http://etorreborre.blogspot.co.uk/2011/11/practical-uses-for-unboxed-tagged-types.html). They are fairly simple beasts. The constructor `Tag[A, T](a: A)` applies the tag `T` to a value `A`. Tags are just empty traits and a tagged type, written `A @@ T`, is a subtype of `A`. Here's the code:
 
-{% highlight scala %}
+``` scala
 trait Anonymous
 def anonymous[A](in: A): A @@ Anonymous = Tag[A, Anonymous](in)
-{% endhighlight %}
+```
 
 Now we just need to tag `anonymousUserWrites`, so it only applies to `User`s tagged `Anonymous`, and we're in business.
 
-{% highlight scala %}
+``` scala
 implicit val anonymousUserWrites = new Writes[User @@ Anonymous] {
   def writes(in: User @@ Anonymous): JsValue =
     Json.obj("name" -> in.name)
 }
-{% endhighlight %}
+```
 
 Or so I thought.
 

@@ -23,7 +23,7 @@ This sequence from the talk illustrates one of the main issues in Javascript:
 0
 > {} + {}
 NaN
-{% endhighlight %}
+```
 
 This behaviour has been [explained](http://stackoverflow.com/questions/9032856/what-is-the-explanation-for-these-bizarre-javascript-behaviours-mentioned-in-the/9033306#9033306) on Stackflow, but let's go back a step and ask why would the language even behave like this in the first place?
 
@@ -36,14 +36,14 @@ Sadly the same mistakes continue to be repeated. Take jQuery's [map](http://api.
 {% highlight javascript %}
 > $.map([1, 2, 3], function(x) { return x + 1; })
 [2, 3, 4]
-{% endhighlight %}
+```
 
 Except if the function returns an array, in which case that array is appended to the array of results! If you want to create an array of arrays you're SOL.
 
 {% highlight js %}
 > $.map([1, 2, 3], function(x) { return [x, x + 1]; })
 [1, 2, 2, 3, 3, 4] // Not [[1,2], [2,3], [3,4]] as we'd expect!
-{% endhighlight %}
+```
 
 Map and appending (sometimes called `flatMap`) is a different thing to just mapping, and jQuery should provide different functions if it wants to support both. Again, there is a seemingly reasonable explanation for this behaviour, but this focus on the small scale ignores the bigger picture impact of adding yet another special case to a language ecosystem already overburdened with caveats and incompatibilities.
 
