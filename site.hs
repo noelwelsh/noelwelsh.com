@@ -14,6 +14,10 @@ main = hakyll $ do
         route   idRoute
         compile compressCssCompiler
 
+    match "downloads/*" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     match (fromList ["projects.md", "about.md"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler

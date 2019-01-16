@@ -153,7 +153,7 @@ If you are interested in learning more about these ideas, we are writing a book 
 [advanced-scala-scalaz]: http://underscore.io/training/courses/advanced-scala-scalaz
 [dual-numbers]: http://en.wikipedia.org/wiki/Dual_number
 [natural-transformation]: http://docs.typelevel.org/api/scalaz/nightly/#scalaz.NaturalTransformation
-[slides]: /assets/downloads/advanced-scala-2015-free-monads.pdf
+[slides]: /downloads/advanced-scala-2015-free-monads.pdf
 [advanced-scala]: http://www.meetup.com/london-scala/events/220942615/
 [haxl]: https://github.com/facebook/Haxl
 [stitch]: https://www.youtube.com/watch?v=VVpmMfT8aYw
