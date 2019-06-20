@@ -33,6 +33,9 @@ At the moment my main open source project is <a href="https://github.com/creativ
 
 <dl>
 
+<dt>[Tips for Teaching Scala](/posts/2019-06-20-tips-for-teaching-scala.html), 2019</dt>
+<dd>[Scala Days Laussane][scala-days-lausanne-2019]</dd>
+
 <dt>Differentiable Functional Programming, 2018</dt>
 <dd>Scala Days NYC, Scala Days Berlin, Scala eXchange</dd>
 
@@ -52,3 +55,4 @@ At the moment my main open source project is <a href="https://github.com/creativ
 [scala-days-copenhagen-2017]: https://www.youtube.com/watch?v=IO5MD62dQbI
 [scala-days-berlin-2016]: https://www.youtube.com/watch?v=bL-CcjKW1lw
 [scala-days-nyc-2016]: https://www.youtube.com/watch?v=AL1J5AT4pfY
+[scala-days-lausanne-2019]: https://portal.klewel.com/watch/webcast/scala-days-2019/talk/6/
