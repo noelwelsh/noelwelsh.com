@@ -16,7 +16,7 @@ My first tip is to teach some kind of "notional machine", which means a simplifi
 
 ## Programming Strategies
 
-Programming strategies are, as far as I know, something unique to how we at [Underscore][underscore] and [Inner Product][inner-product] teach programming. That said, they are heavily inspired by the design recipes in [How to Design Programs][htdp]. The core idea is to allow students to move from problem to solution in a systematic and repeatable way. Programming strategies allow code to written faster with fewer bugs, and by standardizing techniques result in more readable code. They would take many words to explain but the [slides][slides] give some lengthy examples of the main strategies.
+Programming strategies are, as far as I know, something unique to how we at [Underscore][underscore] and [Inner Product][inner-product] teach programming. That said, they are heavily inspired by the design recipes in [How to Design Programs][htdp]. The core idea is to allow students to move from problem to solution in a systematic and repeatable way. Programming strategies allow code to written faster with fewer bugs, and by standardizing techniques result in more readable code. They would take many words to explain but the [slides][slides] give some lengthy examples of the main strategies, and my colleague Adam's [slides][adam-slides] describe a larger example.
 
 
 ## More Than Code
@@ -77,3 +77,4 @@ Teaching programming is a distinct skill from programming, and one that I have o
 [pbd]: https://programbydesign.org/
 [bootstrap]: https://www.bootstrapworld.org/
 [scalabridge]: https://scalabridge.org/
+[adam-slides]: https://arosien.github.io/talks/systematic-software.html
