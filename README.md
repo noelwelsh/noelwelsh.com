@@ -22,3 +22,8 @@ After making changes to `site.hs`
 stack build
 ```
 
+To deploy
+
+```sh
+netlify deploy --prod
+```
