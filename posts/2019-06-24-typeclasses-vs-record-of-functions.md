@@ -62,7 +62,7 @@ So here is our first criteria for deciding if we should use type classes or reco
 You'll sometimes see functional programmers ranting about "lawless type classes". This combines two of (some) functional programmers favourite things: impenetrable jargon and getting bent out of shape. However, there is some point to this discussion.
 Type class "laws" are statement, usually expressed in maths, of some properties that must hold for a type class instance to be considered valid. For example, for `Monoid` the laws are:
 
-* the binary operation must be associated, so `combine(x, combine(y, z)) == combine(combine(x, y), z)`; and
+* the binary operation must be associative, so `combine(x, combine(y, z)) == combine(combine(x, y), z)`; and
 * the identity must be a commutative ... umm ... identity, so `combine(a, identity) == a == combine(identity, a)`.
 
 Defining the semantics is important because it's these semantics that allow us to implement systems using type classes and know they'll work as we expect. Let's address this from two different angles.
