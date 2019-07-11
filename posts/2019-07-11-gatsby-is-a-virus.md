@@ -1,10 +1,10 @@
-#---
+---
 title: Gatsby is a Virus; Here's the Cure
 ---
 
 [Gatsby][gatsby] is a Javascript framework for building static sites. It has the pernicious effect of infecting the browser cache, and won't go away until you manually clear the cache or deploy a file that kills it. Here I describe the problem and the solution.
 
-<!-- break -->
+<!--more-->
 
 The herpes virus is a common virus with one very unfortunate ability: your body can never truly gets rid of it. Instead, when the initial infection dies down it goes to live in your ganglia, waiting to reemerge at the least convenient time. Gatsby is similar, though instead of infecting human ganglia it infects browser caches. There it will live indefinitely, causing browsers to display old pages even if you no longer use Gatsby. Luckily, unlike herpes, there is a way to kill Gatsby for good so that an up-to-date site will be displayed.
 
