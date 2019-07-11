@@ -25,5 +25,5 @@ stack build
 To deploy
 
 ```sh
-netlify deploy --prod
+netlify deploy --prod -d _site/
 ```
