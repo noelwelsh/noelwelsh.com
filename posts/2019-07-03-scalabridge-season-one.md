@@ -57,6 +57,8 @@ Projects didn't really happen. The students didn't really have enough Scala expe
 
 I have a good idea of student progress for the group I had the most involvement with (the beginners). They did very well. They had got to grips with structural recursion and most of them were working with first class functions by the time we finished. Given that we had about as much time with the students as two or three weeks of a University course I'm very happy with this. Of course the majority of the credit has to go to the students; they worked really hard!
 
+I know less about how the other students progressed, but from what I saw they made good progress. The non-FP developers covered algebraic data types, structural recursion, first-class functions, and so on. I don't think they got onto implicits but they covered most of the basic features of Scala.
+
 Finally, we were able to help a student with job applications, which felt really good and is exactly the sort of thing that makes ScalaBridge London more a community and not just a course.
 
 
