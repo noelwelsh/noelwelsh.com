@@ -11,8 +11,6 @@ title: ScalaBridge London Season One
 
 ScalaBridge London started when I met [Anna Bladzich][annab] at Scala Exchange in 2018. We shared a common interest in increasing diversity within the Scala community, and started talking about organising some events. I'd previously attended a few ScalaBridge events, which had all been one-off one day workshops, and I thought we needed something longer term if we really wanted to make a significant difference. We decided to try something a bit more permanent in London.
 
-I have to give a huge shout-out to Anna, who did the majority of the organisational work for our first season of ScalaBridge London. It wouldn't have happened without her!
-
 
 ## What We Did
 
@@ -25,7 +23,7 @@ Once we had the overall plan there are four things to arrange:
 * _mentors_ to teach the students; and
 * _curriculum material_ for the mentors to teach.
 
-Our venues were provided by Scala employers around London. Most venues were also able to provide food. Huge thanks to the Guardian, iTV, Permutive, Elsevier, Depop, and Thoughtworks for hosting us!
+Our venues were provided by Scala employers around London. Most venues were also able to provide food. Huge thanks to the Guardian, iTV, Permutive, Elsevier, Depop, and Equal Experts for hosting us!
 
 Our mentors came from the Scala community in London. Finding them was fairly easy as we could leverage our existing network. We discovered we tended to acquire new mentors with each new venue we visited, as the developers there saw how much fun it was!
 
