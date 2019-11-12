@@ -35,7 +35,7 @@ The next step is to collect feedback from our students and mentors. We have sent
 
 We need to do a lot of work on curriculum development to fix the issue with continuity. I suspect we'll end up with five or more different levels. It's debatable if we even need defined levels, though I think giving some guidance to students on starting points and achievable goals is a good thing.
 
-At some point we need to pick up our marketing, to get new students into the event. Right now my focus is on curriculum development so this will probably have to wait.
+At some point we need to pick up our marketing to get new students into the event. Right now my focus is on curriculum development and marketing will probably have to wait.
 
 Though the intensive on-season has finished, we will keep running ScalaBridge at a reduced frequency of once a month. We already have meeting booked for November, December, and January. Our next on season will probably start in February 2020.
 
