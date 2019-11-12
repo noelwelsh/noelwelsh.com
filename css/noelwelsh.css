@@ -30,7 +30,12 @@ p.lead {
 a {
     color: #0194EF;
 }
-
+blockquote {
+    border-left: 4px solid #00000f;
+    padding-left: 20px;
+    font-size: 1.2rem;
+    font-style: italic;
+}
 @keyframes fade-in {
     from {
         height: 100%;
