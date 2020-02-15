@@ -2,6 +2,8 @@
 title: Doom Emacs Workflows
 ---
 
+*Last update: 15 February 2020*
+
 I recently switched to [Doom Emacs][doom] from Spacemacs. The Doom documentation is currently quite sparse, so I've posted here my personal notes on using Doom along with a description of my workflow (something I find vital but missing from most documentation). Doom might be for you if
 
 - you like Emacs but want to use Vim keybindings;
@@ -27,7 +29,7 @@ Then run `bin/doom quickstart` to get everything setup. Run `bin/doom help` to s
 
 ## Workflow: Projects and Workspaces
 
-I find it useful to manage my work with projects and workspaces. I get two benefits from this: it's faster to find the things I'm looking for as I only look within the current project, and it's faster to get to work as I can save and restore window and buffer configuration. In Doom this means using [projectile][projectile] and [persp-mode][persp-mode]. _Below I discuss using workspaces, but right now they aren't working properly for me. Consider this to be how I believe they will work in theory, rather than in practice. Projects still work though._
+I find it useful to manage my work with projects and workspaces. I get two benefits from this: it's faster to find the things I'm looking for as I only look within the current project, and it's faster to get to work as I can save and restore window and buffer configuration. In Doom this means using [projectile][projectile] and [persp-mode][persp-mode]. 
 
 The basic workflow is:
 
@@ -41,7 +43,7 @@ Three very useful commands are:
 
 - `SPC SPC` to switch to a file within the current project, with fuzzy completion; and
 - `SPC ,` to switch to a buffer within the current project, again with fuzzy completion.
-- `SPC fr` to load a recently view file.
+- `SPC fr` to load a recently viewed file.
 
 
 ## Common Tasks
@@ -57,14 +59,14 @@ Things I occasionally do:
 
 - `SPC .` to find a file. Using `SPC SPC` is faster, so try to use `SPC .` only when you want to switch to something outside the current project. 
 
-- `SPC b b` to switch to a buffer outside the current project.
+- `SPC b B` to switch to a buffer outside the current project.
 
 
 ## Finding Text
 
 If you know there is text somewhere, but you don't know where, there are two basic ways to find it:
 
-- `SPC /p` to search all files in the current project. (Press `SPC /` and wait for a popup for other options.) When you have a buffer of matches you can jump to the one your want by pressing return or press `C-c C-e` to edit *all* the files at once. You can then do whatever edits you want and press `C-c C-c` to commit, or `C-c C-k` to abandon your changes. This is super useful for both simple and complex edits across multiple files.
+- `SPC sp` to search all files in the current project. (Press `SPC s` and wait for a popup for other options.) When you have a buffer of matches you can jump to the one your want by pressing return or press `C-c C-e` to edit *all* the files at once. You can then do whatever edits you want and press `C-c C-c` to commit, or `C-c C-k` to abandon your changes. This is super useful for both simple and complex edits across multiple files.
 
 - `/` to search within the current buffer. Use `n` and `N` to go to next and
   previous matches. (`?` to search backwards.)
@@ -93,7 +95,7 @@ There is a bit of complexity using evil-snipe. It's bound to `s` for visual sele
 
 ## Narrowing and Widening Regions
 
-It can be useful to restrict a buffer to a selection of text, called narrowing in Emacs. This is particularly useful with multiple cursors (see below). To narrow to the current selection use `g-` and use `g=` to perform the reverse, called widening.
+It can be useful to restrict a buffer to a selection of text, called narrowing in Emacs. This is particularly useful with multiple cursors (see below). To narrow to the current selection use `SPC rn` and use `SPC rw` to perform the reverse, called widening. Narrowing to the current function, with `SPC rf`, is also useful.
 
 
 ## Multiple Cursors
@@ -136,6 +138,7 @@ If the cursors get out of sync undoing a few commands usually sorts things out.
 
 When you've finished with multiple cursors press `gzu` to remove them all.
 
+
 ## Undoing and Redoing
 
 *TODO*
@@ -168,8 +171,8 @@ have them installed and the major mode is correctly configured.
 ## Miscellaneous
 
 - `gcc` to comment or uncomment the current line or selection;
-- `SPC oaa` for the Org agenda;
-- `SPC op` for the [Treemacs][treemacs] file browser;
+- `SPC oA` for the Org agenda;
+- `SPC x` for a temporary buffer for random notes;
 - to change text size in the current buffer: `M-=` to increase, `M--` to
   decrease, and `M-+` to reset it.
 
