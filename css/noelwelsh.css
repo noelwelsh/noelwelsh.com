@@ -36,15 +36,15 @@ blockquote {
     font-size: 1.2rem;
     font-style: italic;
 }
-.figure {
+figure {
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
 }
-.figure img {
+figure img {
     display: inline-block;
 }
-.caption {
+figcaption {
     font-size: 0.9rem;
     margin-top: 5px;
     display: inline-block;

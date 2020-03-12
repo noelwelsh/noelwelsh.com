@@ -10,7 +10,7 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
-    match "images/*" $ do
+    match "js/**" $ do
         route   idRoute
         compile copyFileCompiler
 
