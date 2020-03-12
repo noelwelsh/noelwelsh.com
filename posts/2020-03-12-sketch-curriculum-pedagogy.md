@@ -50,9 +50,9 @@ Now we've seen some general principles let's look specifically at programming.
 We know a lot less about teaching programming than we do about teaching in general, but we still know a fair bit! The general result seems to be that what we know about learning and teaching transfers to programming. For example:
 
 - Peer learning (learning with other students) in various forms works well. There are many different approaches. Some examples include:
-  - Pair programming. This is a good practice to use: students get some exposure to a way of working they may encounter in industry, and mentors may already be experienced in pair programming and hence less training is required.
-  - [Peer instruction][peer-instruction] is a structured method of discussion suitable for teaching that predominately uses lectures.
-  - [Structured peer learning][structured-peer-learning] is a techinque that uses students teachers.
+    - Pair programming. This is a good practice to use: students get some exposure to a way of working they may encounter in industry, and mentors may already be experienced in pair programming and hence less training is required.
+    - [Peer instruction][peer-instruction] is a structured method of discussion suitable for teaching that predominately uses lectures.
+    - [Structured peer learning][structured-peer-learning] is a techinque that uses students teachers.
 
 - There are many techniques for explicating knowledge in programming. Programming assigments are perhaps the most obvious way to do this, but there are other techniques. We can ask students to trace through programs (e.g. [tracing recursion][tracing-recursion]) or ask them to solve ["Parsons problems"][parsons-problems]. All of these methods help students to develop a mental model of how programs work (a so-called "notional machine" that describes some abstract machine that executes the code). Working away from code allows the exercises to focus on particular issues that may be obscured by code, particularly when students are not yet proficient with the syntax.
 
