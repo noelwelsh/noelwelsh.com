@@ -14,6 +14,12 @@ I've founded a few companies:
 <li><a href="https://untyped.com/">Untyped</a> is a consultancy founded by my friend Dave and I. Untyped doesn't currently do much work directly, but it's involved in other projects.</li>
 </ul>
 
+
+## Community
+
+I'm one of the organizers for [ScalaBridge London](https://www.scalabridgelondon.org/), which aims to increase diversity within the Scala community.
+
+
 ## Books
 
 <dl>
@@ -32,6 +38,9 @@ At the moment my main open source project is <a href="https://github.com/creativ
 ## Talks
 
 <dl>
+
+<dt>Bringing Scala to a Diverse Group of Students, 2020</dt>
+<dd>NE Scala, Scala Love</dd>
 
 <dt>[Tips for Teaching Scala](/posts/2019-06-20-tips-for-teaching-scala.html), 2019</dt>
 <dd>[Scala Days Laussane][scala-days-lausanne-2019]</dd>
