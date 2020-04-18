@@ -40,7 +40,7 @@ At the moment my main open source project is <a href="https://github.com/creativ
 <dl>
 
 <dt>Bringing Scala to a Diverse Group of Students, 2020</dt>
-<dd>NE Scala, Scala Love</dd>
+<dd>With Elissavet Velli and Yifan Xing, NE Scala, Scala Love</dd>
 
 <dt>[Tips for Teaching Scala](/posts/2019-06-20-tips-for-teaching-scala.html), 2019</dt>
 <dd>[Scala Days Laussane][scala-days-lausanne-2019]</dd>
