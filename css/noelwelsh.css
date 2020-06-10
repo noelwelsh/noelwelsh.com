@@ -35,6 +35,9 @@ h1,h2,h3,h4 {
 p.lead {
     font-family: Raleway;
 }
+p.date {
+    font-family: Raleway;
+}
 a {
     color: #0194EF;
 }
