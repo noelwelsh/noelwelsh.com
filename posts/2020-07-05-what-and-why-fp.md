@@ -129,7 +129,7 @@ Firstly, I find that FP is most valuable in the large. For a small system it is 
 
 The formal models that underlie functional programming allow systematic construction of code. This is in some ways the reverse of reasoning: instead of taking code and deriving properties and start from some properties and derive code. This sounds very academic but is in fact very practical and how I, for example, develop most of my code.
 
-Finally, reasoning is not the only way to understand code. It's valuable to the limitations of reasoning, other methods for gaining understanding, and using a variety of strategies depending on the situation.
+Finally, reasoning is not the only way to understand code. It's valuable to appreciate the limitations of reasoning, other methods for gaining understanding, and using a variety of strategies depending on the situation.
 
 [escape]: https://en.wikipedia.org/wiki/Escape_analysis
 [substructural]: https://en.wikipedia.org/wiki/Substructural_type_system
