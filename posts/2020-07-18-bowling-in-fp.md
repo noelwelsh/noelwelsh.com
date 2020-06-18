@@ -149,7 +149,7 @@ The pending frames can be
 This is another algebraic data type.
 
 ```scala
-sealed trait Pending extends
+sealed trait Pending
 case object Strike extends Pending
 case object Spare extends Pending
 case object StrikeAndStrike extends Pending
