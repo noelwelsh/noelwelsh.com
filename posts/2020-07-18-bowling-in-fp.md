@@ -1,8 +1,8 @@
 ---
-title: Scoring Ten-Pin Bowling with FP
+title: Scoring Ten-Pin Bowling with Algebraic Data and Finite State Machines
 ---
 
-I recently led a training session where we implemented the [rules for scoring ten-pin bowling][bowling-case-study] in Scala. This is an interesting case study. It's small enough that you can pick up the rules in a few minutes, but the dependencies between frames makes calculating the score non-trivial. I found it interesting enough that I implemented [my own solution][implementation] and decided to write up my process here. 
+I recently led a training session where we implemented the [rules for scoring ten-pin bowling][bowling-case-study] in Scala.  It makes for a good case study. It’s small enough that you can pick up the rules in a few minutes, but the dependencies between frames makes calculating the score non-trivial. I decided to implement [my own solution][implementation] which turned into an interesting exercise in algebraic data and finite state machines. In this post I'll describe my implementation and my process for developing it.
 
 For my implementation I solely focused on scoring the game. I didn't implement any parsing code, as that part of the problem didn't interest me.
 
