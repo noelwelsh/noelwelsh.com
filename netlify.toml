@@ -1,6 +1,6 @@
 [build]
 publish = "public"
-command = "npm run build && zola build"
+command = "npm install && npm run build && zola build"
 
 [build.environment]
 # Set the version name that you want to use and Netlify will automatically use it.
