@@ -1,0 +1,27 @@
+{% import "menu.html" as menu %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Noel Welsh: {% block title %}{% endblock %}</title>
+        {% block rss %}
+          <link rel="alternate" type="application/atom+xml" title="RSS" href="{{ get_url(path="atom.xml", trailing_slash=false) }}">
+        {% endblock %}
+        <link href="{{get_url(path='style/style.css')}}" rel="stylesheet" type="text/css"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600;800&display=swap" rel="stylesheet">
+    </head>
+    <body class="text-gray-700 antialiased bg-white inter">
+      <div class="bg-gradient-to-r from-green-600 to-teal-200 pb-4 mb-16"></div>
+      <div class="container mx-auto px-4 pb-16">
+        <div class="xl:flex xl:flex-row-reverse">
+          {{ menu::menu() }}
+          <div class="xl:w-2/3 px-4 xl:px-16">
+            {% block content %}{% endblock %}
+          </div>
+        </div>
+      </div>
+    </body>
+</html>

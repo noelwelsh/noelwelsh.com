@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% import "post-summary.html" as ps %}
+
+{% block title %}
+{{ section.title }}
+{% endblock title %}
+
+{% block content %}
+<div class="max-w-prose">
+  <div class="pb-8">
+    <h1 class="title base-h1 pb-2">
+      {{ section.title }}
+    </h1>
+  </div>
+  <ul>
+    {% for page in section.pages %}
+    <li class="pb-8">
+      {{ ps::post_summary(
+            title = page.title,
+            date = page.date,
+            permalink = page.permalink,
+            summary = page.summary
+          ) }}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock content %}

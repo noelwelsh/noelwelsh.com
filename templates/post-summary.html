@@ -1,0 +1,10 @@
+{% macro post_summary(title, date, permalink, summary) %}
+<div class="prose lg:prose-xl prose-green">
+  <h2><a href="{{ permalink | safe }}">{{ title }}</a>
+  <br/><span class="text-gray-600 text-lg font-extrabold">{{ date | date(format="%d %B %Y") }}</span></h2>
+  <div class="summary">
+    {{ summary | safe }}
+    <p><a class="base-a text-sm" href="{{ permalink | safe }}">Continue reading</a></p>
+  </div>
+</div>
+{% endmacro post_summary %}

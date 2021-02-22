@@ -1,0 +1,70 @@
+@font-face {
+    font-family: "Inter";
+    src: url("/font/Inter-VariableFont_slnt,wght.ttf")  format('woff2 supports variations'), url("/font/Inter-VariableFont_slnt,wght.ttf")  format('woff2-variations');
+    font-weight: 100 900;
+}
+
+.inter {
+    font-family: Inter, sans-serif;
+}
+
+.newsreader {
+    font-family: Newsreader
+}
+
+.splash h1 {
+    @apply newsreader text-5xl xl:text-7xl font-semibold tracking-tight text-gray-900;
+}
+
+.splash h1 .highlight {
+    @apply text-green-600;
+}
+
+.splash h2 {
+    @apply inter text-3xl xl:text-5xl font-extrabold tracking-tight;
+}
+
+.splash a {
+    @apply hover:underline;
+}
+
+.menu h1 {
+    @apply inter font-extrabold tracking-tight text-2xl xl:text-4xl hover:underline text-green-600 pb-4 px-2 xl:px-0;
+}
+
+.menu h1.selected {
+    @apply text-gray-500;
+}
+
+.base-h1 {
+    @apply inter text-4xl xl:text-6xl text-gray-900 font-extrabold tracking-tight;
+}
+
+.base-h2 {
+    @apply inter text-lg xl:text-2xl text-gray-900 font-extrabold tracking-tight;
+}
+
+.base-h3 {
+    @apply inter text-base xl:text-lg text-gray-900 font-extrabold tracking-tight;
+}
+
+.base-a {
+    @apply text-green-600 hover:underline;
+}
+
+
+.prose a {
+    @apply no-underline hover:underline;
+}
+
+.prose pre {
+    @apply my-2 p-2;
+}
+
+.prose .footnote-definition {
+    font-size: 0.85rem;
+}
+
+.prose .footnote-definition p {
+    @apply mt-0 mx-4;
+}

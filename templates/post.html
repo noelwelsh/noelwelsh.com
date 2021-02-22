@@ -1,11 +1,17 @@
-<article>
-    <section class="header">
-        <h1>$title$</h1>
-        $if(date)$
-            <p class="date"><small>$date$</small></p>
-        $endif$
-    </section>
-    <section>
-        $body$
-    </section>
-</article>
+{% extends "base.html" %}
+
+{% block title %}
+{{ page.title }}
+{% endblock title %}
+
+{% block content %}
+<div class="prose lg:prose-xl prose-green">
+  <div class="pb-8">
+    <h1>
+      {{ page.title }}
+      <br/><span class="text-gray-600 text-lg font-extrabold">{{ page.date | date(format="%d %B %Y") }}</span>
+    </h1>
+  </div>
+  {{ page.content | safe }}
+</div>
+{% endblock content %}

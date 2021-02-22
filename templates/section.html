@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ section.title }}
+{% endblock title %}
+
+{% block content %}
+<div class="content md:flex md:flex-row md:justify-evenly">
+  <div class="max-w-prose">
+    <div class="pb-8">
+      <h1 class="title pb-2">
+        {{ section.title }}
+      </h1>
+      <p>{{ section.description }}</p>
+    </div>
+    <ul>
+      {% for page in section.pages %}
+      <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="md:pl-4">
+    <a href="/">Home</a>
+    <a href="/">Home</a>
+    <a href="/">Home</a>
+    <a href="/">Home</a>
+  </div>
+</div>
+{% endblock content %}

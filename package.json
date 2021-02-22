@@ -1,0 +1,23 @@
+{
+  "name": "noelwelsh.com",
+  "version": "1.0.0",
+  "main": "style/style.css",
+  "description": "",
+  "dependencies": {
+    "@tailwindcss/typography": "^0.4.0",
+    "autoprefixer": "^10.2.4",
+    "postcss": "^8.2.6",
+    "postcss-cli": "^8.3.1",
+    "postcss-import": "^14.0.0",
+    "postcss-loader": "^5.0.0",
+    "tailwindcss": "^2.0.3"
+  },
+  "scripts": {
+    "build": "postcss style/style.css --output static/style/style.css --no-map",
+    "watch": "postcss --watch style/style.css --output static/style/style.css --no-map",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
