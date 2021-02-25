@@ -1,4 +1,7 @@
-# Functional Design: Principles
++++
+title = "Functional Design: Principles"
+draft = true
++++
 
 I want to write a bit about designing software in a functional programming style. There are many places to learn the machinery of functional programming---composing first-class functions, using algebraic data types, and so on---but vastly fewer to learn how to put it all together in larger systems. This post, which may become a series, is step to rectifying that.
 

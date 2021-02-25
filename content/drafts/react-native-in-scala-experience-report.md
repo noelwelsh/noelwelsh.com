@@ -1,4 +1,6 @@
-# React Native in Scala, an Experience Report
++++
+title = "React Native in Scala, an Experience Report"
++++
 
 I've recently spent a bit of time playing with [Slinky][slinky], a [Scala.js][scalajs] library for [React][react], and [React Native][react-native]. My goals were to assess its viability for both commercial mobile app development and for fun case studies at [ScalaBridge London][scalabridgelondon]. In this blog post I describe:
 

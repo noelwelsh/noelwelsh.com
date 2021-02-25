@@ -1,4 +1,6 @@
-# An Introduction to Programming Strategies
++++
+title = "An Introduction to Programming Strategies"
++++
 
 Programming is a largely systematic activity. There are strategies that, in the majority of cases, allow us to move from problem to working code using a sequence of repeatable steps. Code written in this way is of high quality. It is fast to write and easy to read, because it follows familiar patterns. It is more likely to work, because the strategies come with certain guarantees about correctness. It is overall a more effective way to program.
 

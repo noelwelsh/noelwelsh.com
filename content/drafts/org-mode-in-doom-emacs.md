@@ -1,6 +1,7 @@
----
-title: Org-mode in Doom Emacs
----
++++
+title = "Org-mode in Doom Emacs"
+draft = true
++++
 
 
 

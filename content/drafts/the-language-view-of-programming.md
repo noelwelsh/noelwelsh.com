@@ -1,4 +1,6 @@
-# The Language View of Programming
++++
+title = "The Language View of Programming"
++++
 
 In any sizable system the job of the programmer is to develop a domain specific language that describes the problem and its solution. More succintly, the primary job of programming is developing a programming language.
 

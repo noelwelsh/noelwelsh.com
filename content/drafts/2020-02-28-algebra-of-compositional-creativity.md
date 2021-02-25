@@ -1,6 +1,7 @@
----
-title: The Algebra of Compositional Creativity
----
++++
+title = "The Algebra of Compositional Creativity"
+draft = true
++++
 
 <script defer src="/js/compositional-creativity-opt.js" onload="EntryPoint.go();"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">

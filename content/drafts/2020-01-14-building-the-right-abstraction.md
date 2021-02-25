@@ -1,10 +1,11 @@
----
-title: Building the Right Abstraction
----
++++
+title = "Building the Right Abstraction"
+draft = true
++++
 
 Abstraction 
 
-<!--more-->
+<!-- more -->
 
 ## Abstraction Is Not About Removing Duplication
 

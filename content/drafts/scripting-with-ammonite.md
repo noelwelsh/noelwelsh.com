@@ -1,4 +1,6 @@
-# Scripting with Ammonite
++++
+title = "Scripting with Ammonite"
++++
 
 ## Installation
 

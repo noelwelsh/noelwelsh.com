@@ -1,4 +1,6 @@
-# Types Improve Programming
++++
+title = "Types Improve Programming"
++++
 
 In certain circles of the Internet it is accepted to say statements like "there's no empirical evidence that static types reduce bugs". I believe this:
 

@@ -1,4 +1,6 @@
-# The Uses of Finite State Machines
++++
+title = "The Uses of Finite State Machines"
++++
 
 Finite state machines (FSMs) are an extremely useful abstraction, that don't get the attention they deserve within the industry programming world. 
 

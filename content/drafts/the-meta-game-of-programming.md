@@ -1,4 +1,6 @@
-# Programming Strategies: the Meta-game of Programming
++++
+title = "Programming Strategies: the Meta-game of Programming"
++++
 
 Programming can be a very structured activity, but is not always presented or practiced as such. 
 
