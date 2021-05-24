@@ -1,4 +1,6 @@
-# Review: Racket Programming the Fun Way
++++
+title = "Review: Racket Programming the Fun Way"
++++
 
 No Starch Press sent me a review copy of "Racket Programming the Fun Way". No money changed hands.
 
