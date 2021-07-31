@@ -39,22 +39,49 @@ trait Result[S, A]:
   def resume(input: String): Result[S, A]
 ```
 
-
-## Parser and Result
-
-The `Parser` type is a fairly standard parser combinator library, supporting the usual applicative and monad combinators as well as parsing specific methods.
-
-The `Result` type following 
-
-## Continue 
-
 Design decisions:
 
 - Type of injection
 - Where can suspend
 - Can't carry state across suspend / resume
 
+## Parser and Result
+
+Large parts of the libary are standard, and based on [Cats Parse][cats-parse]. The `Parser` type is a fairly standard parser combinator library, supporting the usual applicative and monad combinators as well as parsing specific methods. The `Result` type consists of:
+
+- `Epsilon`, indicating parsing failed without consuming any input;
+- `Committed`, indicating parsing failed after consuming input; and
+- `Success`, indicating a successful parse.
+
+We differentiate between parsers that can successfully consume no input and those that must consume at least one character of input to succeed.
+
+There is an additional case on `Result` that is key to supporting resumable parsing. A parser can return `Continue` to indicate it successfully parsed all its input and can continue parsing if more input becomes available. The parser that returns `Continue` does not decide, however, the interpretation of `Continue`. A `Continue` can become a success or a failure depending on context, and the programmer must provide an interpretation. The available choices, which are methods on `Parser`, are:
+
+- `advance`, indicating that control should move to the next parser
+- `unsuspendable`, indicating that this parser;
+- `resume`; and
+- `resumeWith`
+
+A few small examples with help motivate these. Imagine parsing a Markdown header. A typical example is
+
+```
+## Parser and Result
+```
+
+
+The (simplified) grammar for a header is
+
+```
+heading space title
+```
+
+where `heading` is between 1 and 6 `#` characters, `space` is one or more whitespace characters, and `title` is zero or more characters until the end of the line.
+
+## Continue 
+
+
 
 [StringContext]: https://dotty.epfl.ch/api/scala/StringContext.html
 [Mads]: https://github.com/noelwelsh/mads
 [cats-parse]: https://github.com/typelevel/cats-parse
+[commonmark]: https://commonmark.org/
