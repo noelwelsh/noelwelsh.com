@@ -27,41 +27,47 @@ A template is usually text interpersed with escapes to a simple programming lang
     </body>
   </html>
   
-Here `{{ title }}` inserts the title defined in the front matter and `{{ content }}` the content of the blog post. The statements `{% include header.html %}` and `{% include footer.html %}` insert headers and footers respectively, that are defined in separate files.
+Here `{{ title }}` inserts the title defined in the front-matter and `{{ content }}` the content of the blog post. The statements `{% include header.html %}` and `{% include footer.html %}` insert headers and footers respectively, which are defined in separate files. Astute readers will have noticed some confusing semantics here: some text is inserted using expressions and other using statements. This hints at some of the problems we'll see later but for now let's switch to look at what static site generators get right.
 
 
 ## Programming Systems, not Programming Languages.
 
-A static site generator is essentially a system for programming web sites. The example above shows abstraction in 
+A static site generator is essentially a system for programming web sites. The example above shows two primary concerns of programming languages: abstraction to extract resuable components into templates, and composition to combine templates together in the final result.
 
-Websites face issues common to programming. For example, websites have lots of commonality across pages such as a common header and footer.  Rather than repeating this on every page, the developer could create templates for the header and footer and include these templates in the templates that define other pages in the site. Programmery-types should recognize this as fundamental elements of programming: abstraction to create templates and composition to include templates in other templates.
+Although static site generators include programming languages it's better to think of them as [programming systems][incommensurability]. The other major component of a typical SSG is a build system. Tasks covered by the build system usually include resizing and compressing images, building CSS stylesheets, and minimizing HTML, CSS, and code, in addition to applying content to templates. This build system is usually controlled with a different language to that used in templates. Programming the build system is often dismissed as "configuration" which dimishes the fact that it is a programming task and the concerns of any programming language apply. 
 
-Static site generators often include a programming language, but it's better to think of static site generators as a [programming system][incommensurability]. The other major component of a typical SSG is a build system, for constructing a web site from content, templates, images, and so on. Programming languages have always been embedded in a larger context which too much programming language research ignores. This is a mistake, because the context imposes constraints and opens up possibilities that are not visible if you take the more limited view. A lot of what I want to consider today is the role of context.
+Providing a programming system is one of the great benefits of a SSG. Although the individual components can be assembled by hand, having them combined in a single package is what makes SSGs valuable. Programming languages have always been embedded in a larger context which too much programming language research ignores. This is a mistake, because the context imposes constraints and opens up possibilities that are not visible if you take the more limited view. 
 
 
 ## Notation Matters
 
-One thing static site generators get really right is recognizing the importance of notation. In a conventional programming language that language itself is primary, and text needs to be enclosed in quotes. Furthermore text usually needs to worry about escaping and multi-line strings. SSGs invert this: text is primary and an escape is needed to enter a program. A typical system is [Nunjucks][nunjucks], which  SSGs also allow text to be entered in formats such as [Markdown][commonmark], which makes common formatting options, such as headings and emphasis, easier to write than in HTML.
+One thing static site generators get really right is recognizing the importance of notation. In a conventional programming language the code itself is primary, and text needs to be enclosed in quotes. Furthermore text usually needs to worry about escaping and multi-line strings. SSGs invert this: text is primary and an escape is needed to enter a program. 
+
+A typical system is [Nunjucks][nunjucks], which  SSGs also allow text to be entered in formats such as [Markdown][commonmark], which makes common formatting options, such as headings and emphasis, easier to write than in HTML.
 
 Notation is not considered very important in most programming language research. However it becomes central when you consider programming as a system, as notation is the user interface by which programming is accessed. The text of the web pages is the majority of the user generated content in an static site generator, so it is correctly made the easiest thing to create. In the live coding system [Tidal Cycles][tidal] musical patterns are entered using the ["mini-notation"][mini-notation]. This notation is optimized for brevity, an important consideration for code that is created live. Programming does not have to be textual, as demonstrated by [Para][para], or it can mix text and other representations, as shown by [Sketch-n-sketch][sketch-n-sketch].
 
 
 ## Programming Matters
 
-If static site generators get notation right, the majority of them get almost everything else about programming wrong. Let's look at some examples draw from a number of static site generators. Every SSG I know of has some concept of templates.
+If static site generators get notation right, the majority of them get almost everything else about programming wrong. Let's look at:
 
-[Jekyll][jekyll] uses [Liquid][liquid] templates. Liquid provides a simple imperative programming language
+- abstraction;
+- notional machine; and
+- debugging.
 
-The concept of a function is straight-forward. Informally, you give some stuff to a function (it's arguments) and you get something back. 
 
-We can consider templates as functions. 
-In this section I'll use [Eleventy][11ty] and its default template engine [Nunjucks][nunjucks] as an example, as I'm most familiar with their frustrations.
+### Abstraction 
 
-Eleventy and Nunjucks provide a number of forms of abstraction that almost, but no quite, implement functions. Let's start with what's probably the most commonly used abstraction mechanism, the [layout][11ty-layout].
+Functions are one of the basic mechanisms for abstraction in most languages. The concept of a function is straight-forward. Informally, you give some stuff to a function (it's arguments) and you get something back. Changing the arguments gives different results, hence abstracting over some common pattern. *Introduce the term parameters*
 
-We can think of a page of content as a data structure. The main content is available under the key `content` and additional data can be made available under other keys by using [front matter][11ty-front-matter].
+SSGs have a strange relationship with functions. We can think of content with front-matter as defining a key-value data structure, and a template is a function that accepts this data structure as a parameter.
 
-Nunjucks provides a concept known as [macros][nunjucks-macro], described as "similar to a function in a programming language" which makes me wonder what they think Nunjucks is if not a programming language. A macro appears 
+Partials and includes. They don't take parameters. Why this profusion of concepts when we could simple use templates? Dynamic scoping!?
+
+Recognizing these limitations, templating languages provide other function like constructs. [Nunjucks][nunjucks], the default templating language of [Eleventy][11ty], provides [macros][nunjucks-macro], described as "similar to a function in a programming language" (which makes me wonder what they think Nunjucks is if not a programming language, and what a macro is if not a function.) *Other example here. Do Jekyll / Hugo have macros?*
+
+These mechanisms of abstraction do work as functions: they have parameters and return values. However they have one fatal flaw: they do not allow 
 
 A page of content 
  fs fs
