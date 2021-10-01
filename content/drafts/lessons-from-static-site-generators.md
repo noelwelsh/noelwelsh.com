@@ -151,23 +151,29 @@ All of the problems I have described have been solved in the programming literat
 
 ## Staging is Real
 
-Recently there has been a new class of static site generators, that instead of outputting plain text sites output sites that are rendered using Javascript. Examples include [Gatsby] and [Next.js][next]. These tools have some issues---for one, the site may not be viewable without Javascript running. However they solve most of the issues I gave above. I don't think this is because the authors have any greater knowledge of programming languages than the authors of the olders SSGS, but rather because the assumption is you'll write code in Javascript and Javascript, despite it's many flaws, is a reasonably well-designed and modern language in its current incarnation.
+There is a new class of static site generators, that instead of outputting plain text sites output sites that are rendered using Javascript. Examples include [Gatsby][gatsby] and [Next.js][next]. These tools have some issues---for one, the site may not be viewable without Javascript running. However they solve most of the issues I gave above. I don't think this is because the authors have any deeper knowledge of programming languages than the authors of the olders SSGS, but rather because the assumption is code will be written in Javascript which, despite it's many flaws, is a reasonably well-designed and modern language in its current incarnation.
 
-One interesting new problem these tools bring is that of staging. When a site is built with code, and the site itself may run code, we need to clear about what runs when. In particular, if I'm doing some computation to render part of the site (for example, accessing a database to get a list of products) when exactly is this computation performed? When I build the site or when the site is viewed in the user's browser. 
-
+One interesting new problem these tools bring is that of staging. When a site is built with code, and the site itself may run code, we need to clear about what runs when. In particular, if I'm doing some computation to render part of the site (for example, accessing a database to get a list of products) when exactly is this computation performed? When I build the site or when the site is viewed in the user's browser? In my brief experience with Gatsby I couldn't get a clear understanding of how this worked. The [mechanism in Next][getStaticProps] for producing a page at compile-time is fairly simple and, in my experience, error-prone. Staging is something that really benefits from language support, so it's not clear to me that these SSGs can do better without extending Javascript.
 
 
 ## Conclusions
 
-Why have I spent so much time writing up everything I think is wrong with static site generators? One reason is I hope future SSGs can learn from the mistakes of the past.
+I think it's clear that I find current static site generators rather frustrating. I also think the flaws could be easily overcome. ... programming mindset
 
-Maybe some programming language researchers will read this.
+Systems.
+
+I have two hopes for this article. I hope that future authors of static site generators might read this and learn some of the lessons of the systems that have come before them.
+
+I also hope that those who work on programming languages might read this and see both the validity of the traditional concerns of programming language theory, and the need to expand the vision to include the context in which programming languages live.
+
 
 
 [zola]: https://www.getzola.org/
 [hugo]: https://gohugo.io/
 [jekyll]: https://jekyllrb.com/
+[gatsby]: https://www.gatsbyjs.com/
 [next]: https://nextjs.org/
+[getStaticProps]: https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation
 [liquid]: https://shopify.github.io/liquid/
 [vercel-funding]: https://craft.co/vercel/funding-rounds
 [incommensurability]: https://www.dreamsongs.com/Files/Incommensurability.pdf
