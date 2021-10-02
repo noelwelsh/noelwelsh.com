@@ -158,7 +158,9 @@ One interesting new problem these tools bring is that of staging. When a site is
 
 ## Conclusions
 
-I think it's clear that I find current static site generators rather frustrating. I also think the flaws could be easily overcome. I hope that future authors of static site generators might read this article and learn some of the lessons of the systems that have come before them. I also hope that those who work on programming languages might find here support for the validity of the traditional concerns of programming language theory, and see the need to expand the vision to include the context in which programming takes place.
+I think it's clear that I find current static site generators rather frustrating. I also think the flaws could be easily overcome. I hope that future authors of static site generators might read this article and learn some of the lessons of the systems that have come before them. 
+
+I also hope that those who work on programming languages might find here support for the validity of the traditional concerns of programming language theory, and see the need to expand the vision to include the context in which programming takes place.
 
 Abstracting away the specifics of SSGs, the larger point is this: in my mind programming languages do two things, control the machine and provide a notation. 
 
