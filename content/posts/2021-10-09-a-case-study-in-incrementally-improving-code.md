@@ -113,7 +113,7 @@ Once we've setup the test suite we can proceed. I used [MUnit](https://scalameta
 
 ## Partial and Total Functions
 
-Let's now move on to deeper issues. I don't like the implementation of `findLowest`. There is some input for which it will crash---namely the empty list. In FP jargon we'd say it is a *partial function*, not a *total function*. The emtpy list case checked before it's called, but it easy for future modifications to break this.  We could use, say, Cats' `NonEmptyList` type to express that this function only works with non-empty lists, but it's not really appropriate to add a dependency in this context. We can, instead, rewrite `findLowest` to be a total function. 
+Let's now move on to deeper issues. I don't like the implementation of `findLowest`. There is some input for which it will crash---namely the empty list. In FP jargon we'd say it is a *partial function*, not a *total function*. The empty list case checked before it's called, but it easy for future modifications to break this.  We could use, say, Cats' `NonEmptyList` type to express that this function only works with non-empty lists, but it's not really appropriate to add a dependency in this context. We can, instead, rewrite `findLowest` to be a total function. 
 
 We can make `findLowest` a total function by adding an extra parameter, which is the current guess for the lowest number. With this we can write `findLowest` as a standard structural recursion and the compiler will stop complaining about our incomplete match. Here's the code (written with Scala 3 syntax).
 
