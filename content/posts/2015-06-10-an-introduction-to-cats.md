@@ -102,7 +102,7 @@ Like `Xor`, `Validated` has convenience constructors defined on the companion ob
 
 The standard way to combine `Validated` instances is using the `|@|` syntax. Here's an example.
 
-~~~ scalated, Xor}
+~~~ scala
 import cats.syntax.apply._ // For |@| syntax
 import cats.std.list._ // For semigroup (append) on List
 
