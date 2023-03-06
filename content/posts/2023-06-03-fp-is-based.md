@@ -6,6 +6,8 @@ Function programming is based[^1]; that is, based on principles that allow a *sy
 
 In this post I'm going illustrate this process with an example of summing the elements of a list, inspired by [this conversation](https://news.ycombinator.com/item?id=35031092). We'll mostly be looking at *algebraic data types* and *structural recursion* (which often uses *pattern matching*, but is not synonymous with it). I'm going to start with a quick overview of these concepts, and then see how they apply to the problem.
 
+<!-- more -->
+
 ## Algebraic Data Types
 
 Algebraic data types are data where individual elements are combined using logical ands and logical ors. For example, we could say a `User` data type consists of a name *and* an email address *and* a password, or that a `UserStatus` is active *or* banned *or* suspended. All languages I know of that have some way of declaring data having logical ands, but most lack logical ors[^2].
