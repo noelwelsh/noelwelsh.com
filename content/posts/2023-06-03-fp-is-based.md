@@ -2,27 +2,29 @@
 title = "Functional Programming is Based"
 +++
 
-Function programming is based[^1]; that is, based on principles that allow a *systematic* and *repeatable* process for creating software. As a working functional programmer this is one of the major advantages of FP. I can spend my mental cycles on understanding the problem, knowing that once I have done so the implementation follows in a straightforward way. The inverse also holds: if someone uses these principles to write code I can easily work out what problem it solves.
+Function programming is based[^1]; that is, based on principles that allow a *systematic* and *repeatable* process for creating software. In this post I'm going illustrate this process with an example of summing the elements of a list, inspired by [this conversation](https://news.ycombinator.com/item?id=35031092). We'll mostly be looking at *algebraic data types* and *structural recursion* (which often uses *pattern matching*, but is not synonymous with it). 
 
-In this post I'm going illustrate this with an example of summing the elements of a list, inspired by [this conversation](https://news.ycombinator.com/item?id=35031092). We'll mostly be looking at *algebraic data types* and *structural recursion* (which often uses *pattern matching*, but is not synonymous with it). I'm going to start with a quick overview of these concepts, and then see how they apply to the problem.
+For me, a working functional programmer, this process is one of the main advantages of FP. It mean I can spend my mental cycles on understanding the problem, knowing that once I have done so the implementation follows in a straightforward way. The inverse also holds: if someone uses these principles to write code I can easily work out what problem it solves.
 
 <!-- more -->
 
 ## Overview
 
-The main concepts we're going to look at are:
+The main concepts we'll discuss are:
 
 - algebraic data types, which builds up data; and
 - structural recursion, which tears down data.
 
-As the description suggests, they go together. If we use an algebraic data type to define data, we can then use structural recursion any time we want to manipulate that data.
+As the description suggests, they go together. If we use an algebraic data type to define data, we can then use structural recursion to manipulate that data. 
 
-These concepts some of the functional programming equivalents of [design patterns](https://en.wikipedia.org/wiki/Software_design_pattern) from the object-oriented world: they exist above the code and the representation in code often uses several language features. FP patterns, unlike OO patterns, usually have a formal definition. Formality adds precision, but formal definitions are not very approachable. In my presentation below I'll be relatively informal.
+We'll also see two reasoning principles for structural recursion, and we'll take a quick look at the process for converting a function into a tail recursive form.
+
+Functional programming has many of these concepts, which form the functional programming equivalent of [design patterns](https://en.wikipedia.org/wiki/Software_design_pattern) in the object-oriented world. Like OO design patterns, they exist above the code and the representation in code often uses several language features. Unlike OO patterns they usually have a formal definition. Formality adds precision, but formal definitions are not very approachable. In my presentation below I'll be quite informal.
 
 
 ## Algebraic Data Types
 
-Algebraic data types are data where individual elements are combined using logical ands and logical ors. For example, we could say a `User` data type consists of a name *and* an email address *and* a status. We might model say a `UserStatus` is active *or* banned *or* suspended. All languages I know of that have some way of declaring data having logical ands, but most lack logical ors[^2].
+Algebraic data types are data where individual elements are combined using logical ands and logical ors. For example, we could say a `User` data type consists of a name *and* an email address *and* a status. We might say a `UserStatus` is active *or* banned *or* suspended. All languages I know of that have some way of declaring data using logical ands, but most lack logical ors[^2].
 
 A (singly linked) list is one of the simplest examples of an interesting algebraic data type. A `List` with elements of type `A` is either:
 
@@ -77,12 +79,12 @@ enum List<A> {
 }
 ```
 
-We can also express algebraic data types in languages that don't directly support them. In this case we have to rely on conventions instead of having compiler support.
+We can also express algebraic data types in languages that don't directly support them. In this case we have to rely on conventions instead of language support.
 
 
 ## Structural Recursion
 
-Structural recursion is the complement to algebraic data types. Algebraic data types tell us how to construct data. Structural recursion tells us how to transform that data into something else. In other words, how to deconstruct data and do something with it. Any time we are working with an algebraic data type we can use structural recursion.
+Structural recursion is the complement to algebraic data types. Algebraic data types tell us how to construct data. Structural recursion tells us how to transform that data into something else. In other words, how to deconstruct data. Any time we are working with an algebraic data type we can use structural recursion.
 
 Structural recursion is often implemented using pattern matching, but pattern matching is not synonymous with structural recursion. We can implement structural recursion in other ways, and implement things that are not structural recursion using pattern matching. I'm going to use pattern matching in the example here, but keep this point in mind.
 
@@ -149,7 +151,7 @@ To finish the implementation we can use two principles for reasoning about struc
 1. we can consider each case independently; and
 2. we can assume any recursive calls will return the correct value.
 
-Recall our starting point:
+Starting with the code
 
 ```scala
 def sum(list: List[Int]): Int =
@@ -159,7 +161,7 @@ def sum(list: List[Int]): Int =
   }
 ```
 
-Let's first look at the case for `Empty`. Remember we can consider it independently of the `Pair` case. So we simply need to ask ourselves "what is the `sum` of the empty list?" Zero is the only sensible answer here.
+we'll first look at the case for `Empty`. Remember we can consider it independently of the `Pair` case. So we simply need to ask ourselves "what is the `sum` of the empty list?" Zero is the only sensible answer here.
 
 ```scala
 def sum(list: List[Int]): Int =
@@ -225,17 +227,24 @@ This explanation could do with more detail. I've skipped over the definition of 
 
 ## Conclusions
 
+We've seen the following:
+
+- algebraic data types for modelling data expressed in terms or logical ands and ors;
+- structural recursion for transforming algebraic data types;
+- reasoning principles for completing structural recursions; and
+- conversion to tail recursive form.
+
 There is a lot in this simple example. The most important point is that there is a process that explains every step of creating the method we're after. This same process scales up to complex problems like compilers and [graphics](https://github.com/creativescala/doodle/blob/main/image/shared/src/main/scala/doodle/image/Image.scala). This is a contrast to how I was taught imperative programming, and I think most programmers think about code, which is as a random collection of language features that combine in some ineffable way to produce working programs. In the context of the conversation that motivated this post, there is no need to even think about things like early returns. They simply aren't a concept that is needed when you can produce working code using the patterns I've described.
 
-The second point is applicable to languages like Python that are adding pattern matching. The real benefit, in my opinion, is not pattern matching as a language feature on its own but pattern matching as a tool for implementing structural recursion. This usually comes with compiler support for checking that all cases have patterns, known as exhaustivity checking. It is a mistake to think of functional programming as a collection of language features. The language features are in service to deeper ideas. 
+The second point is applicable to languages that are adding "functional programming" features. For example, Python has recently added pattern matching. The real benefit of pattern matching, in my opinion, is not as a language feature on its own but as a tool for implementing structural recursion. This usually comes with compiler support for checking that all cases have patterns, known as exhaustivity checking. It is a mistake to think of functional programming as a collection of language features. The language features are in service to deeper ideas. 
 
-The third point is that functional programming is full of great stuff like this. The academic community has mostly done a terrible job communicating it to industry. For example, I believe algebraic data types and structural recursion were first explored in the antecedents of [Functional Programming with Bananas, Lenses, Envelopes and Barbed Wire](https://ris.utwente.nl/ws/files/6142047/db-utwente-40501F46.pdf). This paper has some of the most opaque notation I've ever read, and does a incredibly poor job of conveying incredibly interesting ideas. A notable exception is [How to Design Programs](https://htdp.org/), which presents the algebraic data types and structural recursion in a way that completely new programmers can understand.
+The third point is that functional programming is full of great stuff like this. The academic community has mostly done a terrible job communicating it to industry. For example, I believe algebraic data types and structural recursion were first explored in the antecedents of [Functional Programming with Bananas, Lenses, Envelopes and Barbed Wire](https://ris.utwente.nl/ws/files/6142047/db-utwente-40501F46.pdf). This paper has some of the most opaque notation I've ever read, and does a incredibly poor job of conveying incredibly interesting ideas. A notable exception is [How to Design Programs](https://htdp.org/), which presents algebraic data types and structural recursion in a way that completely new programmers can understand. I believe that making these patterns more accessible is the next step in the growth of functional programming.
 
 
 [^1]: "Based" is a term for something that is good or true, according to my children.
 
-[^2]: Go is a great example of the problems caused by the absence of logical ors. In Go a function returns a success *and* and error value, when functions should really return success *or* error values. This design forces Go to include a null value, the billion dollar mistake, because functions need to return some value for the success case even when an error means there is no sensible value to return. Algebraic data types were fully formed by [1983 when Standard ML was created](https://smlfamily.github.io/history/SML-history.pdf), while development on Go started 24 years later in 2007. One of the "primary considerations" for Go is ["it must be modern"](https://go.dev/talks/2012/splash.article#TOC_6.).
+[^2]: Go is a great example of the problems caused by the absence of logical ors. Go functions return a success *and* an error value. The logical design would be to have function returning success *or* error values. Go's design forces it to include a null value, the billion dollar mistake, because there needs to be some value to return for the success case when an error means there is no sensible value to return. Algebraic data types were fully formed by [1983 when Standard ML was created](https://smlfamily.github.io/history/SML-history.pdf), while development on Go started 24 years later in 2007. One of the "primary considerations" for Go is ["it must be modern"](https://go.dev/talks/2012/splash.article#TOC_6.).
 
 [^3]: There is an annoying irregularity in Scala 3's syntax. For a case inside an `enum` we write what is given, but outside an `enum` we use a `final case class` instead.
 
-[^4]: The full transform is known as continuation passing style as it a bit more complex than what I present here.
+[^4]: The full transform is known as continuation passing style and is a bit more complex than what I present here.
