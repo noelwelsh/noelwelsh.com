@@ -4,7 +4,7 @@ title = "Functional Programming is Based"
 
 Function programming is based[^1]; that is, based on principles that allow a *systematic* and *repeatable* process for creating software. In this post I'm going illustrate this process with an example of summing the elements of a list, inspired by [this conversation](https://news.ycombinator.com/item?id=35031092). We'll mostly be looking at *algebraic data types* and *structural recursion* (which often uses *pattern matching*, but is not synonymous with it). 
 
-For me, a working functional programmer, this process is one of the main advantages of FP. It mean I can spend my mental cycles on understanding the problem, knowing that once I have done so the implementation follows in a straightforward way. The inverse also holds: if someone uses these principles to write code I can easily work out what problem it solves.
+For me, a working functional programmer, this process is one of the main advantages of FP. It means I can spend my mental cycles on understanding the problem, knowing that once I have done so the implementation follows in a straightforward way. The inverse also holds: if someone uses these principles to write code I can easily work out what problem it solves.
 
 <!-- more -->
 
