@@ -2,11 +2,11 @@
 title = "Scala with Cats, Creative Scala, and Scala 3"
 +++
 
-I'm rewriting my books to include new material and target Scala 3. I'm opening [sponsors][sponsor] to defray the costs.
+I'm rewriting my books to include new material and target Scala 3. I'm opening [sponsors][sponsor] so you can encourage me to finish faster.
 
 <!-- more -->
 
-# The Books
+## The Books
 
 I have written three books on Scala:
 
@@ -22,7 +22,7 @@ As before, my books will focus on core concepts that apply well beyond Scala and
 Here's a summary of what I'm planning to put into each book, and the rationale behind my choices.
 
 
-## Creative Scala
+### Creative Scala
 
 
 The next version of Creative Scala will amalgamate and improve on the material in both Creative Scala and Essential Scala. So what's wrong with the existing books? The biggest problem with the current version of Creative Scala is that it's unfinished. Anyone who has read the book knows it falls apart towards the end. There are also issues with the presentation in some sections. Essential Scala is reasonably solid in the material it covers, but lacks good case studies that show the concepts in context. Finally, both books need to be updated to Scala 3.
@@ -44,7 +44,7 @@ The fourth and final part will implement a simple language, a classic case study
 Finally, Creative Scala will be a web first book. I am using animations, and will use other interactive elements in the future, that printed formats like PDF do not support.
 
 
-## Scala with Cats
+### Scala with Cats
 
 Scala with Cats is aimed at experienced Scala developers who want to take the next step to building really usable libraries and other infrastructure in Scala.
 
@@ -64,19 +64,19 @@ It will all be wrapped up in some chunky case studies, an example of which is [t
 Scala with Cats will remain a print first book, meaning the PDF output will be the primary target.
 
 
-# Video
+## Video
 
 The kids these days do like them some video. I think video is a pretty bad medium for learning in general, but there are some cases where it is really shines. Demonstrating tool use and development process is one example. As such, I have a vague plan to make some videos once the text is complete. Now get off my lawn.
 
 
-# Cool Story, Bro
+## Cool Story, Bro
 
 Talk is cheap. When is it going to be ready?
 
 New material for Creative Scala is [already online](https://creativescala.org/creative-scala), though there is a lot of mess to clean up. For the last few months I've been working solely on Creative Scala. I'm now decreasing my time on Creative Scala and starting work on Scala with Cats.
 
 
-# Fat Stacks
+## Fat Stacks
 
 I've setup [Github sponsors][sponsor] to attempt to collect some money for these efforts. Writing books takes a lot of time, which could be spent on client work. If these books are valuable to you, please consider sponsoring.
 
