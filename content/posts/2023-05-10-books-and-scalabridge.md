@@ -1,4 +1,4 @@
-#+++
++++
 title = "Scala with Cats, Creative Scala, and Scala 3"
 +++
 
