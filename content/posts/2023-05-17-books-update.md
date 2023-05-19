@@ -82,4 +82,4 @@ I've setup [Github sponsors][sponsor] to attempt to collect some money for these
 
 
 [sicp]: https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html
-[sponsor]: https://github.com/sponsors/noelwelsh
+[sponsor]: https://github.com/sponsors/creativescala
