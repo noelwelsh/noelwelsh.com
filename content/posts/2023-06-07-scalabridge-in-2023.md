@@ -4,6 +4,8 @@ title = "ScalaBridge in 2023"
 
 [ScalaBridge London](https://www.scalabridgelondon.org/) is a community for learning Scala, for people who are underrepresented in technology. We last met in 2020, stopping when COVID made it impossible to continue. I want to restart ScalaBridge London. Here's the plan. If you'd like to take part, please [signup].
 
+<!-- more -->
+
 ## Meetings
 
 We will continue to meet once every two weeks, but I'd like to alternate between in-person and online events. They have different advantages: in-person builds community and makes teaching easier, but online is more accessible and trivial to organize. It seems sensible to at least experiment with both.
