@@ -33,4 +33,4 @@ I'd prefer to go with option 2, as I think it will make the program more sustain
 Whatever we do has to work for everyone involved, so anything here is subject to change if something else works better for the group. [Signup][signup] if you're interested in taking part as either a student or a mentor, and join the [Slack][slack] to discuss.
 
 [signup]:https://docs.google.com/forms/d/e/1FAIpQLSe3b3MY9I9hRPXUMijVQZP2aQHt09d0shr6uo10ULPlBtxHOg/viewform 
-[slack]:https://scalabridge-invite.herokuapp.com/ 
+[slack]:https://join.slack.com/t/scalabridge/shared_invite/zt-1wrlq3vue-8E4Liz0ySRJKHKzqZupluQ
