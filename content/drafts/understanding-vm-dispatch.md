@@ -1,5 +1,10 @@
 # Understanding Virtual Machine Dispatch 
 
+For the next edition of [Scala with Cats](https://www.scalawithcats.com/) I'm writing a section on implementing interpreters, which are the main implementation technique for domain specific languages (DSLs).
+Domain specific programming languages arise any time there is a distinction between the description of what should happen and that description being carried out. 
+Something as common as a request matching library, which almost every web framework includes, is a little DSL. 
+DSLs are particularly common in the world of functional programming, because they are the means for handling effects while keeping desirable code properties of composition and reasoning. 
+Examples include [Cats Effect](https://typelevel.org/cats-effect/) and my own [Doodle](https://www.creativescala.org/doodle/).
 
 Duality means properties of one structure can be directly translated to another structure. 
 There are many dualities in programming, which allows us to see different code structures as alternative implementations of some underlying concept. For example, function calls are dual to function returns. If we have a function that returns a value
@@ -72,6 +77,9 @@ enum ByteCode {
 ```
 
 Notice that the majority of operations have no parameters: these values come from the stack. In a register machine, the operations would have to specify registers where they find their parameters and the register where they store results.
+
+
+## Interpreter Dispatch
 
 The core of a bytecode interpreter is instruction dispatch: choosing the action to take given an instruction. Instruction dispatch has three components:
 
@@ -265,7 +273,7 @@ case object Div extends Op {
 }
 ```
 
-There is one variant left, which is to keep the instructions as bytecode data but use tail calls in instruction dispatch. This gives us indirect threading.
+There is one variant left, which is to keep the instructions as bytecode data but use tail calls in instruction dispatch. This gives us indirect threaded dispatch.
 
 ```scala
 val instructions: Array[ByteCode] = ???
@@ -336,3 +344,10 @@ def dispatch(instruction: ByteCode): Unit = {
   }
 }
 ```
+
+We've seen the four main variants of dispatch can all be explained from considering dualities between data and functions for instructions and calls and returns for looping:
+
+- data / call and return: switch dispatch
+- data / tail call: indirect threaded dispatch
+- function / call and return: subroutine dispatch
+- function / tail call: direct threaded dispatch
