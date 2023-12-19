@@ -1,7 +1,11 @@
-# Understanding Virtual Machine Dispatch 
++++
+title = "Understanding Virtual Machine Dispatch through Duality"
++++
 
 For the next edition of [Scala with Cats][scala-with-cats] I'm writing a section on implementing interpreters.
 In my research I ended up going fairly deep down the rabbit hole of optimizations, in which virtual machine dispatch is a major area. There are many different approaches to dispatch, and I struggled to relate them until I realized they were all variations on a basic structure that resulted from applying the principle of duality. Duality is one of the major themes of the book, so I was happy to make this discovery. However I think going deep into optimization is not appropriate for the book so I'm writing this up here instead.
+
+<!-- more -->
 
 I'm going to first describe duality, then give context on interpreters and virtual machines, before moving on to the application of duality in virtual machine dispatch.
 
