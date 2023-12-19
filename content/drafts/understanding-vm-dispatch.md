@@ -1,6 +1,9 @@
 # Understanding Virtual Machine Dispatch 
 
-For the next edition of [Scala with Cats](https://www.scalawithcats.com/) I'm writing a section on implementing interpreters, which are the main implementation technique for domain specific languages (DSLs).
+For the next edition of [Scala with Cats](https://www.scalawithcats.com/) I'm writing a section on implementing interpreters.
+I ended up going fairly deep down the rabbit hole of optimization. Virtual machine dispatch is a major area of optimization, with many different approaches. I struggled to relate these different approaches, until I realized they were all variations on a basic structure that resulted from applying the principle of duality. Duality is one of the major themes of the book, so I was happy to 
+
+, which are the main implementation technique for domain specific languages (DSLs).
 Domain specific programming languages arise any time there is a distinction between the description of what should happen and that description being carried out. 
 Something as common as a request matching library, which almost every web framework includes, is a little DSL. 
 DSLs are particularly common in the world of functional programming, because they are the means for handling effects while keeping desirable code properties of composition and reasoning. 
