@@ -1,16 +1,15 @@
 # Understanding Virtual Machine Dispatch 
 
 For the next edition of [Scala with Cats](https://www.scalawithcats.com/) I'm writing a section on implementing interpreters.
-I ended up going fairly deep down the rabbit hole of optimization. Virtual machine dispatch is a major area of optimization, with many different approaches. I struggled to relate these different approaches, until I realized they were all variations on a basic structure that resulted from applying the principle of duality. Duality is one of the major themes of the book, so I was happy to 
+In my research I ended up going fairly deep down the rabbit hole of optimizations, in which virtual machine dispatch is a major area. There are many different approaches to dispatch, and I struggled to relate them until I realized they were all variations on a basic structure that resulted from applying the principle of duality. Duality is one of the major themes of the book, so I was happy to make this discovery, and, since I haven't found in mentioned anywhere else but it isn't really appropriate for the book, decided to write it up here.
 
-, which are the main implementation technique for domain specific languages (DSLs).
-Domain specific programming languages arise any time there is a distinction between the description of what should happen and that description being carried out. 
-Something as common as a request matching library, which almost every web framework includes, is a little DSL. 
-DSLs are particularly common in the world of functional programming, because they are the means for handling effects while keeping desirable code properties of composition and reasoning. 
-Examples include [Cats Effect](https://typelevel.org/cats-effect/) and my own [Doodle](https://www.creativescala.org/doodle/).
+I'm going to first describe duality, then give context on interpreters and virtual machines, before moving on to the application of duality in virtual machine dispatch.
 
-Duality means properties of one structure can be directly translated to another structure. 
-There are many dualities in programming, which allows us to see different code structures as alternative implementations of some underlying concept. For example, function calls are dual to function returns. If we have a function that returns a value
+
+## Duality
+
+Duality means we can make a direct correspondence between one structure and another structure. 
+There are many dualities in programming, which allows us to see different code structures as alternative implementations of some underlying concept. For example, function calls are dual to function returns. If we have a function that returns a value, like `f` in
 
 ```scala
 val f: Int => Int = x => x + 40
@@ -29,7 +28,7 @@ val f: (Int, Int => Int) => Int =
 val b = f(2, a => a * 2)
 ```
 
-Call backs / continuation passing style.
+You may recognize this second style as programming with callbacks, and if you're a programming language theory person you recognize it as continuation passing style.
 
 Duality doesn't mean two things are identical. Although the two examples above compute the same result they differ in other ways. The obvious difference is that in the second example the function `f` has two parameters. There is another difference. Function calls consume a stack frame, which a subsequent return frees. If we replace returns with calls we'll never free any stack frames and so eventually run out. This leads us to tail calls.
 
