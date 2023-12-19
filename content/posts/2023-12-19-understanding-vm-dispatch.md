@@ -12,7 +12,7 @@ I'm going to first describe duality, then give context on interpreters and virtu
 
 ## Duality
 
-Duality means we can make a direct correspondence between one structure and another structure, which in turn allows us to apply what we know from one structure to the other.
+Duality, in mathematics, means making a direct correspondence between one structure and another structure. This in turn allows us to apply what we know from one structure to the other.
 There are many dualities in programming, which allows us to see different code structures as alternative implementations of some underlying concept. For example, function calls are dual to function returns. If we have a function that returns a value, like `f` in
 
 ```scala
@@ -52,7 +52,7 @@ def h(x: Int): Int = x / 2
 def g(x: Int): Int = h(x) + 4
 ```
 
-Tail calls will be important is what comes later. To make them explicit I'll going to use a `tailcall` keyword to explicitly indicate them. So I'll write
+Tail calls will be important is what comes later. To make them explicit I'll going to invent a `tailcall` keyword to explicitly indicate them. So I'll write
 
 ```scala
 def g(x: Int): Int = tailcall f(x + 42)
