@@ -150,7 +150,7 @@ def dispatch(sp: Int, ip: Int): Unit = {
 
 ## Dispatch Through the Lens of Duality
 
-The usual presentation of alternatives to switch dispatch (direct threading, indirect threading, and so on) in my opinion confuses the code level realization and the conceptual level. For example, discussion of direct threading often talks about labels-as-values, a GCC extension. The differences between dispatch methods only became clear to me when I saw them as different realizations of the three components making up dispatch that utilized the dualities I've described earlier.
+The usual presentation of alternatives to switch dispatch (direct threading, indirect threading, and so on; we'll see them in a moment) in my opinion confuses the code level realization and the conceptual level. For example, discussion of direct threading often talks about labels-as-values, a GCC extension. The differences between dispatch methods only became clear to me when I saw them as different realizations of the three components making up dispatch that utilized the dualities I've described earlier.
 
 Starting with switch dispatch described above, let's replace the bytecode instructions with functions that carry out the instructions, using the duality between data and functions. This gives us code like the following (where I'm leaving out bits that are unchanged from the previous code.)
 
@@ -353,6 +353,9 @@ def dispatch(instruction: ByteCode): Unit = {
 }
 ```
 
+
+## Conclusions
+
 We've seen the four main variants of dispatch can all be explained by considering dualities between data and functions for instructions and calls and returns for looping:
 
 - data / call and return: switch dispatch
@@ -360,12 +363,9 @@ We've seen the four main variants of dispatch can all be explained by considerin
 - function / call and return: subroutine dispatch
 - function / tail call: direct threaded dispatch
 
-
-## Conclusions
-
 To me using duality to understand these different techniques is very satisfying. It means I can keep one mental model that is realized in different ways depending on the programming language features available. For example, if I have full tail calls (or some equivalent, like labels-as-values) then I can implement direct threaded dispatch. Without full tail calls, perhaps I use subroutine threaded dispatch instead (which I can view of as trampolining direct threaded dispatch, but that's a slightly different story.) In this conceptual approach resonates with you, I encourage you to signup for the [book's newsletter][scala-with-cats], where I'm sharing copies of the second edition.
 
-You may also wonder about performance. I'm my experiments, subroutine dispatch is about sixty thousand times (yes, really) faster than switch dispatch for a very simple benchmark. If you're interested in the code, I have a [repository][stack-machine] with all the experiments I tried. I'm still exploring these performance differences, but my best guess is that subroutine threaded dispatch is easier for the Hotspot compiler to optimize, which brings far larger performance improvements than anything that interpreter optimizations can bring. Writing an interpreter to work with a JIT compiler is itself an interesting problem, and one that seems under-explored, but that's a topic for a different post.
+You may also wonder about performance. I'm my experiments subroutine dispatch is about sixty thousand times (yes, really) faster than switch dispatch for a very simple benchmark. If you're interested in the code, I have a [repository][stack-machine] with all the experiments I tried. I'm still exploring these performance differences, but my best guess is that subroutine threaded dispatch is easier for the Hotspot compiler to optimize, which brings far larger performance improvements than anything that interpreter optimizations can bring. Writing an interpreter to work with a JIT compiler is itself an interesting problem, and one that seems under-explored, but that's a topic for a different post.
 
 [scala-with-cats]: https://www.scalawithcats.com/
 [stack-machine]: https://github.com/scalawithcats/stack-machine
