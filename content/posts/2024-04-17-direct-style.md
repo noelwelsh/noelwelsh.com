@@ -9,11 +9,45 @@ What are direct-style effects, why should we care about them, and if we do care 
 
 ## What We Care About
 
-When we argue for one programming style over alternatives we are making a value judgement about programming. It is helpful to be explicit about what those values are. As I've written [elsewhere][fp], I believe the core values of functional programming are **reasoning** and **composition**. 
+When we argue for one programming style over alternatives we are making a value judgement about programming. It is helpful to be explicit about what those values are. As I've written [elsewhere][fp], I believe the core values of functional programming are **reasoning** and **composition**. Side effects stop us achieving both of these, but every useful program must interact with the world in some way. Therefore, replacing side effects with something more manageable is a core problem in functional programming. (If you're uncertain what is meant by a side effect, [this chapter of Creative Scala][substitution] goes into detail.)
 
-Side effects hinder both reasoning and composition. I've written [extensively][side-effects] about this, so I won't repeat myself. Simply avoiding all effects is not a solution, as all useful programs must interact with the outside world. Hencing managing side effects are a core problem in functional programming. 
+Nota bene: in this post I use the term *side effect* for uncontrolled effects, and just *effect* for effects that are controlled in a more desireable way.
 
-Perhaps the oldest approach to managing effects is purely architectural: pushing effects "to the edges" so that the core of the program still retains desireable properties. Many language-oriented solutions have also been tried. Haskell used streams for IO in the distant past, but they do not compose well. Clean has uniqueness types. Around 1995 monads were discovered and made their way in Haskell. The `IO` monad has been the dominant approach in functional programming since. This doesn't mean research has stopped. Effect systems are a newer approach that may replace monads, and what this post is about. Rust's affine types can be seen as a limited form of effect system.
+Monads are the most common approach to managing effects in modern functional programming, but this doesn't mean they are the only approach. Older versions of Haskell used streams instead. The [Clean][clean] language uses uniqueness types, which are very closely related to the affine types seen in Rust's borrow checker. Most current research work focuses on what are called *algebraic effects* and *effect handlers*, and these are generally known as *effect systems*.
+
+Our goals in this post are:
+
+1. to describe the main goals and requirements of an effect system;
+2. to show how we can implement an effect system in Scala 3; and
+3. to point at what's needed to get a full effect system in Scala 3.
+
+
+## What We Need and What We Want
+
+Our overriding goals are reasoning and composition, and these have several implications on the design of any approach to handling effects.
+
+The first thing we must have is a separate between describing the effects that should occur, and actually carrying out those effects. This is a requirement of composition. Consider perhaps the simplest effect in any programming language: printing to the console. In Scala we can accomplish this as a side effect with `println`:
+
+```scala
+println("OMG, it's an effect")
+```
+
+Imagine we want to compose the effect of printing to the console with the effect that changes the color of the text on the console. With the `println` side effect we cannot do this. Once we call `println` the output is already printed; there is no opportunity to change the color.
+
+Let me be clear that the goal is *composition*. We can certainly use two side effects that happen to occur in the correct order to get the output with the color we want.
+
+```scala
+println("\u001b[91m") // Color code for bright red text
+println("OMG, it's an effect")
+```
+
+However this is not the same thing as composing an effect that combines these two effects. For example, the example above doesn't reset the foreground color so all subsequent output will be bright red. This is the classic problem of side effects: they are non-compositional and thus hard to reason about. What we really want is to write code like
+
+```scala
+Effect.println("OMG, it's an effect").foregroundBrightRed
+```
+
+which we can only do if we have a separation between describing the effect, as we have done above, and actually running it.
 
 
 ## Dirct Style and Other Styles
@@ -77,5 +111,6 @@ Before we get into effect systems, there another issue I want to quickly deal wi
 
 ## Effect Systems
 
-[fp]:
-[side-effects]:
+[fp]: https://noelwelsh.com/posts/what-and-why-fp/
+[substitution]: https://www.creativescala.org/creative-scala/substitution/index.html
+[clean]: https://wiki.clean.cs.ru.nl/Language_features
