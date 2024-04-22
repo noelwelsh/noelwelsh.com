@@ -184,7 +184,7 @@ object Sample {
 }
 ```
 
-We have the usual separation between description and action. In direct-style code, a description is a [context function][context-function]. You can think of a context function as a normal with given (implicit) parameters. In our case the descriptions have the type `Sample[A]`, which is an alias for a context function with a `Random` given parameter. `Random` is the type of random number generators in the Scala standard library. Creating a random number is a stateful operation, and therefore an effect.
+We have the usual separation between description and action. In direct-style code, a description is a [context function][context-function]. You can think of a context function as a normal function with given (implicit) parameters. In our case the descriptions have the type `Sample[A]`, which is an alias for a context function with a `Random` given parameter. `Random` is the type of random number generators in the Scala standard library. Creating a random number is a stateful operation, and therefore an effect.
 
 Context function types have a special rule that makes constructing them easier.
 The rule is that a normal expression will be converted to an expression that produces a context function if the type of the expression is a context function.
