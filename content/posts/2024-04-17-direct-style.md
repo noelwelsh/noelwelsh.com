@@ -25,6 +25,7 @@ Monads are the most common effect system in modern functional programming, but t
 
 Now we known why effect systems are interesting, let's look at some of the design choices in effect systems.
 
+
 ## The Design Space of Effect Systems
 
 Reasoning and composition are non-negotiable criteria for any effect system. 
@@ -305,7 +306,7 @@ Scala 3 does not yet have continuations, but it does have non-local exits in `sc
 import scala.util.boundary
 import scala.util.boundary.{break, Label}
 
-trait Error[A](using label: Label[A]) {
+trait Error[-A](using label: Label[A]) {
   def raise(error: A): Nothing =
     break(error)
 }
@@ -348,14 +349,17 @@ Using direct-style effects we can write programs that would have to use `travers
 val traverse: Raise[Option[List[Int]]] =
   Raise {
     Some(
-      List(1, 2, 3, 4).map(x =>
-        if x == 3 then Raise.raise(None: Option[List[Int]]) else x
-      )
+      List(1, 2, 3, 4).map(x => if x == 3 then Raise.raise(None) else x)
     )
   }
+println(Raise.run(traverse))
+```
 
-val option: Option[List[Int]] = Raise.run(traverse)
-println(option)
+This is the equivalent of the following program using Cats:
+
+```scala
+val traverseCats: Option[List[Int]] =
+  List(1, 2, 3, 4).traverse(x => if x == 3 then None else Some(x))
 ```
 
 You might wonder how monads implement effects that play with control flow without requiring runtime support. The answer is that monads require the user to explicitly specify the control-flow. This is exactly what `flatMap` does: it expresses what should happen in what order, and by giving the monad this information as a chain of `flatMaps` it can evaluate them in the order that makes sense for the particular monad implementation.
