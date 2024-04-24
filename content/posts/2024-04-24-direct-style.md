@@ -429,6 +429,8 @@ If you'd like to read more about direct-style effects here are some suggestions,
 * [Handlers in Action][handlers-in-action] is one of the more readable academic papers on implementing effect handlers.
 * [Capturing Types][capturing-types] describes the extensions to the Scala type system that are necessary for correctly implementing effects.
 
+Finally, if you've found this interesting I think you'll love my book, [Functional Programming Strategies][fps]. It covers lots of the concepts in this post, such as continuation-passing style and interpreters, and a whole lot more.
+
 [fp]: https://noelwelsh.com/posts/what-and-why-fp/
 [substitution]: https://www.creativescala.org/creative-scala/substitution/index.html
 [clean]: https://wiki.clean.cs.ru.nl/Language_features
@@ -445,3 +447,4 @@ If you'd like to read more about direct-style effects here are some suggestions,
 [cc]: https://dotty.epfl.ch/docs/reference/experimental/cc
 [vm-dispatch]: https://noelwelsh.com/posts/understanding-vm-dispatch/
 [handlers-tutorial]: https://www.eff-lang.org/handlers-tutorial.pdf
+[fps]: https://scalawithcats.com/
