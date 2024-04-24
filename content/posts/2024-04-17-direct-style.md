@@ -1,5 +1,5 @@
 +++
-title = "Direct-style Effects in Scala"
+title = "Direct-style Effects Explained"
 +++
 
 Direct-style effects, also known as algebraic effects and effect handlers, are the next big thing in programming languages. They are already available in [Unison][unison-effects] and [OCaml][ocaml-effects], are coming to [Scala][direct-style-scala], and I'm seeing discussion about them in other [closely-related-to-industry contexts][coroutines-and-effects]. 
