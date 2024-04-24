@@ -2,9 +2,9 @@
 title = "Direct-style Effects in Scala"
 +++
 
-Direct-style effects, sometimes known as algebraic effects and effect handlers, are the next big thing in programming languages. They are already available in [Unison][unison-effects] and [OCaml][ocaml-effects], are coming to [Scala][direct-style-scala], and I'm seeing discussion about them in other [closely-related-to-industry contexts][coroutines-and-effects]. At the same time I see [some][tweet-1] [confusion][tweet-2] about the approach. In this post I want to address this confusion.
+Direct-style effects, also known as algebraic effects and effect handlers, are the next big thing in programming languages. They are already available in [Unison][unison-effects] and [OCaml][ocaml-effects], are coming to [Scala][direct-style-scala], and I'm seeing discussion about them in other [closely-related-to-industry contexts][coroutines-and-effects]. 
 
-We'll start by describing the problem effect systems are addressing, followed by important criteria in designing effect systems. We'll then see how we can create a simple direct-style effect system in Scala 3. We'll finish by addressing some outstanding issues with our design and give pointers to more.
+At the same time I see [some][tweet-1] [confusion][tweet-2] about direct-style effects. In this post I want to address this confusion by explaining the what, the why, and the how of direct-style effects using a Scala 3 implementation as an example. There is quite a bit going on here. First we'll talk about the problem we're trying to solve and the constraints we're operating under. Then we'll look at a simple implementation in Scala 3 and describe the language feature, contextual functions, that enables it. Next up we'll see some shortcomings of this implementation and see how they can solved by two language features, one well known (delimited continuations) and one in development (type system innovations). Finally I'll give some pointers to more about information on this topic.
 
 <!-- more -->
 
