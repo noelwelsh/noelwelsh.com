@@ -55,7 +55,17 @@ doSomething(a)
   .flatMap(c => doSomething(c))
 ```
 
-This isn't too bad. Lots of developers have written code like this. However, it's still a different style of coding that has been learned, and hence a barrier to entry. It's also a virus. Once one part of our code start using monads, it quickly infects the rest of our code and forces us to transform it into monadic style. So ideally an alternative effect system would allow us to continue to write in direct style.
+This is considered annoying enough that languages that support monads usually provide special syntax for them. In Scala we can write
+
+```scala
+for {
+  b <- doSomething(a)
+  c <- doSomething(b)
+  d <- doSomething(c)
+} yield d
+```
+
+This isn't too bad. Lots of developers have written code like this. However, it's still a different style of coding that has been learned, and hence a barrier to entry. It's also a whole program transform. Once one part of our code start using monads, it is usually the case that all of our code has to be transformed to monadic style. So ideally an alternative effect system would allow us to continue to write in direct style.
 
 
 ### Description and Action
@@ -127,16 +137,16 @@ cancelOrRecover(cthulhuFhtagn())
 
 We cannot do this in the first case that uses side-effects.
 
-Before we get into effect systems, there another issue I want to quickly deal with, which is composition of effects. One criticism of `IO` is that it lumps all effects into one type. We might want to be more precise, and say, for example, *this* method requires logging and database access, while *that* method reads from the keyboard and prints to the screen. Tagless final is sometimes used to achieve this. The method signature
+Before we get into effect systems, there another issue I want to quickly deal with, which is composition of effects. One criticism of `IO` is that it lumps all effects into one type. We might want to be more precise, and say, for example, *this* method requires logging and database access, while *that* method reads from the keyboard and prints to the screen. Monad transformers are one way to achieve this, but they are difficult to use. A more common alternative is tagless final. The method signature
 
 ```scala
 def cthulhuFhtagn[F[_]: WakeGreatOldOne](): F[Unit]
 ```
 
-indicates this method requires a `WakeGreatOldOne` effect, which we might use to decide to not call the method.
+indicates this method requires a `WakeGreatOldOne` effect, which we might use to decide to not call the method. Tagless final is also inconvenient, but not so inconvenient to stop becoming relatively common in the Scala world.
 
 
-## Direct-style Effect Systems
+## Direct-style Effect Systems in Scala 3
 
 Let's now implement a direct-style effect system in Scala 3. This requires some machinery that is new in Scala 3. Since that's probably unfamiliar to many readers we're going to start with an example, explain the programming techniques behind it, and then explain the concepts it embodies.
 
@@ -199,7 +209,8 @@ object Print {
 }
 ```
 
-We have the usual separation between description and action. In direct-style code, a description is a [context function][context-function]. You can think of a context function as a normal function with `given` (implicit) parameters. In our case the descriptions have the type `Print[A]`, which is an alias for a context function with a `Console` given parameter. (`Console` is a type in the Scala standard library.)
+A `Print[A]` is a description: a program that when run may print to the console and also compute a value of type `A`.
+It is implemented as a [context function][context-function]. You can think of a context function as a normal function with `given` (implicit) parameters. In our case a `Print[A]` is a context function with a `Console` given parameter. (`Console` is a type in the Scala standard library.)
 
 Context function types have a special rule that makes constructing them easier: a normal expression will be converted to an expression that produces a context function if the type of the expression is a context function.
 Let's unpack that by seeing how it works in practice.
@@ -221,7 +232,7 @@ This will not compile.
 
 We use the same trick with `Print.apply`, which is a general purpose constructor. You can call `apply` with any expression and it will be converted to a context function. (As far as I know it is not essential to use `inline`, but all the examples I learned from do this so I do it as well. I assume it is an optimization.)
 
-Direct-style composition needs another bit of special sauce: if there is given value of the correct type in scope of a context function, that values will be automatically applied to the function. This is what makes direct-style composition, an example of which is shown below, work. The calls to `Print.print` are in a context where a `Console` is available, and so will be evaluated once the surrounding context function is run.
+Running a `Print[A]` uses another bit of special sauce: if there is given value of the correct type in scope of a context function, that given value will be automatically applied to the function. This is also what makes direct-style composition, an example of which is shown below, work. The calls to `Print.print` are in a context where a `Console` is available, and so will be evaluated once the surrounding context function is run.
 
 ```scala
 def red: Print[A] =
@@ -235,7 +246,7 @@ def red: Print[A] =
 
 That's the mechanics of how direct-style effect systems work in Scala: it all comes down to context functions.
 
-I'm going to deal with composition of effects and more in just a bit. First though, I want describe the concepts behind what we've done.
+I'm going to deal with composition of different effects and more in just a bit. First though, I want describe the concepts behind what we've done.
 
 Notice in direct-style effects we split effects into two parts: context functions that define the effects we need, and the actual implementation of those effects. In the literature these are called algebraic effects and effect handlers respectively. This is an important difference from `IO`, where the same type indicates the need for effects and provides the implementation of those effects.
 
@@ -260,7 +271,7 @@ object Sample {
   // This runs a `Sample[A]` producing a value of type `A`. By default it uses
   // the global random number generator, but the user can pass in a different
   // generator as the first argument.
-  def run[A](random: Random = scala.util.Random)(sample: Sample[A]): A = {
+  def run[A](sample: Sample[A])(using random: Random = scala.util.Random): A = {
     given r: Random = random
     sample
   }
@@ -288,17 +299,22 @@ val printSample: (Console, Random) ?=> Unit =
     Print.println(i)
   }
 
-Print.run(Sample.run()(printSample))
+Print.run(Sample.run(printSample))
 ```
 
 
 ### Effects That Change Control Flow
 
-So far, the effects we've looked have very simple control flow. In fact they don't alter the control flow at all. Many interesting effects, such as error handling, concurrency, and backtracking search, require dramatic changes to the control flow of the program. How do we handle this in our model?
+So far, the effects we've looked at have very simple control flow. In fact they don't alter the control flow at all. Many interesting effects, such as error handling and concurrency, require manipulation of the program's control flow. How do we handle this in our model?
 
-We need a slight extension to accomodate this: when the user program calls an effect handler method, the effect handler is passed not just that method's arguments but also also a **continuation** that it can resume when the effect is complete. What's a continuation? It represents the "rest of the program". You can think of it as a coroutine or generator that the effect handler can resume (though coroutines and friends are strictly less expressive than full continuations.) This requires some run-time support, namely the ability to capture and resume continuations.
+We need a slight extension to accomodate this: when the user program calls an effect handler method, the effect handler is passed not just that method's arguments but also also a **continuation** that it can resume when the effect is complete. What's a continuation? It represents the "rest of the program": a value that can be invoked to continue execution from the point that called the effect handler. Cooperative threads, fibers, generators, and coroutines are all examples of abstractions that use a form of continuations.
 
-Scala 3 does not yet have continuations, but it does have non-local exits in `scala.util.boundary` that can express a few interesting things. Here's an example implementing error-handling in the style of exceptions. 
+Continuations can be implemented as a program transform, but for performance we ideally want runtime support. This is why [Scala Native is getting continuations][scala-native-kont]. On the JVM, [Project Loom][loom-kont] adds them.
+
+[scala-native-kont]: https://github.com/scala-native/scala-native/blob/main/nativelib/src/main/scala-3/scala/scalanative/runtime/Continuations.scala
+[loom-kont]: https://cr.openjdk.org/~rpressler/loom/Loom-Proposal.html
+
+Scala 3 does not yet expose a continuation API, but it does have non-local exits in `scala.util.boundary` that can express a few interesting things. Here's an example implementing error-handling in the style of exceptions. 
 
 ```scala
 //> using scala 3
@@ -306,7 +322,7 @@ Scala 3 does not yet have continuations, but it does have non-local exits in `sc
 import scala.util.boundary
 import scala.util.boundary.{break, Label}
 
-trait Error[-A](using label: Label[A]) {
+final class Error[-A](using label: Label[A]) {
   def raise(error: A): Nothing =
     break(error)
 }
@@ -362,37 +378,48 @@ val traverseCats: Option[List[Int]] =
   List(1, 2, 3, 4).traverse(x => if x == 3 then None else Some(x))
 ```
 
-You might wonder how monads implement effects that play with control flow without requiring runtime support. The answer is that monads require the user to explicitly specify the control-flow. This is exactly what `flatMap` does: it expresses what should happen in what order, and by giving the monad this information as a chain of `flatMaps` it can evaluate them in the order that makes sense for the particular monad implementation.
+You might wonder how monads implement effects that play with control flow without requiring runtime support. The answer is that monads require the user to explicitly specify the control-flow. This is exactly what `flatMap` does: it expresses what should happen in what order, and by giving the monad this information as a chain of `flatMaps` it can evaluate them in the order that makes sense for the particular monad implementation. In fact monads are [equivalent to delimited continuations][representing-monads]. So direct-style effects and monad effects can be seen as just two different syntaxes for writing the same thing.
+
+[representing-monads]: https://dl.acm.org/doi/10.1145/174675.178047
 
 
 ## Capturing, Types, and Effects
 
 What we've seen so far suggests that effects are straightforward to implement and use, and they are for the most part. However there is at least one wrinkle that we need to be aware of: capturing effects.
 
-In the following code we capture a `Error[String]` in a closure, and then attempt to call the `raise` method on that `Error` outside of the block where it is valid. This leads to an error.
+In the following code we capture a `Error[String]` in a closure, and then attempt to call the `raise` method on that `Error` outside of the block where it is valid. This leads to a runtime exception.
 
 ```scala
-val capture: Raise[() => Raise[String]] =
-  Raise { () =>
-    if 3 < 2 then "Nothing to see here" else Raise.raise("Hahahahaha!")
+val capture: Raise[() => String] =
+  Raise { error ?=> () =>
+    if 3 < 2 then "Nothing to see here"
+    else Raise.raise(() => "Hahahahaha!")(using error)
   }
 
 val closure = Raise.run(capture)
-println(closure)
+println(closure())
 ```
 
 Is this a serious flaw in the entire foundation of direct-style effects? No! What we've seen so far is only the portion of the effect system that is currently in Scala 3. [Capture checking][cc], which is still experimental, rules out this kind of bug. The [Capturing Types][capturing-types] paper has all the technical details.
 
-Capture checking in fact goes further than the examples we've seen so far. It tracks usage in the dynamic scope of the program, which means it can be used to implement, for example, region-based memory management or safe resource usage.
+Capture checking in fact goes further than the examples we've seen so far. It tracks capability usage in the dynamic scope of the program. It can be used to implement composition of different effects. We saw an example earlier where we constructed a context function with type `(Console, Random) ?=> Unit`. You might have given this type a bit of side-eye as it doesn't use the type aliases we used for the two effects on their own (`Print` and `Sample`.) With capture checking the type system works out these types for us. It can also be use for resource checking, such as ensuring all open files are closed or that region-based memory management is implemented without leaks.
 
 
 ## Conclusions and Further Reading
 
+In summary, we've seen that direct-style effects are a combination of:
+
+1. context functions;
+2. continuations; and
+3. type system improvements
+
+which together allow us to express effects in direct-style as operations on effect handlers.
+
 Overall, I'm pretty excited by direct-style effects in general, and direct-style effects in Scala in particular. I think they are much more ergonomic than monadic effects, which in turn makes them accessible to a wider range of programmers. I'm also excited to have access to continuations, and presumably tail calls, in more languages. Tail calls are really useful for certain problems, such as [virtual machine dispatch][vm-dispatch].
 
-I'm also excited to see Scala continuing to evolve. Scala has always been a language of innovation, and these changes are nothing more than a continuation (pun-intended) of that heritage. These developments will, I think, make Scala Native a interesting and attractive platform. I think it's only in Scala Native that the developers will have the flexibility to implement the runtime support needed for a full effect system, and also to really maximise its advantages by providing things like region based memory management. I also think Scala Native is important for Scala's industrial adoption in use cases like serverless, so I think more investment in Scala Native as a *big* win for the community.
+I'm also excited to see Scala continuing to evolve. Scala has always been a language of innovation, and these changes are nothing more than a continuation (pun-intended) of that heritage. I'm also excited to see more investment in Scala Native. I think it's only in Scala Native that the developers will have the flexibility to implement the runtime support needed for a full effect system, and also to really maximise its advantages by providing things like region based memory management. I also think Scala Native is important for Scala's industrial adoption in use cases like serverless, so I see more investment in Scala Native as a *big* win for the community.
 
-If you'd like to read more about direct-style effects here are some suggestions, which are a mix of accessible introduction and academic papers:
+If you'd like to read more about direct-style effects here are some suggestions, which are a mix of accessible introductions and academic papers:
 
 * [Abilities for the monadically inclined][abilities], a very nice post from the Unison team that covers a lot of the same material from a different perspective.
 * Dean Wampler's post [What is "Direct Style"][what-is-direct-style].
