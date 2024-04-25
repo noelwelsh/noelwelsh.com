@@ -4,7 +4,9 @@ title = "Direct-style Effects Explained"
 
 Direct-style effects, also known as algebraic effects and effect handlers, are the next big thing in programming languages. They are already available in [Unison][unison-effects] and [OCaml][ocaml-effects], are coming to [Scala][direct-style-scala], and I'm seeing discussion about them in other [closely-related-to-industry contexts][coroutines-and-effects]. 
 
-At the same time I see [some][tweet-1] [confusion][tweet-2] about direct-style effects. In this post I want to address this confusion by explaining the what, the why, and the how of direct-style effects using a Scala 3 implementation as an example. There is quite a bit going on here. First we'll talk about the problem we're trying to solve and the constraints we're operating under. Then we'll look at a simple implementation in Scala 3 and describe the language feature, contextual functions, that enables it. Next up we'll see some shortcomings of this implementation and see how they can solved by two language features, one well known (delimited continuations) and one in development (type system innovations). Finally I'll give some pointers to more about information on this topic.
+The goal is very simple: to allow us to write code in a natural style without monads, but still get the benefits of reasoning and composition that monads bring. At the same time I see [some][tweet-1] [confusion][tweet-2] about direct-style effects. In this post I want to address this confusion by explaining the what, the why, and the how of direct-style effects using a Scala 3 implementation as an example. 
+
+There is quite a bit going on here. First we'll talk about the problem we're trying to solve and the constraints we're operating under. Then we'll look at a simple implementation in Scala 3 and describe the language feature, contextual functions, that enables it. Next up we'll see some shortcomings of this implementation and see how they can solved by two language features, one well known (delimited continuations) and one in development (type system innovations). Finally I'll give some pointers to more about information on this topic.
 
 <!-- more -->
 
@@ -246,6 +248,8 @@ def red: Print[A] =
 
 That's the mechanics of how direct-style effect systems work in Scala: it all comes down to context functions.
 
+Notice what we have in these examples: we write code in the natural direct style, but we still have an informative type, `Print[A]`, that helps us reason about effects and we can compose together values of type `Print[A]`.
+
 I'm going to deal with composition of different effects and more in just a bit. First though, I want describe the concepts behind what we've done.
 
 Notice in direct-style effects we split effects into two parts: context functions that define the effects we need, and the actual implementation of those effects. In the literature these are called algebraic effects and effect handlers respectively. This is an important difference from `IO`, where the same type indicates the need for effects and provides the implementation of those effects.
@@ -407,7 +411,7 @@ Capture checking in fact goes further than the examples we've seen so far. It tr
 
 ## Conclusions and Further Reading
 
-In summary, we've seen that direct-style effects are a combination of:
+We've seen that direct-style effect allow us to write code in a natural direct style, while still retaining useful types that help with reasoning and allowing composition of effects. The implementation is a combination of:
 
 1. context functions;
 2. continuations; and
