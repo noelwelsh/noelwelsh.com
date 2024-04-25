@@ -143,7 +143,7 @@ Before we get into effect systems, there another issue I want to quickly deal wi
 def cthulhuFhtagn[F[_]: WakeGreatOldOne](): F[Unit]
 ```
 
-indicates this method requires a `WakeGreatOldOne` effect, which we might use to decide to not call the method. Tagless final is also inconvenient, but not so inconvenient to stop becoming relatively common in the Scala world.
+indicates this method requires a `WakeGreatOldOne` effect, which we might use to decide to not call the method. Tagless final is also inconvenient, but not so inconvenient to stop it becoming relatively common in the Scala world.
 
 
 ## Direct-style Effect Systems in Scala 3
