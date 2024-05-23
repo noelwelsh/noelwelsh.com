@@ -147,6 +147,6 @@ If you look at the standard library you'll see sealed abstract classes are often
 [double-colon]: http://www.scala-lang.org/api/current/index.html#scala.collection.immutable.$colon$colon
 [list]: http://www.scala-lang.org/api/current/index.html#scala.collection.immutable.List
 [some]: http://www.scala-lang.org/api/current/index.html#scala.Some
-[followup]: {% post_url 2015-06-04-more-on-sealed %}
+[followup]: @/posts/2015-06-04-more-on-sealed.md
 
 [^full-pattern]: In addition to illustrating sum and product types, this example also contains covariance. I decided it was better to use a more realistic example in this blog post, rather than an abstract definition showing just sum and product types.
