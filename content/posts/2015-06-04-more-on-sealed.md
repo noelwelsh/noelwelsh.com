@@ -83,4 +83,4 @@ You might have already run into this issue if you use invariant containers such 
 
 Finally, there often isn't a lot of sense in declaring something to have a type that is not the base type of an algebraic data type. For example, if a method were to only return `None` it should just return `()`. If it was to return only `Some` it should just return the value wrapped in the `Some`.
 
-[sealed-post]: @/2015-06-02-everything-about-sealed.md
+[sealed-post]: @/posts/2015-06-02-everything-about-sealed.md
