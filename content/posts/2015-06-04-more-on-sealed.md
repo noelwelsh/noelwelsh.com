@@ -13,35 +13,36 @@ My [recent post][sealed-post] on sealed traits had some great feedback but it wa
 
 If you declare algebraic data types with the pattern I gave in the last post you might see the compiler inferring types that unexpectedly include `Product` and `Serializable`. For example if you declare
 
-~~~ scala
+```scala
 sealed trait Color
 final case object Red extends Color
 final case object Green extends Color
 final case object Blue extends Color
-~~~
+```
 
 when you put elements into a list the compiler will infer the elements have type `Product with Serializable with Color`.
 
-~~~ scala
-scala> val colors = List(Red, Green, Blue)
-colors: List[Product with Serializable with Color] = List(Red, Green, Blue)
-~~~
+```scala
+val colors = List(Red, Green, Blue)
+// colors: List[Product with Serializable with Color] = 
+//   List(Red, Green, Blue)
+```
 
 This happens because all case classes automatically extend `Product` and `Serializable`. To avoid this ugly type we can make our base type (the sealed trait) extend these two types as well.
 
-~~~ scala
+```scala
 sealed trait Color extends Product with Serializable
 final case object Red extends Color
 final case object Green extends Color
 final case object Blue extends Color
-~~~
+```
 
 Now we don't see `Product` and `Serializable` in the inferred type.
 
-~~~
+```scala
 val colors = List(Red, Green, Blue)
-colors: List[Color] = List(Red, Green, Blue)
-~~~
+// colors: List[Color] = List(Red, Green, Blue)
+```
 
 Thanks to Julian Truffaut and Channing Walton for pointing this out to me.
 
@@ -53,21 +54,20 @@ A final case class cannot be extended by any other class. This means you can mak
 
 Of course making classes final does mean that you lose a form of extensibility. If you do find yourself wanting to allow users to implement functionality you should wrap that functionality up in a trait and use the type class pattern instead.
 
+
 ## Base Types vs Sub-types
 
 In the previous post I rather cryptically said
 
-<blockquote>
-Finally, when declaring types we almost always use the base type (e.g. `Option`) instead of a subtype (e.g. `None`) so the lack of exhaustiveness checking is very rarely an issue.
-</blockquote>
+> Finally, when declaring types we almost always use the base type (e.g. `Option`) instead of a subtype (e.g. `None`) so the lack of exhaustiveness checking is very rarely an issue.
 
 Say you define an algebraic data type
 
-~~~
+```scala
 sealed trait Base
 final case class Foo(a: Int) extends Base
 final case class Bar(a: String) extends Base
-~~~
+```
 
 You should almost always just refer to the `Base` trait when you declare types, not the subtypes. Some good reasons:
 
@@ -83,4 +83,4 @@ You might have already run into this issue if you use invariant containers such 
 
 Finally, there often isn't a lot of sense in declaring something to have a type that is not the base type of an algebraic data type. For example, if a method were to only return `None` it should just return `()`. If it was to return only `Some` it should just return the value wrapped in the `Some`.
 
-[sealed-post]: {% post_url 2015-06-02-everything-about-sealed %}
+[sealed-post]: @/2015-06-02-everything-about-sealed.md
