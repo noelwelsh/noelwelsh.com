@@ -28,7 +28,7 @@ If comprehensiveness is your interest, I've been working on a [library][terminus
 
 The code below all uses Scala 3, and is written in such a way you can cut and paste it into a file and run it directly with any recent version of Scala with just `scala <filename>`.
 The examples should work with any terminal from the last 40 odd years.
-If you're on Windows you can use [WSL][wsl] or a terminal that runs on Windows such as [WezTerm][wezterm].
+If you're on Windows you can use Windows Terminal, [WSL][wsl], or another terminal that runs on Windows such as [WezTerm][wezterm].
 
 
 ## Color Codes
@@ -117,6 +117,7 @@ def printBold(output: String): Unit = {
 ```
 
 This works, but what if we want text that is *both* red and bold? We cannot express this with our current design.
+In other words, our design is not compositional.
 
 
 ## Programs and Interpreters
@@ -146,7 +147,7 @@ val boldOffCode = s"${csiString}22m"
 def run[A](program: Program[A]): A = program()
 
 def print(output: String): Program[Unit] =
-  () => scala.Console.print(output)
+  () => Console.print(output)
 
 def printRed[A](output: Program[A]): Program[A] =
   () => {
@@ -177,7 +178,81 @@ def printBold[A](output: Program[A]): Program[A] =
   })
 ```
 
+This works, for the example we have chosen, but there are two issues: composition and ergonomics.
+That have a problem with composition is perhaps surprising, as that's the problem we set out to solve.
+We have made the system compositional in some aspects, but there are still others that do not work correctly.
+For example, take the following code:
 
+```scala
+run(printBold(() => {
+  run(print("This should be bold, "))
+  run(printBold(print("as should this ")))
+  run(print("and this.\n"))
+}))
+```
+
+We would expect output like `*This should be bold, as should that and this*` but we get `*This should be bold, as should this* and this`. 
+The inner call to `printBold` resets the bold styling when it finishes, which means the surrounding call to `printBold` does not have effect on latter statements.
+
+The issue with ergonomics if that this code is tedious and error-prone to write. We have to pepper calls to `run` everywhere, and even in these small examples I found myself making mistakes. This is actually another failing of composition, because we don't have methods to combine together programs. For example, we don't have methods to say that the program above is the sequential composition of three sub-programs.
+
+We can solve the first problem by keeping track of the state of the terminal. If `printBold` is called within a state that is already printing bold it should just do nothing. This means the type of programs changes from `() => A` to `Terminal => A`, where `Terminal` holds the current state of the terminal.
+
+To solve the second problem we're looking for a way to sequentially compose programs (which have type `Terminal => A`). When you hear the phrase "sequentially compose", or see that type, your monad sense might start tingling. You are correct: this is an instance of the reader monad. 
+If we're using [Cats][cats] we can just define
+
+```scala
+import cats.data.Reader
+type Program[A] = Reader[Terminal, A]
+```
+
+assuming some suitable definition of `Terminal`. Let's use this definition for now, and focus on defining `Terminal`.
+
+`Terminal` has, for our purposes, two bits of state: the current bold setting and the current color. (The real terminal has much more state, but these are representative and modelling additional state doesn't introduce any new concepts.) The bold setting is simply a toggle: it is either on or off. The current color, however, is a stack. We can nest color changes, and the color should change back to the surrounding color when any nested level exits. Concretely, we should be able to write code like
+
+```scala
+printBlue(.... printRed(...) ...)
+```
+
+and have output in blue or red as we would expect.
+
+```scala
+//> using dep org.typelevel::cats-core:2.12.0
+import cats.data.Reader
+import scala.collection.mutable
+
+object AnsiCodes {
+  val csiString: String = "\u001b["
+
+  def csi(arg: String, terminator: String): String =
+    s"${csiString}${arg}${terminator}"
+
+  def sgr(arg: String): String =
+    csi(arg, "m")
+
+  val reset: String  = sgr("0")
+  val boldOn: String = sgr("1")
+  val boldOff: String = sgr("22")
+  val red: String = sgr("31")
+  val blue: String = sgr("34")
+}
+
+type Program[A] = Reader[Terminal, A]
+
+final case class Terminal(bold: Boolean, color: mutable.Stack[String])
+object Terminal {
+  def print(output: String): Program[Unit] =
+    Reader(_ => Console.print(output))
+    
+  def red[A](program: Program[A]): Program[A] = {
+    terminal => ???
+  }
+  
+  def blue[A](program: Program[A]): Program[A] = {
+    terminal => ???
+  }
+}
+```
 
 ## Building an Interpreter
 
@@ -190,3 +265,4 @@ def printBold[A](output: Program[A]): Program[A] =
 [terminus]: https://github.com/creativescala/terminus/
 [wsl]: https://learn.microsoft.com/en-us/windows/wsl/about
 [wezterm]: https://wezfurlong.org/wezterm/index.html
+[cats]: https://typelevel.org/cats/
