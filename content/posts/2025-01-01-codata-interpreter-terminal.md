@@ -3,6 +3,9 @@ title = "Designing a DSL for Terminal Interaction"
 draft = true
 +++
 
+This article is a case study of designing a DSL for terminal interaction. On the practical side it's concerned with presenting access to terminal features in a composable way.  Underpinning is codata and monads
+
+
 This article is about designing a DSL for terminal interaction. The terminal itself is easy to work with, for the most part, though more an accretion of features than designed.
 
 Terminal GUIs are good tools for developer oriented tools.
@@ -223,7 +226,7 @@ final case class Terminal(bold: Int, color: List[String])
 
 where we use `List` to represent the stack of color codes. (We could also use a mutable stack, as working with the state monad ensures the state will be threaded through our program.)
 
-With this in place we can write the rest of the code, which is shown below. Remember this code can be directly executed by `scala`. Just copy it into a file (e.g. `Terminal.scala`) and run `scala Terminal.scala`. Once we have defined the structure of `Terminal`, the majority of the rest of the code is dealing with manipulating the `Terminal` state. Most of the methods on `Program` have a common structure that specifies a state change before and after the main program runs. We don't need to implement combinators like `flatMap` because we get them from the `State` monad. This is one of the big benefits of reusing abstractions like monads: we get a standard library of methods without doing any additional work.
+With this in place we can write the rest of the code, which is shown below. Remember this code can be directly executed by `scala`. Just copy it into a file (e.g. `Terminal.scala`) and run `scala Terminal.scala`. Once we have defined the structure of `Terminal`, the majority of the remaining code deals with manipulating the `Terminal` state. Most of the methods on `Program` have a common structure of specifying a state change before and after the main program runs. We don't need to implement combinators like `flatMap` because we get them from the `State` monad. This is one of the big benefits of reusing abstractions like monads: we get a standard library of methods without doing any additional work.
 
 ```scala
 //> using dep org.typelevel::cats-core:2.12.0
@@ -319,6 +322,38 @@ object Program {
 }
 
 ```
+
+
+## Codata and Extensibility
+
+At the start of this case study we arbitrarily chose to use a codata interpreter. Let's now explore this choice and it's implications.
+
+Codata is a good choice because we only have a single interpreter (which is `run`ning the program) but there are many combinators our programs can use. We only implemented a handful of combinators (`bold`, `red`, and `blue`) along with a single introduction form (`print`) but
+
+1. we get many combinators for free by using the state monad; and
+2. we can mix arbitrary code into our programs by simply lifting a function into the state monad.
+
+It's worth expanding a bit on the second point. There are two forms of arbitrary code. The first is new combinators. For example, it's trivial to add a new color combinator by defining another function.
+
+```scala
+def green[A](program: Program[A]): Program[A] =
+  withColor(AnsiCodes.sgr("32"))(program)
+```
+
+We can also add in arbitrary other code to our programs. For example, we can use `map` like shown below.
+
+```scala
+Program.print("Hello").map(_ => 42)
+```
+
+This is one of the great advantages of codata representations: because we use the native representation of programs (i.e. functions) we get the entire language for free. In a data representation we have to reify every kind of expression we wish to support.
+
+However, this extensibility doesn't come without a price. If we want to use a different interpreter, such as one that logs all terminal commands to a buffer, there isn't any way to do that without changing existing code. This is because there is only one way we can interpret functions: by running them. 
+
+
+## Direct-style Interpreters
+
+We used the state monad so we could express sequential programs that pass 
 
 
 [fps]: https://scalawithcats.com/
