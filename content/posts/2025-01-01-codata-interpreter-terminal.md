@@ -3,7 +3,7 @@ title = "Designing a DSL for Terminal Interaction"
 draft = true
 +++
 
-This article is about designing a DSL for terminal interaction. The terminal itself is easy to work with, for the most part, though more accreted than designed.
+This article is about designing a DSL for terminal interaction. The terminal itself is easy to work with, for the most part, though more an accretion of features than designed.
 
 Terminal GUIs are good tools for developer oriented tools.
 
@@ -68,7 +68,7 @@ string `"\u001b[0m"` tells the terminal to reset all text styling to the default
 
 ## The Trouble with Escape Codes
 
-The design of escape codes makes them very simple to work with for the terminal that is reading them, but it doesn't make them very simple to work with in larger applications that are generating them. The code above shows one potential problem: we must remember to reset the color when we finish a run of text. This problem is no different to that of remembering to free memory once it has been allocated, and the long history of memory safety problems in C programs show us that we cannot expect to do this reliably. We shouldn't expect to do any better with escape codes.
+The design of escape codes makes things simple for the terminal receiving them, but it doesn't make them very simple to work with in larger applications that are generating them. The code above shows one potential problem: we must remember to reset the color when we finish a run of text. This problem is no different to that of remembering to free memory once it has been allocated, and the long history of memory safety problems in C programs show us that we cannot expect to do this reliably. We shouldn't expect to do any better with escape codes.
 
 To solve this problem we might decide to write functions like `printRed` below, which prints a colored string.
 
@@ -89,7 +89,7 @@ def printRed(output: String): Unit = {
   println("and now back to normal.")
 ```
 
-This is better, but it is not compositional. Changing color is the not the only way that we can style output on the terminal. We can also, for example, turn text bold. If we continue the above design we get code like the following.
+Changing color is the not the only way that we can style terminal output. We can also, for example, turn text bold. Continuing the above design gives us the following.
 
 ```scala
 val csiString = "\u001b["
@@ -116,8 +116,7 @@ def printBold(output: String): Unit = {
   printBold("and now bold.\n")
 ```
 
-This works, but what if we want text that is *both* red and bold? We cannot express this with our current design.
-In other words, our design is not compositional.
+This works, but what if we want text that is *both* red and bold? We cannot express this with our current design, without creating methods for every possible combination of styles. This is not feasible to implement. The root problem is that our design is not compositional.
 
 
 ## Programs and Interpreters
@@ -198,17 +197,17 @@ The issue with ergonomics if that this code is tedious and error-prone to write.
 
 We can solve the first problem by keeping track of the state of the terminal. If `printBold` is called within a state that is already printing bold it should just do nothing. This means the type of programs changes from `() => A` to `Terminal => A`, where `Terminal` holds the current state of the terminal.
 
-To solve the second problem we're looking for a way to sequentially compose programs (which have type `Terminal => A`). When you hear the phrase "sequentially compose", or see that type, your monad sense might start tingling. You are correct: this is an instance of the reader monad. 
+To solve the second problem we're looking for a way to sequentially compose programs, which have type `Terminal => A` and pass around the state in `Terminal`. When you hear the phrase "sequentially compose", or see that type, your monad sense might start tingling. You are correct: this is an instance of the state monad. 
 If we're using [Cats][cats] we can just define
 
 ```scala
-import cats.data.Reader
-type Program[A] = Reader[Terminal, A]
+import cats.data.State
+type Program[A] = State[Terminal, A]
 ```
 
 assuming some suitable definition of `Terminal`. Let's use this definition for now, and focus on defining `Terminal`.
 
-`Terminal` has, for our purposes, two bits of state: the current bold setting and the current color. (The real terminal has much more state, but these are representative and modelling additional state doesn't introduce any new concepts.) The bold setting is simply a toggle: it is either on or off. The current color, however, is a stack. We can nest color changes, and the color should change back to the surrounding color when any nested level exits. Concretely, we should be able to write code like
+`Terminal` has, for our purposes, two bits of state: the current bold setting and the current color. (The real terminal has much more state, but these are representative and modelling additional state doesn't introduce any new concepts.) The bold setting can be simply a toggle that is either on or off, but when we come to implementation it will be easier to work with a counter that records the depth of the nesting. The current color must be a stack. We can nest color changes, and the color should change back to the surrounding color when any nested level exits. Concretely, we should be able to write code like
 
 ```scala
 printBlue(.... printRed(...) ...)
@@ -216,10 +215,21 @@ printBlue(.... printRed(...) ...)
 
 and have output in blue or red as we would expect.
 
+Given this we can define `Terminal` as
+
+```scala
+final case class Terminal(bold: Int, color: List[String])
+```
+
+where we use `List` to represent the stack of color codes. (We could also use a mutable stack, as working with the state monad ensures the state will be threaded through our program.)
+
+With this in place we can write the rest of the code, which is shown below. Remember this code can be directly executed by `scala`. Just copy it into a file (e.g. `Terminal.scala`) and run `scala Terminal.scala`. Once we have defined the structure of `Terminal`, the majority of the rest of the code is dealing with manipulating the `Terminal` state. Most of the methods on `Program` have a common structure that specifies a state change before and after the main program runs. We don't need to implement combinators like `flatMap` because we get them from the `State` monad. This is one of the big benefits of reusing abstractions like monads: we get a standard library of methods without doing any additional work.
+
 ```scala
 //> using dep org.typelevel::cats-core:2.12.0
-import cats.data.Reader
-import scala.collection.mutable
+
+import cats.data.State
+import cats.syntax.all.*
 
 object AnsiCodes {
   val csiString: String = "\u001b["
@@ -230,31 +240,85 @@ object AnsiCodes {
   def sgr(arg: String): String =
     csi(arg, "m")
 
-  val reset: String  = sgr("0")
+  val reset: String = sgr("0")
   val boldOn: String = sgr("1")
   val boldOff: String = sgr("22")
   val red: String = sgr("31")
   val blue: String = sgr("34")
 }
 
-type Program[A] = Reader[Terminal, A]
-
-final case class Terminal(bold: Boolean, color: mutable.Stack[String])
-object Terminal {
-  def print(output: String): Program[Unit] =
-    Reader(_ => Console.print(output))
-    
-  def red[A](program: Program[A]): Program[A] = {
-    terminal => ???
-  }
-  
-  def blue[A](program: Program[A]): Program[A] = {
-    terminal => ???
-  }
+final case class Terminal(bold: Int, color: List[String]) {
+  def boldOn: Terminal = this.copy(bold = bold + 1)
+  def boldOff: Terminal = this.copy(bold = bold - 1)
+  def pushColor(c: String): Terminal = this.copy(color = c :: color)
+  // Only call this when we know there is a at least one color on the stack
+  def popColor: Terminal = this.copy(color = color.tail)
+  def peekColor: Option[String] = this.color.headOption
 }
-```
+object Terminal {
+  val empty: Terminal = Terminal(0, List.empty)
+}
 
-## Building an Interpreter
+type Program[A] = State[Terminal, A]
+object Program {
+  def print(output: String): Program[Unit] =
+    State[Terminal, Unit](terminal => (terminal, Console.print(output)))
+
+  def bold[A](program: Program[A]): Program[A] =
+    for {
+      _ <- State.modify[Terminal] { terminal =>
+        if terminal.bold == 0 then Console.print(AnsiCodes.boldOn)
+        terminal.boldOn
+      }
+      a <- program
+      _ <- State.modify[Terminal] { terminal =>
+        val newTerminal = terminal.boldOff
+        if terminal.bold == 0 then Console.print(AnsiCodes.boldOff)
+        newTerminal
+      }
+    } yield a
+
+  // Helper to construct methods that deal with color
+  def withColor[A](code: String)(program: Program[A]): Program[A] =
+    for {
+      _ <- State.modify[Terminal] { terminal =>
+        Console.print(code)
+        terminal.pushColor(code)
+      }
+      a <- program
+      _ <- State.modify[Terminal] { terminal =>
+        val newTerminal = terminal.popColor
+        newTerminal.peekColor match {
+          case None    => Console.print(AnsiCodes.reset)
+          case Some(c) => Console.print(c)
+        }
+        newTerminal
+      }
+    } yield a
+
+  def red[A](program: Program[A]): Program[A] =
+    withColor(AnsiCodes.red)(program)
+
+  def blue[A](program: Program[A]): Program[A] =
+    withColor(AnsiCodes.blue)(program)
+
+  def run[A](program: Program[A]): A =
+    program.runA(Terminal.empty).value
+}
+
+@main def go(): Unit = {
+  val program =
+    Program.blue(
+      Program.print("This is blue ") >>
+        Program.red(Program.print("and this is red ")) >>
+        Program.bold(Program.print("and this is blue and bold "))
+    ) >>
+      Program.print("and this is back to normal.\n")
+
+  Program.run(program)
+}
+
+```
 
 
 [fps]: https://scalawithcats.com/
