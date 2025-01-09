@@ -5,13 +5,14 @@ template = "default.html"
 
 I enjoy giving talks. Here's an incomplete list of my talks, with links where I could find them.
 
+### Rethinking Effects with Effect Systems, 2024
+[Lambda World Cadiz][lambda-world-cadiz-2024]
 
 ### Bringing Scala to a Diverse Group of Students, 2020
 With Elissavet Velli and Yifan Xing, NE Scala, Scala Love
 
 ### [Tips for Teaching Scala](/posts/2019-06-20-tips-for-teaching-scala.html), 2019
 [Scala Days Laussane][scala-days-lausanne-2019]
-
 
 ### Differentiable Functional Programming, 2018
 Scala Days NYC, Scala Days Berlin, Scala eXchange
@@ -34,6 +35,7 @@ Velocity Conference London 2013, Scala eXchange 2013
 ### [Making Big Data Small](/posts/2012-10-01-strata-slides), 2012
 Strata London 2012
 
+[lambda-world-cadiz-2024]: https://www.youtube.com/watch?v=T26Yd-rURLs
 [lambda-world-cadiz-2017]: https://www.youtube.com/watch?v=4AbSJfu6S8M
 [scala-days-copenhagen-2017]: https://www.youtube.com/watch?v=IO5MD62dQbI
 [scala-days-berlin-2016]: https://www.youtube.com/watch?v=bL-CcjKW1lw
