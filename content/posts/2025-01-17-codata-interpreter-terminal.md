@@ -250,13 +250,9 @@ final case class Terminal(bold: Int, color: List[String]) {
 
 where we use `List` to represent the stack of color codes. (We could also use a mutable stack, as working with the state monad ensures the state will be threaded through our program.) We've also defined some convenience methods to make working with the state easier.
 
-<<<<<<< HEAD
-With this in place we can write the rest of the code, which is shown below. Remember this code can be directly executed by `scala`. Just copy it into a file (e.g. `Terminal.scala`) and run `scala Terminal.scala`. Once we have defined the structure of `Terminal`, the majority of the remaining code deals with manipulating the `Terminal` state. Most of the methods on `Program` have a common structure of specifying a state change before and after the main program runs. We don't need to implement combinators like `flatMap` because we get them from the `State` monad. This is one of the big benefits of reusing abstractions like monads: we get a standard library of methods without doing any additional work.
-=======
 With this in place we can write the rest of the code, which is shown below. Compared to the previous code I've shortened a few method names and abstracted the escape codes.  Once we have defined the structure of `Terminal`, the majority of the rest of the code is dealing with manipulating the `Terminal` state. Most of the methods on `Program` have a common structure that specifies a state change before and after the main program runs. We don't need to implement combinators like `flatMap` because we get them from the `State` monad. This is one of the big benefits of reusing abstractions like monads: we get a full library of methods without doing any additional work.
 
 Remember this code can be directly executed by `scala`. Just copy it into a file (e.g. `Terminal.scala`) and run `scala Terminal.scala`. 
->>>>>>> 5dcc90f (Complete first pass of blog post)
 
 ```scala
 //> using dep org.typelevel::cats-core:2.12.0
@@ -356,7 +352,6 @@ object Program {
 ```
 
 
-<<<<<<< HEAD
 ## Codata and Extensibility
 
 At the start of this case study we arbitrarily chose to use a codata interpreter. Let's now explore this choice and it's implications.
@@ -384,11 +379,6 @@ This is one of the great advantages of codata representations: because we use th
 However, this extensibility doesn't come without a price. If we want to use a different interpreter, such as one that logs all terminal commands to a buffer, there isn't any way to do that without changing existing code. This is because there is only one way we can interpret functions: by running them. 
 
 
-## Direct-style Interpreters
-
-We used the state monad so we could express sequential programs that pass 
-
-=======
 ## Conclusions
 
 We've built what we set out to do: a DSL for terminal interaction. It is composable, meaning we can build larger programs out of smaller ones, and it's we gave it reasonable semantics, allowing stacked styles with effect that matches the program's scope. Let's recap how we did this and the lessons that we can transfer to other situations.
@@ -410,7 +400,6 @@ There are few notes we can make about using codata interpreters:
 Finally, take a look at [Terminus][terminus] if want you see these ideas in a large system. Terminus is written in [direct-style][direct-style].  Conceptually it is the same. Implementationally, instead of using a monad to specify the control-flow, we just use the language's built-in control-flow. The characteristics of contextual functions allow us to pass around state without the programming having to do it explicitly.
 
 [^tuis]: If you're interested in [TUI][tui] libraries you might like to look at [ratatui](https://github.com/ratatui/ratatui) (GOAT tier project name, BTW) for Rust, [brick](https://github.com/jtdaugherty/brick) for Haskell, or [Textual](https://textual.textualize.io/) for Python.
->>>>>>> 5dcc90f (Complete first pass of blog post)
 
 [fps]: https://scalawithcats.com/
 [direct-style]: @/posts/2024-04-24-direct-style.md
