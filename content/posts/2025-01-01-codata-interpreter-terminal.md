@@ -1,35 +1,31 @@
 +++
 title = "Designing a DSL for Terminal Interaction"
-draft = true
 +++
 
-This article is a case study of designing a DSL for terminal interaction. On the practical side it's concerned with presenting access to terminal features in a composable way.  Underpinning is codata and monads
+This is a case study of building a DSL for terminal interaction. We're using the terminal as motivation: terminal based programs are a good choice for developer oriented tools and recently there has been a resurgence of interest in toolkits for [terminal user interfaces][tui][^tuis]. In terms of programming techniques, the focus is on codata interpreters, and monads as a form of composition. 
 
+<!-- more -->
 
-This article is about designing a DSL for terminal interaction. The terminal itself is easy to work with, for the most part, though more an accretion of features than designed.
+This post is a draft of material that will be in [Functional Programming Strategies][fps], and I'm assuming some familiarity with codata, interpreters, monads, and so on. If you're not familiar with these terms you can find detailed explanations in [the book][fps]. However, here's a quick explainer:
 
-Terminal GUIs are good tools for developer oriented tools.
+* Codata is fancy programming language theory speak for "object oriented". If you've ever programmed against an interface you'll find this fairly straightforward.
+* Interpreters come about because we want a separation between description and action, which in turn makes it easier to reason about effectful code. 
+In addition to the book, I've [blogged about this before.][direct-style]
+* Monads come about when we want to create a structure that represents doing a bunch of things in a defined sequence.
 
-For me it was interesting to learn about the details.
-
-I also wanted a compelling example of a codata interpreter for [the book][fps].
-
-There are two parts to this: codata and interpreters. Let's quickly sketch each.
-Codata is fancy programming language theory speak for "object oriented". 
-There is more [in the book][fps] but if you've ever programmed against an interface you'll find this fairly straightforward.
-Interpreters come about because we want a separation between description and action, which in turn makes it easier to reason about effectful code. 
-I've [blogged about this][direct-style] or there's more [in the book][fps].
+Alright, enough background. Let's get into it!
 
 
 ## The Terminal
 
-The terminal is an accretion of features that got going with the [VT-100][vt-100] in 1978 and continues [to this day][kitty-kp].
+The modern terminal is an accretion of features that started with the [VT-100][vt-100] in 1978 and continues [to this day][kitty-kp].
 Most terminal features are accessed by reading and writing [ANSI escape codes][ansi-escape-code].
-There are lots of them, and they aren't all well documented, but we'll keep it simple as we're aiming for an illustrative example not a comprehensive solution.
-Concretely, we'll just work with the ANSI color codes, which produce interesting output and are well documented.
+There are lots of them, and they aren't all well documented.  We'll keep it simple as, in this article, we're aiming for an illustrative example rather than a comprehensive solution.
+Concretely, we'll just work with the codes that change the text style.
+These allow us to produce interesting output and the codes are well documented.
 If comprehensiveness is your interest, I've been working on a [library][terminus] that extends these ideas.
 
-The code below all uses Scala 3, and is written in such a way you can cut and paste it into a file and run it directly with any recent version of Scala with just `scala <filename>`.
+The code below all uses Scala 3, and is written so you can paste it into a file and run it with any recent version of Scala with just `scala <filename>`.
 The examples should work with any terminal from the last 40 odd years.
 If you're on Windows you can use Windows Terminal, [WSL][wsl], or another terminal that runs on Windows such as [WezTerm][wezterm].
 
@@ -62,8 +58,8 @@ def printReset(): Unit =
 
 Try running the above code (e.g. save it to a file `ColorCodes.scala` and run `scala ColorCodes.scala`.) 
 You should see text in the normal style for your terminal, followed by text colored red, and then some more text in the normal style.
-The change is color is controlled by sending [escape codes][ansi-escape-code] to the terminal.
-These are just strings starting with `ESC` (which is the character `'\u001b'`) and then `'['`.
+The change is color is controlled by sending the [escape codes][ansi-escape-code] to the terminal.
+These are strings starting with `ESC` (which is the character `'\u001b'`) and then `'['`.
 This is the value in `csiString` (where CSI stands for Control Sequence Introducer).
 The string `"\u001b[31m"` tells the terminal to set the text foreground color to red, and the 
 string `"\u001b[0m"` tells the terminal to reset all text styling to the default.
@@ -71,7 +67,8 @@ string `"\u001b[0m"` tells the terminal to reset all text styling to the default
 
 ## The Trouble with Escape Codes
 
-The design of escape codes makes things simple for the terminal receiving them, but it doesn't make them very simple to work with in larger applications that are generating them. The code above shows one potential problem: we must remember to reset the color when we finish a run of text. This problem is no different to that of remembering to free memory once it has been allocated, and the long history of memory safety problems in C programs show us that we cannot expect to do this reliably. We shouldn't expect to do any better with escape codes.
+Escape codes are simple for the terminal to process, but not so simple to work with when generating them.
+The code above shows one potential problem: we must remember to reset the color when we finish a run of text. This problem is no different to that of remembering to free memory once it has been allocated, and the long history of memory safety problems in C programs show us that we cannot expect to do this reliably. We shouldn't expect to do any better with escape codes, though luckily we're unlikely to crash our program if we forget an escape code.
 
 To solve this problem we might decide to write functions like `printRed` below, which prints a colored string.
 
@@ -119,7 +116,19 @@ def printBold(output: String): Unit = {
   printBold("and now bold.\n")
 ```
 
-This works, but what if we want text that is *both* red and bold? We cannot express this with our current design, without creating methods for every possible combination of styles. This is not feasible to implement. The root problem is that our design is not compositional.
+This works, but what if we want text that is *both* red and bold? We cannot express this with our current design, without creating methods for every possible combination of styles. Concretely this means methods like
+
+```scala
+def printRedAndBold(output: String): Unit = {
+  print(redCode)
+  print(boldOnCode)
+  print(output)
+  print(resetCode)
+}
+```
+
+
+This is not feasible to implement for all possible combinations of styles. The root problem is that our design is not compositional.
 
 
 ## Programs and Interpreters
@@ -133,7 +142,7 @@ How should we represent a program?
 Avid readers of [Functional Programming Strategies][fps] will know there are two basic choices: data and codata.
 We will choose codata, and in particular the simplest form of codata which is just a function.
 In the code below we use the type `Program[A]`, which is a function `() => A`.
-We this choice, the interpreter, which is the thing that runs programs, is just function application.
+With this choice the interpreter, which is the thing that runs programs, is just function application.
 To make it clearer when we are running programs we have a method `run` that does just that.
 
 
@@ -193,14 +202,22 @@ run(printBold(() => {
 }))
 ```
 
-We would expect output like `*This should be bold, as should that and this*` but we get `*This should be bold, as should this* and this`. 
+We would expect output like 
+
+**This should be bold, as should that and this**
+
+but we get 
+
+**This should be bold, as should this** and this. 
+
 The inner call to `printBold` resets the bold styling when it finishes, which means the surrounding call to `printBold` does not have effect on latter statements.
 
-The issue with ergonomics if that this code is tedious and error-prone to write. We have to pepper calls to `run` everywhere, and even in these small examples I found myself making mistakes. This is actually another failing of composition, because we don't have methods to combine together programs. For example, we don't have methods to say that the program above is the sequential composition of three sub-programs.
+The issue with ergonomics is that this code is tedious and error-prone to write. We have to pepper calls to `run` everywhere, and even in these small examples I found myself making mistakes. This is actually another failing of composition, because we don't have methods to combine together programs. For example, we don't have methods to say that the program above is the sequential composition of three sub-programs.
 
 We can solve the first problem by keeping track of the state of the terminal. If `printBold` is called within a state that is already printing bold it should just do nothing. This means the type of programs changes from `() => A` to `Terminal => A`, where `Terminal` holds the current state of the terminal.
 
 To solve the second problem we're looking for a way to sequentially compose programs, which have type `Terminal => A` and pass around the state in `Terminal`. When you hear the phrase "sequentially compose", or see that type, your monad sense might start tingling. You are correct: this is an instance of the state monad. 
+
 If we're using [Cats][cats] we can just define
 
 ```scala
@@ -221,12 +238,25 @@ and have output in blue or red as we would expect.
 Given this we can define `Terminal` as
 
 ```scala
-final case class Terminal(bold: Int, color: List[String])
+final case class Terminal(bold: Int, color: List[String]) {
+  def boldOn: Terminal = this.copy(bold = bold + 1)
+  def boldOff: Terminal = this.copy(bold = bold - 1)
+  def pushColor(c: String): Terminal = this.copy(color = c :: color)
+  // Only call this when we know there is at least one color on the stack
+  def popColor: Terminal = this.copy(color = color.tail)
+  def peekColor: Option[String] = this.color.headOption
+}
 ```
 
-where we use `List` to represent the stack of color codes. (We could also use a mutable stack, as working with the state monad ensures the state will be threaded through our program.)
+where we use `List` to represent the stack of color codes. (We could also use a mutable stack, as working with the state monad ensures the state will be threaded through our program.) We've also defined some convenience methods to make working with the state easier.
 
+<<<<<<< HEAD
 With this in place we can write the rest of the code, which is shown below. Remember this code can be directly executed by `scala`. Just copy it into a file (e.g. `Terminal.scala`) and run `scala Terminal.scala`. Once we have defined the structure of `Terminal`, the majority of the remaining code deals with manipulating the `Terminal` state. Most of the methods on `Program` have a common structure of specifying a state change before and after the main program runs. We don't need to implement combinators like `flatMap` because we get them from the `State` monad. This is one of the big benefits of reusing abstractions like monads: we get a standard library of methods without doing any additional work.
+=======
+With this in place we can write the rest of the code, which is shown below. Compared to the previous code I've shortened a few method names and abstracted the escape codes.  Once we have defined the structure of `Terminal`, the majority of the rest of the code is dealing with manipulating the `Terminal` state. Most of the methods on `Program` have a common structure that specifies a state change before and after the main program runs. We don't need to implement combinators like `flatMap` because we get them from the `State` monad. This is one of the big benefits of reusing abstractions like monads: we get a full library of methods without doing any additional work.
+
+Remember this code can be directly executed by `scala`. Just copy it into a file (e.g. `Terminal.scala`) and run `scala Terminal.scala`. 
+>>>>>>> 5dcc90f (Complete first pass of blog post)
 
 ```scala
 //> using dep org.typelevel::cats-core:2.12.0
@@ -240,6 +270,8 @@ object AnsiCodes {
   def csi(arg: String, terminator: String): String =
     s"${csiString}${arg}${terminator}"
 
+  // SGR stands for Select Graphic Rendition. 
+  // All the codes that change formatting are SGR codes.
   def sgr(arg: String): String =
     csi(arg, "m")
 
@@ -254,7 +286,7 @@ final case class Terminal(bold: Int, color: List[String]) {
   def boldOn: Terminal = this.copy(bold = bold + 1)
   def boldOff: Terminal = this.copy(bold = bold - 1)
   def pushColor(c: String): Terminal = this.copy(color = c :: color)
-  // Only call this when we know there is a at least one color on the stack
+  // Only call this when we know there is at least one color on the stack
   def popColor: Terminal = this.copy(color = color.tail)
   def peekColor: Option[String] = this.color.headOption
 }
@@ -324,6 +356,7 @@ object Program {
 ```
 
 
+<<<<<<< HEAD
 ## Codata and Extensibility
 
 At the start of this case study we arbitrarily chose to use a codata interpreter. Let's now explore this choice and it's implications.
@@ -355,13 +388,38 @@ However, this extensibility doesn't come without a price. If we want to use a di
 
 We used the state monad so we could express sequential programs that pass 
 
+=======
+## Conclusions
+
+We've built what we set out to do: a DSL for terminal interaction. It is composable, meaning we can build larger programs out of smaller ones, and it's we gave it reasonable semantics, allowing stacked styles with effect that matches the program's scope. Let's recap how we did this and the lessons that we can transfer to other situations.
+
+There are three main components: the interpreter, codata, and the state monad. Interpreters are how we handle effects everywhere in functional programming. It's a given that if want to work with something effectful we'll have to wrap it up in an intepreter somehow. All I mean by an interpreter is a separation between descriptions (otherwise known as programs) and actions, which in turn allows us to compose and reason about descriptions.
+
+There are two ways we can implement interpreters: with data or with codata. We chose codata here. This may appear an arbitrary choice, and indeed it is somewhat motivated by the needs of the material I'm writing, but there is a good reason for this choice: extensibility. Keen reads of [Functional Programming Strategies][fps] will recall that data makes it easy to add new interpreters but hard to add new operations, while codata makes it easy to add new operations but hard to add new interpreters. We that in action here. It is straightforward to add, say, new operations for other colors or text styles like underlining. Adding new interpreters after the fact, however, is impossible as the we cannot inspect the code inside functions and choose to run it a different way.
+
+There are few notes we can make about using codata interpreters: 
+
+- We started by saying that codata is like programming to an interface, but we haven't explicitly used any interface here. We are programming to an interface, the interface presented by functions, which is the ability to apply them. This works in this example because there is only one interpreter is our system. If we wanted to have more than one interpretation (which we'd have to design for up-front) we could use an interface (a `trait` or `class` in Scala) with more than one method. 
+
+- Notice that our interpreter is split between the functions and the state monad. The state monad provides the sequential flow of the `Terminal` state, and the functions provide the domain specific actions.
+
+- We could factor the interpreter in different ways, and it would still be a codata interpreter. For example, we could put a method to write to the terminal on the `Terminal` type. This would give us a bit more flexibility as we could, say, write to a network socket or a terminal embedded in a browser, as well as the terminal connected to the standard output. We still have the limitation that we cannot create truly different interpretations, such as serializing programs to disk, with the codata approach.
+
+[I've argued before][fp] that the core of functional programming is reasoning and composition. Both of these are core to the code we've written. We've explicitly designed the DSL for ease of reasoning. Indeed that's the whole point of creating a DSL instead of just spitting control codes at the terminal: to make something that we can reason about. This is why we put the effort into making sure nested calls work correctly, for example. Composition comes in at two levels. Our design is compositional, as discussed in the text. Our implementation is also compositional: we use the composition of the state monad and the function inside it.
+
+Finally, take a look at [Terminus][terminus] if want you see these ideas in a large system. Terminus is written in [direct-style][direct-style].  Conceptually it is the same. Implementationally, instead of using a monad to specify the control-flow, we just use the language's built-in control-flow. The characteristics of contextual functions allow us to pass around state without the programming having to do it explicitly.
+
+[^tuis]: If you're interested in [TUI][tui] libraries you might like to look at [ratatui](https://github.com/ratatui/ratatui) (GOAT tier project name, BTW) for Rust, [brick](https://github.com/jtdaugherty/brick) for Haskell, or [Textual](https://textual.textualize.io/) for Python.
+>>>>>>> 5dcc90f (Complete first pass of blog post)
 
 [fps]: https://scalawithcats.com/
-[direct-style]: https://noelwelsh.com/posts/direct-style/
+[direct-style]: @/posts/2024-04-24-direct-style.md
 [vt-100]: https://en.wikipedia.org/wiki/VT100
 [kitty-kp]: https://sw.kovidgoyal.net/kitty/keyboard-protocol/
 [ansi-escape-code]: https://en.wikipedia.org/wiki/ANSI_escape_code
-[terminus]: https://github.com/creativescala/terminus/
+[terminus]: https://www.creativescala.org/terminus/
 [wsl]: https://learn.microsoft.com/en-us/windows/wsl/about
 [wezterm]: https://wezfurlong.org/wezterm/index.html
 [cats]: https://typelevel.org/cats/
+[tui]: https://en.wikipedia.org/wiki/Text-based_user_interface
+[fp]: @/posts/2020-07-05-what-and-why-fp.md
