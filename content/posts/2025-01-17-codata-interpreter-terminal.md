@@ -2,16 +2,16 @@
 title = "Designing a DSL for Terminal Interaction"
 +++
 
-This is a case study of building a DSL for terminal interaction. The terminal is familiar to most programmers, and controlling the terminal is quite easy to get started with. However, applications benefit from higher-level abstractions than the raw escape codes the terminal works with, motivating libraries that present a more ergonomic interface[^tuis]. Our library will showcase codata interpreters, monads, and the central role of building for composition and reasoning.
+In this post we'll build a DSL for terminal interaction. The terminal is familiar to most programmers, and terminal applications are common for developer focused tools. Most terminal features are controlled by writing specially formatted text. However, applications benefit from higher-level abstractions, motivating libraries that present a more ergonomic interface[^tuis]. Our implementation will showcase codata interpreters, monads, and the central role of designing for composition and reasoning. 
 
 <!-- more -->
 
-This case study is a draft of material that will be in [Functional Programming Strategies][fps], and I'm assuming some familiarity with material that appears in that book. If you're not familiar with these terms you can find detailed explanations in [the book][fps], but here's a quick summary:
+This case study is a draft of content for [Functional Programming Strategies][fps], and I'm assuming some familiarity with other material that appears in that book. If you haven't read [the book][fps] you can do so online, but here's a quick summary of the main concepts we will need:
 
 * Codata is fancy programming language theory speak for "object oriented". If you've ever programmed against an interface you'll find this straightforward.
 * Interpreters come about because we want a separation between description and action, which in turn makes it easier to reason about effectful code. 
 In addition to the book, I've [blogged about this before.][direct-style]
-* Monads come about when we want to create a structure that represents doing a bunch of things in a defined sequence.
+* Monads arise when we want to create a structure that represents doing a bunch of things happening in a defined sequence.
 
 Alright, enough background. Let's get into it!
 
@@ -21,8 +21,8 @@ Alright, enough background. Let's get into it!
 The modern terminal is an accretion of features that started with the [VT-100][vt-100] in 1978 and continues [to this day][kitty-kp].
 Most terminal features are accessed by reading and writing [ANSI escape codes][ansi-escape-code].
 There are lots of them, and they aren't all well documented. 
-We will work just with codes that change the text style.
-This allows us to produce interesting output, and raises all the design issues we want to address, without adding unnecessary complexity.
+We will work only with codes that change the text style.
+This allows us to produce interesting output, and raises all the design issues we want to address, but keeps the system simple.
 If comprehensiveness is your interest, I've been working on a [library][terminus] that extends the ideas here to a complete system.
 
 The code below all uses Scala 3. It is written so you can paste it into a file and run it with any recent version of Scala with just `scala <filename>`.
@@ -58,7 +58,7 @@ def printReset(): Unit =
 
 Try running the above code (e.g. save it to a file `ColorCodes.scala` and run `scala ColorCodes.scala`.) 
 You should see text in the normal style for your terminal, followed by text colored red, and then some more text in the normal style.
-The change in color is controlled by sending [escape codes][ansi-escape-code] to the terminal.
+The change in color is controlled by writing [escape codes][ansi-escape-code].
 These are strings starting with `ESC` (which is the character `'\u001b'`) followed by `'['`.
 This is the value in `csiString` (where CSI stands for Control Sequence Introducer).
 The CSI is followed by a string indicating the text style to use, and ended with a `"m"`
@@ -132,10 +132,12 @@ This is not feasible to implement for all possible combinations of styles. The r
 
 To solve our problem above we need `printRed` and `printBold` to accept not a `String` to print but a program to run. 
 We don't need to know what these programs do; we just need a way to run them.
-Then we set the style before we run the program and reset it after it has finished running.
+Then the combinators `printRed`, `printBold`, and so on, can also return programs.
+These programs will set the style appropriately before running their program parameter, and reset it after the parameter program has finished running.
+By accepting and returning programs the combinators have the property of [closure][closure], which in turn makes composition possible.
 
 How should we represent a program?
-Avid readers of [Functional Programming Strategies][fps] will know there are two basic choices: data and codata.
+Avid readers of [Functional Programming Strategies][fps] will know there are two basic choices for any representation: data and codata.
 We will choose codata and in particular functions, the simplest form of codata.
 In the code below we use the type `Program[A]`, which is a function `() => A`.
 The interpreter, which is the thing that runs programs, is just function application.
@@ -371,19 +373,19 @@ Another advantage of codata is that we can mix in arbitrary other Scala code. Fo
 Program.print("Hello").map(_ => 42)
 ```
 
-Using the native representation of programs (i.e. functions) gives us the entire Scala language for free. In a data representation we have to reify every kind of expression we wish to support. There is a downside to this as well: we get Scala semantics whether we like them or not. A codata representation would not appropriate if we wanted to make an exotic language that worked in a different way.
+Using the native representation of programs (i.e. functions) gives us the entire Scala language for free. In a data representation we have to reify every kind of expression we wish to support. There is a downside to this as well: we get Scala semantics whether we like them or not. A codata representation would not be appropriate if we wanted to make an exotic language that worked in a different way.
 
 We could factor the interpreter in different ways, and it would still be a codata interpreter. For example, we could put a method to write to the terminal on the `Terminal` type. This would give us a bit more flexibility as changing the implementation of `Termainal` could, say, write to a network socket or a terminal embedded in a browser. We still have the limitation that we cannot create truly different interpretations, such as serializing programs to disk, with the codata approach.
 
 
 ## Composition and Reasoning
 
-[I've argued before][fp] that the core of functional programming is reasoning and composition. Both of these are central to this case study. We've explicitly designed the DSL for ease of reasoning. Indeed that's the whole point of creating a DSL instead of just spitting control codes at the terminal. An example is how we paid attention to making sure nested calls work as we'd expect. Composition comes in at two levels. Both our design and our implementation are compositional. Within the case study we discussed compositionality in the design. Implementationally,  a `Program` is a the composition of the state monad and the functions inside the state monad. The state monad provides the sequential flow of the `Terminal` state, and the functions provide the domain specific actions.
+[I've argued before][fp] that the core of functional programming is reasoning and composition. Both of these are central to this case study. We've explicitly designed the DSL for ease of reasoning. Indeed that's the whole point of creating a DSL instead of just spitting control codes at the terminal. An example is how we paid attention to making sure nested calls work as we'd expect. Composition comes in at two levels: both our design and our implementation are compositional. Within the case study we discussed compositionality in the design. Implementationally,  a `Program` is a composition of the state monad and the functions inside the state monad. The state monad provides the sequential flow of the `Terminal` state, and the functions provide the domain specific actions.
 
 
 ## Conclusions
 
-We've built what we set out to do: a DSL for terminal interaction. It is composable, meaning we can build larger programs out of smaller ones, and we gave it reasonable semantics, allowing stacked styles with effect that matches the program's nesting. We easily created an implementation by composing the state monad, functions, and a bit of domain specific knowledge about escape codes.
+We've built what we set out to do: a DSL for terminal interaction. It is composable, meaning we can build larger programs out of smaller ones, and we gave it reasonable semantics, allowing, for example, stacked styles with effect that matches the program's nesting. We easily created an implementation by composing the state monad, functions, and a bit of domain specific knowledge about escape codes.
 
 Take a look at [Terminus][terminus] if want you see these ideas in a larger system. Terminus is written in [direct-style][direct-style].  Conceptually it is the same as the case study here, but implementationally, instead of using a monad to specify the control-flow, we just use Scala's control-flow. The properties of contextual functions allow us to pass around state without the programmer having to do it explicitly.
 
@@ -400,3 +402,4 @@ Take a look at [Terminus][terminus] if want you see these ideas in a larger syst
 [cats]: https://typelevel.org/cats/
 [tui]: https://en.wikipedia.org/wiki/Text-based_user_interface
 [fp]: @/posts/2020-07-05-what-and-why-fp.md
+[closure]: https://en.wikipedia.org/wiki/Closure_(mathematics)
