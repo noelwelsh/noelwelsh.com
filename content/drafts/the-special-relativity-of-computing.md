@@ -1,3 +1,8 @@
++++
+title = "The Special Relativity of Computing"
+draft = true
++++
+
 # The Special Relativity of Computing
 
 In my first year of undergraduate I was required to take a general survey course in Physics. A few things still stand out after all these years:

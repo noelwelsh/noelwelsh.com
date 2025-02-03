@@ -1,4 +1,9 @@
-# Lessons from Static Static Generators (Or, Why Static Site Generators are Terrible)
++++
+title = "Lessons from Static Site Generators"
+draft = true
++++
+
+# Lessons from Static Site Generators (Or, Why Static Site Generators are Terrible)
 
 Static site generators (SSG), such as [Zola][zola], [Hugo][hugo], and [Next.js][next], are not the most glamourous side of programming but they are ubiquitous. Websites large and small rely on them. They're economically important enough that the company developing Next.js, for example,  has raised [hundreds of millions of dollars][vercel-funding]. They're also an interesting case study in programming language design: their success illustrates the importance of some overlooked aspects of programming and their flaws highlight the relevance of existing concerns in programming language theory.
 

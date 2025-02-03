@@ -1,3 +1,8 @@
++++
+title = "The Epistemology of Handstands"
+draft = true
++++
+
 # The Epistemology of Handstands
 
 I'm certain that at some point in your life you've vomited. Head over the toilet bowl, gasping for air, may be a strange time to think about epistemology---the study of knowledge---but there's something quite interesting going on here. Clearly you know how to vomit---the evidence is in front of you---but you also you don't. You---all of you---knows how to vomit, but the portion of you that is your consciousness is merely an observer to the act. Your consciousness is informed that you're going vomit, and gets to experience the unpleasant act, but doesn't have any control over the decision to vomit or the actual process of vomiting. I understand giving birth is similar, and a lot of bodily functions are partly or fully under unconscious control. For example, respiration and heart rate are usually managed unconsciously, and I'm not aware we have any conscious control over pupil dilation.
