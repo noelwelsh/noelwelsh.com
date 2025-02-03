@@ -358,7 +358,7 @@ We made a seemingly arbitrary choice to use a codata interpreter. Let's now expl
 
 We described codata as programming to an interface. The interface for functions is essentially one method: the ability to apply them. This corresponds to the single interpretation we have for `Program`: run it and carry out the effects therein. If we wanted to have multiple interpretations (such as logging the `Terminal` state or saving the output to a buffer) we would need to have a richer interface. In Scala this would be a `trait` or `class` exposing more than one method.
 
-Keen reads of [Functional Programming Strategies][fps] will recall that data makes it easy to add new interpreters but hard to add new operations, while codata makes it easy to add new operations but hard to add new interpreters. We see that in action here. For example, it's trivial to add a new color combinator by defining a method like that below.
+Keen readers of [Functional Programming Strategies][fps] will recall that data makes it easy to add new interpreters but hard to add new operations, while codata makes it easy to add new operations but hard to add new interpreters. We see that in action here. For example, it's trivial to add a new color combinator by defining a method like that below.
 
 ```scala
 def green[A](program: Program[A]): Program[A] =
