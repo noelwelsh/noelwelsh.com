@@ -1,23 +1,26 @@
 @font-face {
     font-family: "Inter";
-    src: url("/font/Inter-VariableFont_slnt,wght.ttf")  format('woff2 supports variations'), url("/font/Inter-VariableFont_slnt,wght.ttf")  format('woff2-variations');
+    src:
+        url("/font/Inter-VariableFont_slnt,wght.ttf")
+            format("woff2 supports variations"),
+        url("/font/Inter-VariableFont_slnt,wght.ttf") format("woff2-variations");
     font-weight: 100 900;
 }
 
-.inter {
+@utility inter {
     font-family: Inter, sans-serif;
 }
 
-.newsreader {
-    font-family: Newsreader
+@utility newreader {
+    font-family: Newsreader, serif;
 }
 
 .splash h1 {
-    @apply newsreader text-5xl xl:text-7xl font-semibold tracking-tight text-gray-900;
+    @apply newreader text-5xl xl:text-7xl font-semibold tracking-tight text-gray-900;
 }
 
 .splash h1 .highlight {
-    @apply text-green-600;
+    @apply text-emerald-600;
 }
 
 .splash h2 {
@@ -29,7 +32,7 @@
 }
 
 .menu h1 {
-    @apply inter font-extrabold tracking-tight text-2xl xl:text-4xl hover:underline text-green-600 pb-4 px-2 xl:px-0;
+    @apply inter font-extrabold tracking-tight text-2xl xl:text-4xl hover:underline text-emerald-600 pb-4 px-2 xl:px-0;
 }
 
 .menu h1.selected {
@@ -41,28 +44,70 @@
 }
 
 .base-h2 {
-    @apply inter text-lg xl:text-2xl text-gray-900 font-extrabold tracking-tight;
+    @apply inter text-2xl xl:text-4xl text-gray-900 font-extrabold tracking-tight;
 }
 
 .base-h3 {
-    @apply inter text-base xl:text-lg text-gray-900 font-extrabold tracking-tight;
+    @apply inter text-lg xl:text-2xl text-gray-900 font-extrabold tracking-tight;
 }
 
 .base-a {
-    @apply text-green-600 hover:underline;
+    @apply text-emerald-600 hover:underline;
 }
 
+.prose {
+    @apply w-3xl text-base/7 mb-4;
+}
+
+.prose h1 {
+    @apply inter text-4xl xl:text-6xl font-extrabold text-gray-900 tracking-tight;
+}
+
+.prose h2 {
+    @apply inter text-2xl xl:text-4xl font-extrabold text-gray-900 tracking-tight mt-4 pb-2;
+}
+
+.prose h3 {
+    @apply inter text-xl xl:text-2xl font-extrabold text-gray-900 tracking-tight mt-2 pb-2;
+}
 
 .prose a {
-    @apply no-underline hover:underline;
+    @apply text-emerald-600 no-underline hover:underline;
+}
+
+.prose p code {
+    @apply font-semibold;
+}
+
+.prose p {
+    @apply pb-4;
 }
 
 .prose pre {
-    @apply my-2 p-2;
+    @apply mt-2 mb-4 p-6 rounded-md;
+}
+
+.prose ul {
+    @apply list-disc list-inside;
+}
+
+.prose li {
+    @apply pb-4;
 }
 
 .prose .footnote-definition {
-    font-size: 0.85rem;
+    @apply block pb-4;
+}
+
+.prose .footnote-definition-label {
+    @apply inline font-semibold text-gray-900;
+}
+
+.prose .footnote-definition p {
+    @apply inline text-sm pb-2;
+}
+
+.prose .footnote-definition {
 }
 
 .prose .footnote-definition p {

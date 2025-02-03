@@ -4,13 +4,13 @@
   "main": "style/style.css",
   "description": "",
   "dependencies": {
-    "@tailwindcss/typography": "^0.4.0",
+    "@tailwindcss/postcss": "^4.0.3",
     "autoprefixer": "^10.2.4",
     "postcss": "^8.4.31",
     "postcss-cli": "^8.3.1",
     "postcss-import": "^14.0.0",
     "postcss-loader": "^5.0.0",
-    "tailwindcss": "^2.0.3"
+    "tailwindcss": "^4.0.0"
   },
   "scripts": {
     "build": "postcss style/style.css --output static/style/style.css --no-map",

@@ -1,17 +1,52 @@
-{% extends "base.html" %}
-
-{% block title %}
-{{ page.title }}
-{% endblock title %}
-
-{% block content %}
-<div class="prose lg:prose-xl prose-green">
+{% extends "base.html" %} {% block title %} {{ page.title }} {% endblock title
+%} {% block content %}
+<div class="prose lg:prose-xl">
   <div class="pb-8">
     <h1>
       {{ page.title }}
-      <br/><span class="text-gray-600 text-lg font-extrabold">{{ page.date | date(format="%d %B %Y") }}</span>
+      <br /><span class="text-gray-600 text-lg xl:text-2xl font-extrabold"
+        >{{ page.date | date(format="%d %B %Y") }}</span
+      >
     </h1>
   </div>
   {{ page.content | safe }}
+</div>
+
+<div id="subscribe" class="bg-gray-100 p-4 rounded-md w-3xl">
+  <h4 class="text-lg font-semibold text-emerald-600 pb-1">
+    Like what you're reading? Subscribe to my mailing list.
+  </h4>
+  <p class="pb-4">Articles and updates once every two weeks.</p>
+  <form
+    action="https://buttondown.com/api/emails/embed-subscribe/functionalprogrammingstrategies"
+    method="post"
+    target="popupwindow"
+    onsubmit="window.open('https://buttondown.com/functionalprogrammingstrategies', 'popupwindow')"
+    class="embeddable-buttondown-form"
+  >
+    <p class="pb-4">
+      <label for="bd-email" class="pr-2">Enter your email</label>
+      <input
+        type="email"
+        name="email"
+        id="bd-email"
+        class="bg-white rounded-md ring-2 ring-gray-300 hover:ring-emerald-600 focus:ring-emerald-600 active:ring-emerald-600 py-1 px-2"
+      />
+
+      <input
+        type="submit"
+        value="Subscribe"
+        class="ml-2 px-2 py-1 rounded-md bg-gray-300 ring-2 ring-gray-300 hover:ring-emerald-600 hover:text-emerald-600 active:bg-emerald-600 active:ring-emerald-600 active:text-white"
+      />
+    </p>
+    <p class="text-xs">
+      <a
+        href="https://buttondown.com/refer/functionalprogrammingstrategies"
+        class="hover:text-emerald-600"
+        target="_blank"
+        >Powered by Buttondown.</a
+      >
+    </p>
+  </form>
 </div>
 {% endblock content %}
