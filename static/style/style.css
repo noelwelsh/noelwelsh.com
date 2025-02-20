@@ -563,12 +563,6 @@
   .mx-auto {
     margin-inline: auto;
   }
-  .my-2 {
-    margin-block: calc(var(--spacing) * 2);
-  }
-  .mb-4 {
-    margin-bottom: calc(var(--spacing) * 4);
-  }
   .mb-16 {
     margin-bottom: calc(var(--spacing) * 16);
   }
@@ -634,9 +628,6 @@
   .bg-gray-300 {
     background-color: var(--color-gray-300);
   }
-  .bg-gray-400 {
-    background-color: var(--color-gray-400);
-  }
   .bg-white {
     background-color: var(--color-white);
   }
@@ -651,12 +642,6 @@
   .to-teal-200 {
     --tw-gradient-to: var(--color-teal-200);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
-  .p-1 {
-    padding: calc(var(--spacing) * 1);
-  }
-  .p-2 {
-    padding: calc(var(--spacing) * 2);
   }
   .p-4 {
     padding: calc(var(--spacing) * 4);
@@ -726,9 +711,6 @@
   .text-gray-700 {
     color: var(--color-gray-700);
   }
-  .text-gray-800 {
-    color: var(--color-gray-800);
-  }
   .antialiased {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -739,15 +721,6 @@
   }
   .ring-gray-300 {
     --tw-ring-color: var(--color-gray-300);
-  }
-  .ring-gray-400 {
-    --tw-ring-color: var(--color-gray-400);
-  }
-  .ring-gray-600 {
-    --tw-ring-color: var(--color-gray-600);
-  }
-  .ring-white {
-    --tw-ring-color: var(--color-white);
   }
   .outline {
     outline-style: var(--tw-outline-style);
@@ -1018,8 +991,8 @@
   }
 }
 .prose h2 {
-  margin-top: calc(var(--spacing) * 4);
-  padding-bottom: calc(var(--spacing) * 2);
+  margin-top: calc(var(--spacing) * 8);
+  margin-bottom: calc(var(--spacing) * 2);
   font-family: Inter, sans-serif;
   font-size: var(--text-2xl);
   line-height: var(--tw-leading, var(--text-2xl--line-height));
@@ -1034,8 +1007,8 @@
   }
 }
 .prose h3 {
-  margin-top: calc(var(--spacing) * 2);
-  padding-bottom: calc(var(--spacing) * 2);
+  margin-top: calc(var(--spacing) * 4);
+  margin-bottom: calc(var(--spacing) * 2);
   font-family: Inter, sans-serif;
   font-size: var(--text-xl);
   line-height: var(--tw-leading, var(--text-xl--line-height));
@@ -1063,7 +1036,7 @@
   font-weight: var(--font-weight-semibold);
 }
 .prose p {
-  padding-bottom: calc(var(--spacing) * 4);
+  margin-bottom: calc(var(--spacing) * 4);
 }
 .prose pre {
   margin-top: calc(var(--spacing) * 2);
@@ -1074,6 +1047,10 @@
 .prose ul {
   list-style-position: inside;
   list-style-type: disc;
+}
+.prose ol {
+  list-style-position: inside;
+  list-style-type: decimal;
 }
 .prose li {
   padding-bottom: calc(var(--spacing) * 4);

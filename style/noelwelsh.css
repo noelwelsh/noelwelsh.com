@@ -64,11 +64,11 @@
 }
 
 .prose h2 {
-    @apply inter text-2xl xl:text-4xl font-extrabold text-gray-900 tracking-tight mt-4 pb-2;
+    @apply inter text-2xl xl:text-4xl font-extrabold text-gray-900 tracking-tight mt-8 mb-2;
 }
 
 .prose h3 {
-    @apply inter text-xl xl:text-2xl font-extrabold text-gray-900 tracking-tight mt-2 pb-2;
+    @apply inter text-xl xl:text-2xl font-extrabold text-gray-900 tracking-tight mt-4 mb-2;
 }
 
 .prose a {
@@ -80,7 +80,7 @@
 }
 
 .prose p {
-    @apply pb-4;
+    @apply mb-4;
 }
 
 .prose pre {
@@ -89,6 +89,10 @@
 
 .prose ul {
     @apply list-disc list-inside;
+}
+
+.prose ol {
+    @apply list-decimal list-inside;
 }
 
 .prose li {
