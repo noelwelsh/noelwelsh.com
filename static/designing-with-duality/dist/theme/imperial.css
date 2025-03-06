@@ -1,0 +1,35 @@
+.imperial-background {
+  background-image: url("../img/pexels-chengxin-zhao-1218017-28288861.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.white-background {
+  background-color: white;
+}
+
+.blur {
+  backdrop-filter: blur(4px);
+}
+
+.midnight-blue {
+  color: #003366;
+}
+.sb-red {
+  color: #ff636d;
+}
+
+.sb-blue {
+  color: #00b8c0;
+}
+
+.math-blue {
+  color: #63fffa;
+}
+.cm-serif {
+  font-family: "CMU Serif";
+}
+.reveal .outline-black {
+    text-shadow: 2px 2px 1px black , -2px -2px 1px black, 2px -2px 1px black, -2px 2px 1px black; */
+}

@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Designing with Duality</title>
+
+        <link rel="stylesheet" href="dist/reset.css">
+        <link rel="stylesheet" href="dist/reveal.css">
+        <link rel="stylesheet" href="dist/theme/night.css">
+        <link rel="stylesheet" href="dist/theme/imperial.css">
+
+        <!-- Theme used for syntax highlighted code -->
+        <link rel="stylesheet" href="plugin/highlight/monokai.css">
+        <script src="plugin/highlight/highlight.js"></script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+              <section>
+                <section class="bg-imperial blur">
+                  <h1 class="outline-black"><span class="midnight-blue">Designing with </span><span class="sb-red">Duality</span></h1>
+                  <h3><span class="outline-black">Noel Welsh</span></h3>
+                  <h3><span class="outline-black">Inner Product</span></h3>
+                </section>
+                <section> <h1><span class="sb-red">Systematic</span> program design</h1> </section>
+                <section><h1><span class="sb-red">Duality</span></h1></section>
+                <section><h1><span class="sb-red">Interpreters</span></h1></section>
+              </section>
+
+
+              <section>
+                <section data-background-color="white"><h1><span class="midnight-blue">Interpreters</span></h1></section>
+                <section><h3>Esoterica?</h3></section>
+                <section><h3>Combinator libraries</h3></section>
+
+                <section><h3>Regular Expressions</h3></section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    val pattern = "Sca(la)+"
+                    pattern.matches("Scalalalalala") // true
+                  </code></pre>
+                  <p class="fragment"><span class="sb-red"><strong>Atoms:</strong></span> <code>"S"</code>, <code>"c"</code>, etc.</p>
+                  <p class="fragment"><span class="sb-red"><strong>Combinators:</strong></span> concatentation, bracketing, <code>+</code></p>
+                  <p class="fragment"><span class="sb-red"><strong>Interpreter:</strong></span> <code>matches</code></p>
+                </section>
+
+                <section><h3>Graphics</h3></section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    val image = Picture.circle(100).beside(Picture.square(100))
+                    picture.draw()
+                  </code></pre>
+                  <img src="dist/img/picture.png"/>
+                  <p class="fragment"><span class="sb-red"><strong>Atoms:</strong></span> <code>Picture.circle(100)</code>, <code>Picture.square(100)</code></p>
+                  <p class="fragment"><span class="sb-red"><strong>Combinators:</strong></span> <code>beside</code></p>
+                  <p class="fragment"><span class="sb-red"><strong>Interpreter:</strong></span> <code>draw</code></p>
+                </section>
+
+                <section><h3>Arithmetic</h3></section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    val expr = Expr.literal(1) + Expr.literal(2)
+                    expr.eval() // 3
+                  </code></pre>
+                  <p class="fragment"><span class="sb-red"><strong>Atoms:</strong></span> <code>Expr.literal(1)</code>, <code>Expr.literal(2)</code></p>
+                  <p class="fragment"><span class="sb-red"><strong>Combinators:</strong></span> <code>+</code></p>
+                  <p class="fragment"><span class="sb-red"><strong>Interpreter:</strong></span> <code>eval</code></p>
+                </section>
+
+                <section><h2><span class="sb-red">Arithmetic Interpreter</span></h2></section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="2,13">
+                    enum Expr:
+                      case Lit(value: Double)
+                      case Add(l: Expr, r: Expr)
+                      case Sub(l: Expr, r: Expr)
+                      case Mul(l: Expr, r: Expr)
+                      case Div(l: Expr, r: Expr)
+
+                      def +(that: Expr): Expr = Add(this, that)
+                      def -(that: Expr): Expr = Sub(this, that)
+                      def *(that: Expr): Expr = Mul(this, that)
+                      def /(that: Expr): Expr = Div(this, that)
+                    object Expr:
+                      def literal(value: Double): Expr = Expr.Lit(value)
+                  </code></pre>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="3-6,8-11">
+                    enum Expr:
+                      case Lit(value: Double)
+                      case Add(l: Expr, r: Expr)
+                      case Sub(l: Expr, r: Expr)
+                      case Mul(l: Expr, r: Expr)
+                      case Div(l: Expr, r: Expr)
+
+                      def +(that: Expr): Expr = Add(this, that)
+                      def -(that: Expr): Expr = Sub(this, that)
+                      def *(that: Expr): Expr = Mul(this, that)
+                      def /(that: Expr): Expr = Div(this, that)
+                    object Expr:
+                      def literal(value: Double): Expr = Expr.Lit(value)
+                  </code></pre>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="3-9">
+                    enum Expr:
+                      // ...
+                      def eval(): Double =
+                        this match
+                          case Lit(value) => value
+                          case Add(l, r) => l.eval() + r.eval()
+                          case Sub(l, r) => l.eval() - r.eval()
+                          case Mul(l, r) => l.eval() * r.eval()
+                          case Div(l, r) => l.eval() / r.eval()
+                  </code></pre>
+                </section>
+
+                <section><h2><span class="sb-red">Performance</span></h2></section>
+                <section><h3>Calculate fibonacci(25)</h3></section>
+                <section><h3>~2750 iterations per second</h3></section>
+                <section>
+                  <h3>Walking the AST is slow</h3>
+                  <pre><code data-trim class="language-scala" data-line-numbers="6">
+                    enum Expr:
+                      // ...
+                      def eval(): Double =
+                        this match
+                          case Lit(value) => value
+                          case Add(l, r) => l.eval() + r.eval()
+                          case Sub(l, r) => l.eval() - r.eval()
+                          case Mul(l, r) => l.eval() * r.eval()
+                          case Div(l, r) => l.eval() / r.eval()
+                  </code></pre>
+                </section>
+                <section><h3>Convert to a stack machine</h3></section>
+                <section><h3>Arguments for combinators are popped from a stack</h3></section>
+                <section><h3>Results are pushed to a stack</h3></section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="2,9">
+                    enum Expr:
+                      case Lit(value: Double)
+                      case Add(l: Expr, r: Expr)
+                      case Sub(l: Expr, r: Expr)
+                      case Mul(l: Expr, r: Expr)
+                      case Div(l: Expr, r: Expr)
+
+                    enum StackInstr:
+                      case Lit(value: Double)
+                      case Add
+                      case Sub
+                      case Mul
+                      case Div
+                  </code></pre>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="3-6,10-13">
+                    enum Expr:
+                      case Lit(value: Double)
+                      case Add(l: Expr, r: Expr)
+                      case Sub(l: Expr, r: Expr)
+                      case Mul(l: Expr, r: Expr)
+                      case Div(l: Expr, r: Expr)
+
+                    enum StackInstr:
+                      case Lit(value: Double)
+                      case Add
+                      case Sub
+                      case Mul
+                      case Div
+                  </code></pre>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="5">
+                    enum Expr:
+                      // ...
+                      def compile(): Array[StackInstr] =
+                        this match
+                          case Lit(value) => Array(StackInstr.Lit(value))
+                          case Add(l, r) =>
+                            l.compile() ++ r.compile() ++ Array(StackInstr.Add)
+                          case Sub(l, r) =>
+                            l.compile() ++ r.compile() ++ Array(StackInstr.Sub)
+                          case Mul(l, r) =>
+                            l.compile() ++ r.compile() ++ Array(StackInstr.Mul)
+                          case Div(l, r) =>
+                            l.compile() ++ r.compile() ++ Array(StackInstr.Div)
+                  </code></pre>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="6-13">
+                    enum Expr:
+                      // ...
+                      def compile(): Array[StackInstr] =
+                        this match
+                          case Lit(value) => Array(StackInstr.Lit(value))
+                          case Add(l, r) =>
+                            l.compile() ++ r.compile() ++ Array(StackInstr.Add)
+                          case Sub(l, r) =>
+                            l.compile() ++ r.compile() ++ Array(StackInstr.Sub)
+                          case Mul(l, r) =>
+                            l.compile() ++ r.compile() ++ Array(StackInstr.Mul)
+                          case Div(l, r) =>
+                            l.compile() ++ r.compile() ++ Array(StackInstr.Div)
+                  </code></pre>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="3-4">
+                    object StackInstr:
+                      def eval(ins: StackInstr): Double =
+                        val stack: Array[Double]
+                        def loop(sp: Int, ip: Int)
+                          if ip == ins.size then stack(sp - 1)
+                          else ins(ip) match
+                            case Lit(value) =>
+                              stack(sp) = value
+                              loop(sp + 1, ip + 1)
+                            case Add =>
+                              val a = stack(sp - 1)
+                              val b = stack(sp - 2)
+                              stack(sp - 2) = (a + b)
+                              loop(sp - 1, ip + 1)
+                            // ...
+                  </code></pre>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="7-14">
+                    object StackInstr:
+                      def eval(ins: StackInstr): Double =
+                        val stack: Array[Double]
+                        def loop(sp: Int, ip: Int)
+                          if ip == ins.size then stack(sp - 1)
+                          else ins(ip) match
+                            case Lit(value) =>
+                              stack(sp) = value
+                              loop(sp + 1, ip + 1)
+                            case Add =>
+                              val a = stack(sp - 1)
+                              val b = stack(sp - 2)
+                              stack(sp - 2) = (a + b)
+                              loop(sp - 1, ip + 1)
+                            // ...
+                  </code></pre>
+                </section>
+                <section>
+                  <h3 class="fragment semi-fade-out">Tree walking: ~2750 iterations per second</h3>
+                  <h3 class="fragment">Stack machine: ~3550 iterations per second</h3>
+                </section>
+                <section><h3><span class="sb-red">How?</span></h3> </section>
+                <section>
+                  <h3>Read the literature</h3>
+                  <p>Tied to low-level implementation techniques. E.g. GCC extensions.</p>
+                  <p>Doesn't generalize</p>
+                </section>
+                <section>
+                  <h3 class="fragment">Learn general principles to derive these concepts</h3>
+                  <p>Wide applicability</p>
+                </section>
+                <section>
+                  <h3>Duality is such a principle</h3>
+                </section>
+              </section>
+              <section>
+                <section data-background-color="white"><h1><span class="midnight-blue">Duality</span></h1></section>
+
+                <section><h2>Duality <span class="sb-red">Informally</span></h2></section>
+                <section>
+                  <h3>Two concepts are <span class="sb-red">duals</h3>
+                  <p class="fragment">we can relate one to the other</p>
+                  <p class="fragment">understanding one helps understand the other</p>
+                  <p class="fragment">symmetries, opposites, complements</p>
+                </section>
+                <section>
+                  <h3><code>and</code> and <code>or</code></h3>
+                  <table>
+                    <tr>
+                      <th>a <code>and</code> b</th>
+                      <th>true</th>
+                      <th>false</th>
+                    </tr>
+                    <tr>
+                      <th>true</th>
+                      <td class="sb-blue">true</td>
+                      <td class="sb-red">false</td>
+                    </tr>
+                    <tr>
+                      <th>false</th>
+                      <td class="sb-red">false</td>
+                      <td class="sb-red">false</td>
+                    </tr>
+                  </table>
+                  <table>
+                    <tr>
+                      <th>a <code>or</code> b</th>
+                      <th>true</th>
+                      <th>false</th>
+                    </tr>
+                    <tr>
+                      <th>true</th>
+                      <td class="sb-blue">true</td>
+                      <td class="sb-blue">true</td>
+                    </tr>
+                    <tr>
+                      <th>false</th>
+                      <td class="sb-blue">true</td>
+                      <td class="sb-red">false</td>
+                    </tr>
+                  </table>
+                </section>
+                <section>
+                  <h3>Tree walking is <span class="sb-red">dual</span> to stack machine</h3>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                  case Add(l, r) => l.eval() + r.eval()
+                  </code></pre>
+                  <p>Parameters are <span class="sb-blue">explicit</span></p>
+                  <p class="fragment">Stack is <span class="sb-red">implicit</span></p>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                  case Add =>
+                    val a = stack(sp - 1)
+                    val b = stack(sp - 2)
+                    stack(sp - 2) = (a + b)
+                  </code></pre>
+                  <p>Parameters are <span class="sb-red">implicit</span></p>
+                  <p class="fragment">Stack is <span class="sb-blue">explicit</span></p>
+                </section>
+                <section><h3><span class="sb-red">Systematically</span> transform one to the other</h3></section>
+                <section>
+                  <h3><span class="sb-red">Data</span> is dual to <span class="sb-blue">Codata</span></h3>
+                  <p><span class="sb-blue">Codata</span> means a function or object</p>
+                </section>
+                <section>
+                  <h3><span class="sb-red">Data</span></h3>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                  enum Expr:
+                    case Lit(value: Double)
+                    case Add(l: Expr, r: Expr)
+                    case Sub(l: Expr, r: Expr)
+                    case Mul(l: Expr, r: Expr)
+                    case Div(l: Expr, r: Expr)
+                  </code></pre>
+                  <p>Data is <span class="sb-red">extensional</span>, defines what it <span class="sb-red">is</span></p>
+                </section>
+                <section>
+                  <h3><span class="sb-blue">Codata</span></h3>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                  trait Op:
+                    def eval: Double
+                  </code></pre>
+                  <p>Codata is <span class="sb-blue">intensional</span>, defines what it can <span class="sb-blue">do</span></p>
+                </section>
+                <section>
+                  <h3>Can we apply this duality to our interpreter?</h3>
+                </section>
+                <section><h3>BTW, we just related FP to OO</h3></section>
+              </section>
+
+              <section>
+                <section data-background-color="white"><h1><span class="midnight-blue">A Dual Interpreter</span></h1></section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    enum StackInstr:
+                      case Lit(value: Double)
+                      case Add
+                      // ...
+                    object StackInstr:
+                      def eval(ins: StackInstr): Double =
+                        val stack: Array[Double]
+                        def loop(sp: Int, ip: Int)
+                          if ip == ins.size then stack(sp - 1)
+                          else ins(ip) match
+                            case Lit(value) =>
+                              stack(sp) = value
+                              loop(sp + 1, ip + 1)
+                          // ...
+                  </code></pre>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="2-4">
+                    enum StackInstr:
+                      case Lit(value: Double)
+                      case Add
+                      // ...
+                    object StackInstr:
+                      def eval(ins: StackInstr): Double =
+                        val stack: Array[Double]
+                        def loop(sp: Int, ip: Int)
+                          if ip == ins.size then stack(sp - 1)
+                          else ins(ip) match
+                            case Lit(value) =>
+                              stack(sp) = value
+                              loop(sp + 1, ip + 1)
+                          // ...
+                  </code></pre>
+                  <p>Data becomes functions</p>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="4-15">
+                    private final var sp: Int = 0
+                    private final var ip: Int = 0
+
+                    sealed abstract class Op extends Function0[Unit]
+                    final case class Lit(value: Double) extends Op:
+                      def apply(): Unit =
+                        stack(sp) = value
+                        sp = sp + 1
+                    case object Add extends Op:
+                      def apply(): Unit =
+                        val a = stack(sp - 1)
+                        val b = stack(sp - 2)
+                        stack(sp - 2) = (a + b)
+                        sp = sp - 1
+                    // ...
+                  </code></pre>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="6-14">
+                    enum StackInstr:
+                      case Lit(value: Double)
+                      case Add
+                      // ...
+                    object StackInstr:
+                      def eval(ins: StackInstr): Double =
+                        val stack: Array[Double]
+                        def loop(sp: Int, ip: Int)
+                          if ip == ins.size then stack(sp - 1)
+                          else ins(ip) match
+                            case Lit(value) =>
+                              stack(sp) = value
+                              loop(sp + 1, ip + 1)
+                          // ...
+                  </code></pre>
+                  <p>Dispatch carries out operation and advances instruction pointer</p>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="8-14">
+                    private final var sp: Int = 0
+                    private final var ip: Int = 0
+
+                    sealed abstract class Op extends Function0[Unit]
+                    // ...
+
+                    final def eval(program: Array[Op]): Double =
+                      @tailrec def loop(): Double =
+                        if ip == program.size then stack(sp - 1)
+                        else
+                          val ins = program(ip)
+                          ins()
+                          ip = ip + 1
+                          loop()
+                      loop()
+                  </code></pre>
+                  <p>Dispatch calls function and advances instruction pointer</p>
+                </section>
+                <section>
+                  <h3>Known as <span class="sb-red">subroutine threading</span></h3>
+                </section>
+                <section>
+                  <h3 class="fragment semi-fade-out">Tree walking: ~2750 iterations per second</h3>
+                  <h3 class="fragment fade-in-then-semi-out">Stack machine: ~3550 iterations per second</h3>
+                  <h3 class="fragment">Dualized stack machine: ~542,000,000 iterations per second</h3>
+                </section>
+                <section>
+                  <h3>Other dualities?</h3>
+                </section>
+                <section>
+                  <h3><span class="sb-red">Returns</span> are dual to <span class="sb-blue">calls</span></h3>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers="8-14">
+                  val a = someFunction()
+                  anotherFunction(a)
+
+                  someFunction((a) => anotherFunction(a))
+                  </code></pre>
+                </section>
+                <section><h3><span class="sb-red">Direct style</span> and <span class="sb-blue">continuation-passing style</span></h3></section>
+                <section>
+                  <h3>Direct threading</h3>
+                  <p>Another performance improvement</p>
+                </section>
+              </section>
+
+              <section>
+                <section data-background-color="white"><h1><span class="midnight-blue">Conclusions</span></h1></section>
+                <section>
+                  <h3><span class="sb-red">Duality</span> relates <span class="sb-red">AST</span> and <span class="sb-blue">stack machine</span></h3>
+                </section>
+                <section>
+                  <h3><span class="sb-red">Duality</span> can explain <span class="sb-red">interpreter dispatch</span></h3>
+                  <table>
+                    <tr>
+                      <th></th><th>Direct</th><th>CPS</th>
+                    </tr>
+                    <tr>
+                      <th>Data</th><td>AST</td><td>Indirect threaded</td>
+                    </tr>
+                    <tr>
+                      <th>Codata</th><td>Subroutine</td><td>Direct threaded</td>
+                    </tr>
+                  </table>
+                </section>
+                <section>
+                  <h3><span class="sb-red">Duality</span> gives <span class="sb-red">systematic</span> program transforms</h3>
+                  <p>For example, relate FP and OO implementation techniques</p>
+                </section>
+              </section>
+
+              <section>
+                <section data-background-color="white"><h1><span class="midnight-blue">Thanks!</span></h1></section>
+                <section><h3>
+                  Imperial photo by <a href="https://www.pexels.com/@chengxin-zhao-1218017/">Chengxin Zhao</a> on <a href="https://www.pexels.com/photo/imperial-collage-london-28288861/">Pexels</a>.
+                </h3></section>
+                <section>
+                  <h3>Questions?</h3>
+                  <p>@noelwelsh</p>
+                  <p>noel@noelwelsh.com</p>
+                  <p><a href="https://noelwelsh.com/posts/understanding-vm-dispatch/">https://noelwelsh.com/posts/understanding-vm-dispatch/</a></p>
+                </section>
+              </section>
+            </div>
+        </div>
+
+        <script src="dist/reveal.js"></script>
+        <script src="plugin/notes/notes.js"></script>
+        <script src="plugin/markdown/markdown.js"></script>
+        <script src="plugin/highlight/highlight.js"></script>
+        <script>
+            // More info about initialization & config:
+            // - https://revealjs.com/initialization/
+            // - https://revealjs.com/config/
+            Reveal.initialize({
+                hash: true,
+
+                // Learn about plugins: https://revealjs.com/plugins/
+                plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+        // Add in the special background for certain slides
+        function updateBackground(currentSlide) {
+            let element = document.querySelector('.reveal.slide');
+            // Unset any special backgrounds
+            element.classList.remove('imperial-background');
+            element.classList.remove('white-background');
+
+            // Add any specific special background
+            if (event.currentSlide.classList.contains('bg-imperial')) {
+                element.classList.add('imperial-background');
+            } else if (event.currentSlide.classList.contains('bg-white')) {
+                element.classList.add('white-background')
+            }
+        }
+
+        // Check for background update when we load and every time we change slide
+        Reveal.on('ready', event => updateBackground(event.currentSlide));
+        Reveal.on('slidechanged', event => updateBackground(event.currentSlide));
+        </script>
+    </body>
+</html>
