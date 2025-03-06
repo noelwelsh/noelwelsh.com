@@ -209,7 +209,7 @@
                 <section>
                   <pre><code data-trim class="language-scala" data-line-numbers="3-4">
                     object StackInstr:
-                      def eval(ins: StackInstr): Double =
+                      def eval(ins: Array[StackInstr]): Double =
                         val stack: Array[Double]
                         def loop(sp: Int, ip: Int)
                           if ip == ins.size then stack(sp - 1)
@@ -228,7 +228,7 @@
                 <section>
                   <pre><code data-trim class="language-scala" data-line-numbers="7-14">
                     object StackInstr:
-                      def eval(ins: StackInstr): Double =
+                      def eval(ins: Array[StackInstr]): Double =
                         val stack: Array[Double]
                         def loop(sp: Int, ip: Int)
                           if ip == ins.size then stack(sp - 1)
@@ -255,7 +255,7 @@
                   <p>Doesn't generalize</p>
                 </section>
                 <section>
-                  <h3 class="fragment">Learn general principles to derive these concepts</h3>
+                  <h3>Learn general principles to derive these concepts</h3>
                   <p>Wide applicability</p>
                 </section>
                 <section>
@@ -265,7 +265,7 @@
               <section>
                 <section data-background-color="white"><h1><span class="midnight-blue">Duality</span></h1></section>
 
-                <section><h2>Duality <span class="sb-red">Informally</span></h2></section>
+                <section><h2>Duality <span class="sb-red">informally</span></h2></section>
                 <section>
                   <h3>Two concepts are <span class="sb-red">duals</h3>
                   <p class="fragment">we can relate one to the other</p>
@@ -354,10 +354,10 @@
                   </code></pre>
                   <p>Codata is <span class="sb-blue">intensional</span>, defines what it can <span class="sb-blue">do</span></p>
                 </section>
+                <section><h3>(BTW, we just related FP to OO)</h3></section>
                 <section>
                   <h3>Can we apply this duality to our interpreter?</h3>
                 </section>
-                <section><h3>BTW, we just related FP to OO</h3></section>
               </section>
 
               <section>
@@ -369,7 +369,7 @@
                       case Add
                       // ...
                     object StackInstr:
-                      def eval(ins: StackInstr): Double =
+                      def eval(ins: Array[StackInstr]): Double =
                         val stack: Array[Double]
                         def loop(sp: Int, ip: Int)
                           if ip == ins.size then stack(sp - 1)
@@ -387,7 +387,7 @@
                       case Add
                       // ...
                     object StackInstr:
-                      def eval(ins: StackInstr): Double =
+                      def eval(ins: Array[StackInstr]): Double =
                         val stack: Array[Double]
                         def loop(sp: Int, ip: Int)
                           if ip == ins.size then stack(sp - 1)
@@ -425,7 +425,7 @@
                       case Add
                       // ...
                     object StackInstr:
-                      def eval(ins: StackInstr): Double =
+                      def eval(ins: Array[StackInstr]): Double =
                         val stack: Array[Double]
                         def loop(sp: Int, ip: Int)
                           if ip == ins.size then stack(sp - 1)
@@ -506,7 +506,7 @@
                   </table>
                 </section>
                 <section>
-                  <h3><span class="sb-red">Duality</span> gives <span class="sb-red">systematic</span> program transforms</h3>
+                  <h3><span class="sb-red">Duality</span> gives <span class="sb-red">systematic</span> relationships between concepts</h3>
                   <p>For example, relate FP and OO implementation techniques</p>
                 </section>
               </section>
