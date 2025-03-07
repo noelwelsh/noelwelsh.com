@@ -3,11 +3,14 @@ title = "Books"
 template = "default.html"
 +++
 
-I'm the author of three books, all of which are freely available online.
+## [Functional Programming Strategies](https://scalawithcats.com/)
+
+[Functional Programming Strategies](https://scalawithcats.com) updates and expands the scope of Scala with Cats.
+
 
 ## [Creative Scala](https://creativescala.org)
 
-An introduction to functional programming and generative art, aimed at people new to programming. Creative Scala is heavily inspired by <a href="https://htdp.org/">HtDP</a>, and like HtDP strives to present programming as a systematic process.
+An introduction to functional programming and generative art, aimed at people new to programming. Creative Scala is heavily inspired by [HtDP](https://htdp.org/), and like HtDP strives to present programming as a systematic process.
 
 
 ## [Essential Scala](https://underscore.io/books/essential-scala)
