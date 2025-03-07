@@ -5,7 +5,7 @@ template = "default.html"
 
 ## [Functional Programming Strategies](https://scalawithcats.com/)
 
-[Functional Programming Strategies](https://scalawithcats.com) updates and expands the scope of Scala with Cats.
+This book aims to present the core techniques for writing functional code, and show the relationships between these techniques and the tradeoffs they make. It updates and greatly expands the scope of Scala with Cats.
 
 
 ## [Creative Scala](https://creativescala.org)
