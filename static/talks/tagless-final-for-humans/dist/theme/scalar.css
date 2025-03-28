@@ -1,0 +1,102 @@
+@font-face {
+    font-family: 'Pacifico';
+    src: url('../fonts/Pacifico-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Roboto Slab';
+    src: url('../fonts/RobotoSlab-VariableFont_wght.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Grenze Gotisch';
+    src: url('../fonts/GrenzeGotisch-VariableFont_wght.ttf') format('truetype');
+}
+
+:root {
+  --dark-industrial-black: #1C1C1C;  /* Charcoal Black - Deep shadows, oppression */
+  --dark-industrial-rust: #8B3A3A;   /* Rust Red - Corroded, oxidized metal */
+  --dark-industrial-metal: #484F56;  /* Gunmetal Gray - Cold steel, machinery */
+  --dark-industrial-toxic: #4A7023;  /* Toxic Green - Eerie neon, chemical spills */
+  --dark-industrial-glow: #C75C22;   /* Burnt Orange - Rusting signs, distant fires */
+
+  --solarpunk-sky: #7DDFFF;   /* Bright Sky Blue - Clean air, open skies */
+  --solarpunk-leaf: #3FA34D;  /* Vibrant Leaf Green - Lush nature, sustainable growth */
+  --solarpunk-sun: #FFD700;   /* Solar Gold - Warm sunlight, renewable energy */
+  --solarpunk-earth: #A67C52; /* Rich Earth Brown - Organic materials, natural harmony */
+  --solarpunk-bloom: #FFB3C6; /* Soft Blossom Pink - Flourishing life, optimism */
+
+  --sb-red: #ff636d; /* ScalaBridge red */
+
+  --emphasis: #A260BD;
+}
+
+.reveal em {
+  color: var(--solarpunk-bloom);
+  font-style: normal;
+}
+.text-industrial {
+  font-family: Roboto Slab;
+  color: var(--dark-industrial-glow);
+}
+.text-olde {
+  font-family: Grenze Gotisch;
+  color: var(--dark-industrial-glow);
+}
+.text-olde em {
+  /* color: var(--solarpunk-sky); */
+  color: var(--solarpunk-bloom);
+  font-style: normal;
+}
+.bg-industrial {
+  background-color: var(--dark-industrial-black);
+}
+
+.text-human {
+  font-family: Pacifico;
+  color: var(--solarpunk-sky);
+}
+.bg-human {
+  background-color: var(--solarpunk-earth);
+}
+
+.bg-split {
+  background: linear-gradient(135deg, var(--dark-industrial-black) 50%, var(--solarpunk-earth) 50%);
+  height: 100vh; /* Make sure it covers the full viewport */
+  margin: 0;
+}
+
+
+.imperial-background {
+  background-image: url("../img/pexels-chengxin-zhao-1218017-28288861.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.white-background {
+  background-color: white;
+}
+
+.blur {
+  backdrop-filter: blur(4px);
+}
+
+.midnight-blue {
+  color: #003366;
+}
+.sb-red {
+  color: #ff636d;
+}
+
+.sb-blue {
+  color: #00b8c0;
+}
+
+.math-blue {
+  color: #63fffa;
+}
+.cm-serif {
+  font-family: "CMU Serif";
+}
+.reveal .outline-black {
+    text-shadow: 2px 2px 1px black , -2px -2px 1px black, 2px -2px 1px black, -2px 2px 1px black; */
+}

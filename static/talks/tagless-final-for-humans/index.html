@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Designing with Duality</title>
+
+        <link rel="stylesheet" href="dist/reset.css">
+        <link rel="stylesheet" href="dist/reveal.css">
+        <link rel="stylesheet" href="dist/theme/night.css">
+        <link rel="stylesheet" href="dist/theme/scalar.css">
+
+        <!-- Theme used for syntax highlighted code -->
+        <link rel="stylesheet" href="plugin/highlight/monokai.css">
+        <script src="plugin/highlight/highlight.js"></script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+              <section>
+                <section data-background-image="dist/imgs/pexels-katlovessteve-548375.jpg">
+                  <h1 class="outline-black">Tagless Final<br/><span class="text-human outline-black">for Humans</span></h1>
+                  <h3><span class="outline-black">Noel Welsh</span></h3>
+                  <h3><span class="outline-black">Inner Product</span></h3>
+                </section>
+                <section>
+                  <h2><span class="text-human">It was the best of times</span>, it was the <strike>blurst</strike> worst of times</h2>
+                  <h4>A <em>Scala</em> developer, discussing tagless final</h4>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    Picture.circle(100).fillColor(Color.red).draw()
+                  </code></pre>
+                </section>
+                <section>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    object ExampleServer {
+                      def run[F[_]: Async: Network]: F[Nothing] = // etc.
+                    }
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><em>When</em> is tagless final appropriate?</h2>
+                </section>
+                <section>
+                  <h2><em>How</em> to implement it effectively?</h2>
+                </section>
+                <section>
+                  <h2><em>What</em> is tagless final?</h2>
+                </section>
+              </section>
+
+              <section>
+                <section><h1><span class="text-olde">Ye <em>Olde</em> Tagless Final</span></h1></section>
+                <section>
+                  <h2><span class="text-olde">Cast thine eyes upon this example</span></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    def scalar[Ui[_]: Controls: Layout](): Ui[(String, Boolean)] =
+                      Layout[Ui].and(
+                        Controls[Ui].text("What is your name?"),
+                        Controls[Ui].choice(
+                          "Are you enjoying Scalar?",
+                          "Yes" -> true,
+                          "Heck yes!" -> true
+                        )
+                      )
+
+                    val consoleUi = scalar[Console]()
+                    val (name, enjoyment) = consoleUi()
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><span class="text-olde">This doeth be a <em>program</em></span></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers="1-9">
+                    def scalar[Ui[_]: Controls: Layout](): Ui[(String, Boolean)] =
+                      Layout[Ui].and(
+                        Controls[Ui].text("What is your name?"),
+                        Controls[Ui].choice(
+                          "Are you enjoying Scalar?",
+                          "Yes" -> true,
+                          "Heck yes!" -> true
+                        )
+                      )
+
+                    val consoleUi = scalar[Console]()
+                    val (name, enjoyment) = consoleUi()
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><span class="text-olde">Verily, this be an <em>interpreter</em></span></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers="11-12">
+                    def scalar[Ui[_]: Controls: Layout](): Ui[(String, Boolean)] =
+                      Layout[Ui].and(
+                        Controls[Ui].text("What is your name?"),
+                        Controls[Ui].choice(
+                          "Are you enjoying Scalar?",
+                          "Yes" -> true,
+                          "Heck yes!" -> true
+                        )
+                      )
+
+                    val consoleUi = scalar[Console]()
+                    val (name, enjoyment) = consoleUi()
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><span class="text-olde">Thy program calls methods on thine <em>context parameters</em></span></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers="1">
+                    def scalar[Ui[_]: Controls: Layout](): Ui[(String, Boolean)] =
+                      Layout[Ui].and(
+                        Controls[Ui].text("What is your name?"),
+                        Controls[Ui].choice(
+                          "Are you enjoying Scalar?",
+                          "Yes" -> true,
+                          "Heck yes!" -> true
+                        )
+                      )
+
+                    val consoleUi = scalar[Console]()
+                    val (name, enjoyment) = consoleUi()
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><span class="text-olde">We shall know these context parameters as <em>program algebras</em></span></h2>
+                </section>
+                <section>
+                  <h2><span class="text-olde">Program algebras shall consist of <em>constructors&hellip;</em></span></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                  // String => Ui[String]
+                  Controls[Ui].text("What is your name?"),
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><span class="text-olde">and <em>combinators</em></span></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                  // (Ui[A], Ui[B]) => Ui[(A, B)]
+                  Layout[Ui].and(firstUi, secondUi)
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><span class="text-olde">What hast thou wrought?</span></h2>
+                </section>
+                <section>
+                  <h2><span class="text-olde">With more program algebras thine <em>program shall be extended</em></span></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    def scalar[Ui[_]: Controls: Layout]() = ...
+                  </code></pre>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    def scalar[Ui[_]: Controls: Layout: Events]() = ...
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><span class="text-olde">A new <em>implementation</em> of thy program algebras shall bring a <em>new interpretation</em></span></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    val webUi = scalar[Dom]()
+                    webUi.mountAtId("mount-point")
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><span class="text-olde">With tagless final, thou canst <em>extend thine program</em> and <em>extend thine interpretation</em></span></h2>
+                </section>
+              </section>
+
+
+              <!-- Humans -->
+              <section>
+                <section><h1><span class="text-human">Humans</span></h1></section>
+                <section>
+                  <h2><span class="text-olde">Ye Olde Tagless Final</span> is tedious to write</h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    def scalar[Ui[_]: Controls: Layout]() =
+                      Layout[Ui].and(
+                        Controls[Ui].text("What is your name?"),
+                        Controls[Ui].choice(
+                          "Are you enjoying Scalar?",
+                          "Yes" -> true,
+                          "Heck yes!" -> true
+                        )
+                      )
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><span class="text-olde">Ye Olde Tagless Final</span> raises barriers to entry</h2>
+                  <p>Higher-kinded types, given values, using clauses, context bounds</p>
+                </section>
+                <section>
+                  <h2><span class="text-olde">Ye Olde Tagless Final</span> puts the burden on the <em>wrong person</em></h2>
+                </section>
+                <section>
+                  <h2><em>A little</em> more work by the library author</h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    val ui =
+                      Controls
+                        .text("What is your name?")
+                        .and(
+                          Controls.choice(
+                            "Are you enjoying Scalar?",
+                            Seq("Yes" -> true, "Heck yes!" -> true)
+                          )
+                        )
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>The five-step plan</h2>
+                  <ol>
+                    <li>Subtyping for program algebras</li>
+                    <li>Type member for result type</li>
+                    <li>A program type</li>
+                    <li>Constructors</li>
+                    <li>Extension methods for combinators</li>
+                  </ol>
+                </section>
+                <section>
+                  <h2>Declare a <em>base type</em> for all program algebras</h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    trait Algebra[Ui[_]]
+
+                    trait Controls[Ui[_]] extends Algebra[Ui] {
+                      def text(prompt: String): Ui[String]
+                      // etc...
+                    }
+                    trait Layout[Ui[_]] extends Algebra[Ui] {
+                      def and[A, B](t: Ui[A], b: Ui[B]): Ui[(A, B)]
+                    }
+                    // etc...
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>Make the result type a <em>type member</em></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    trait Algebra {
+                      type Ui[_]
+                    }
+
+                    trait Controls extends Algebra {
+                      def text(prompt: String): Ui[String]
+                      // etc...
+                    }
+                    trait Layout extends Algebra {
+                      def and[A, B](t: Ui[A], b: Ui[B]): Ui[(A, B)]
+                    }
+                    // etc...
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>Let's see how this changes our example</h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    def scalar[Ui[_]: Controls: Layout](): Ui[(String, Boolean)] =
+                      Layout[Ui].and(
+                        Controls[Ui].text("What is your name?"),
+                        Controls[Ui].choice(
+                          "Are you enjoying Scalar?",
+                          "Yes" -> true,
+                          "Heck yes!" -> true
+                        )
+                      )
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>Context bounds becomes single value</h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers="2">
+                    def scalar()(
+                      using alg: Controls & Layout
+                    ): alg.Ui[(String, Boolean)] =
+                      alg.and(
+                        alg.text("What is your name?"),
+                        alg.choice(
+                          "Are you enjoying Scalar?",
+                          "Yes" -> true,
+                          "Heck yes!" -> true
+                        )
+                      )
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>Use <em>method dependent type</em></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers="3">
+                    def scalar()(
+                      using alg: Controls & Layout
+                    ): alg.Ui[(String, Boolean)] =
+                      alg.and(
+                        alg.text("What is your name?"),
+                        alg.choice(
+                          "Are you enjoying Scalar?",
+                          "Yes" -> true,
+                          "Heck yes!" -> true
+                        )
+                      )
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>Declare a type for <em>programs</em></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers="1-3">
+                    trait Program[-Alg <: Algebra, A] {
+                      def apply(using alg: Alg): alg.Ui[A]
+                    }
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>Programs are now <em>values</em></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    val scalar =
+                      Program[Controls & Layout, (String, Boolean)] {
+                        def apply(using alg: Controls & Layout) =
+                          alg.and(
+                            alg.text("What is your name?"),
+                            alg.choice(
+                              "Are you enjoying Scalar?",
+                              "Yes" -> true,
+                              "Heck yes!" -> true
+                            )
+                          )
+                      }
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>Define <em>constructors</em> returning programs</h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    object Controls {
+                      def text(prompt: String): Program[Controls, String] =
+                        Program[Controls, String] {
+                          def apply(using alg: Controls): alg.Ui[String] =
+                            alg.text(prompt)
+                        }
+                    }
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>Define combinators using <em>extension methods</em></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    extension [Alg <: Algebra, A](p: Program[Alg, A]) {
+                      def and[Alg2 <: Algebra, B](
+                          second: Program[Alg2, B]
+                      ): Program[Alg & Alg2 & Layout, (A, B)] =
+                        Program[Alg & Alg2 & Layout, (A, B)] {
+                          def apply(using alg: Alg & Alg2 & Layout): alg.Ui[(A, B)] =
+                            alg.and(p, second)
+                        }
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><em>Automatically</em> accumulates required algebras</h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers="1,2,4">
+                    extension [Alg <: Algebra, A](p: Program[Alg, A]) {
+                      def and[Alg2 <: Algebra, B](
+                          second: Program[Alg2, B]
+                      ): Program[Alg & Alg2 & Layout, (A, B)] =
+                        Program[Alg & Alg2 & Layout, (A, B)] {
+                          def apply(using alg: Alg & Alg2 & Layout): alg.Ui[(A, B)] =
+                            alg.and(p, second)
+                        }
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>Example</h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                  val c1: Program[Controls, String] = Controls.text(...)
+                  val c2: Program[Controls, Boolean] = Controls.choice(...)
+
+                  // Inferred type is
+                  // Program[Controls & Layout, (String, Boolean)]
+                  c1.and(c2)
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>Reached our goal</h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    val ui =
+                      Controls
+                        .text("What is your name?")
+                        .and(
+                          Controls.choice(
+                            "Are you enjoying Scalar?",
+                            Seq("Yes" -> true, "Heck yes!" -> true)
+                          )
+                        )
+                  </code></pre>
+                </section>
+                <section>
+                  <h2>Recap</h2>
+                  <p>User code reads like normal code</p>
+                  <p class="fragment">Extend functionality for platform specific actions (e.g. mobile functionality like location)</p>
+                  <p class="fragment">Extend interpretations for different platforms (e.g. new UI toolkits)</p>
+                </section>
+              </section>
+
+              <section>
+                <section>
+                  <h1>Just because you can&hellip;</h1>
+                </section>
+                <section>
+                  <h2>Tagless final is <em>only</em> justified when you <em>need</em> the extensibility it provides</h2>
+                </section>
+                <section>
+                  <h2>Very <em>rarely</em> the case in <em>application</em> code</h2>
+                </section>
+                <section>
+                  <h2>This type of code is pure <em>theatre</em></h2>
+                  <pre><code data-trim class="language-scala" data-line-numbers>
+                    object ExampleServer {
+                      def run[F[_]: Async: Network]: F[Nothing] = // etc.
+                    }
+                  </code></pre>
+                </section>
+                <section>
+                  <h2><em>Sometimes</em> justified in library code</h2>
+                </section>
+                <section>
+                  <h2>When justified, don't use <span class="text-olde">Ye Olde Tagless Final</span></h2>
+                </section>
+                <section>
+                  <h2>Scala can be <em>incredibly</em> productive&hellip;</h2>
+                  <p class="fragment">if we stop using abstractions that offer no value!</p>
+                </section>
+              </section>
+
+              <section>
+                <section data-background-image="dist/imgs/pexels-katlovessteve-548375.jpg">
+                  <h1><span class="text-human outline-black">Thanks!</span></h1>
+                </section>
+                <section>Blossom photograph by <a href="https://www.pexels.com/photo/pink-petaled-flowers-548375/">Kat Smith on Pexels</a></section>
+                <section>
+                  <h2>Questions?</h2>
+                  <p>@noelwelsh.bsky.social</p>
+                  <p>@noelwelsh@types.pl</p>
+                  <p>noel@noelwelsh.com</p>
+                  <p>Draft book at <a href="https://scalawithcats.com/">https://scalawithcats.com/</a></p>
+                </section>
+              </section>
+            </div>
+        </div>
+
+        <script src="dist/reveal.js"></script>
+        <script src="plugin/notes/notes.js"></script>
+        <script src="plugin/markdown/markdown.js"></script>
+        <script src="plugin/highlight/highlight.js"></script>
+        <script>
+            // More info about initialization & config:
+            // - https://revealjs.com/initialization/
+            // - https://revealjs.com/config/
+            Reveal.initialize({
+                hash: true,
+
+                // Learn about plugins: https://revealjs.com/plugins/
+                plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+        // Add in the special background for certain slides
+        function updateBackground(currentSlide) {
+            let element = document.querySelector('.reveal.slide');
+            // Unset any special backgrounds
+            element.classList.remove('imperial-background');
+            element.classList.remove('white-background');
+
+            // Add any specific special background
+            if (event.currentSlide.classList.contains('bg-imperial')) {
+                element.classList.add('imperial-background');
+            } else if (event.currentSlide.classList.contains('bg-white')) {
+                element.classList.add('white-background')
+            }
+        }
+
+        // Check for background update when we load and every time we change slide
+        Reveal.on('ready', event => updateBackground(event.currentSlide));
+        Reveal.on('slidechanged', event => updateBackground(event.currentSlide));
+        </script>
+    </body>
+</html>

@@ -5,7 +5,10 @@ template = "default.html"
 
 I enjoy giving talks. Here's an incomplete list of my talks, with links where I could find them.
 
-### [Designing with Duality](/designing-with-duality/index.html), 2025
+### [Tagless Final for Humans](/talks/tagless-final-for-humans/index.html), 2025
+[Scalar 2025](https://www.scalar-conf.com/)
+
+### [Designing with Duality](/talks/designing-with-duality/index.html), 2025
 [London Scala User Group](https://www.meetup.com/london-scala/events/306237082/)
 
 ### Rethinking Effects with Effect Systems, 2024
