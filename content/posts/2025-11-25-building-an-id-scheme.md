@@ -1,5 +1,5 @@
 +++
-title = "Designing an ID Generation Scheme"
+title = "Designing Custom UUIDs"
 +++
 
 Of my recent projects, one of the most fun was creating an algorithm for generating unique identifiers.
