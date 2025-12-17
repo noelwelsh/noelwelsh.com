@@ -35,7 +35,7 @@ This should be easy: we can just call our standard library's random number gener
 However, that is not the case.
 We need to first address another business requirement:
 our identifiers will be visible to customers.
-There are many 20 character alphanumeric strings, like `"pleasegofuckyourself"`, that we don't want them to see.
+There are many 20 character alphanumeric strings, like `"whyareyousopoopyhead"`, that we don't want them to see.
 There is no *great* way to avoid generating potentially offensive strings, but a simple and reasonable approach to mitigation is to drop vowels.
 Without vowels a customer will at least have to do some creative interpretation before deciding a random identifier is actually a coded insult.
 However, this reduces the information capacity of identifiers to just 99 bits.
