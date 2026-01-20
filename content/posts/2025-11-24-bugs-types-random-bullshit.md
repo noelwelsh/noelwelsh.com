@@ -3,56 +3,64 @@ title = "Bugs, Types, and Random Bullshit"
 draft = true
 +++
 
-You probably experienced the recent [Cloudflare outage][cloudflare-incident] that took down many websites. Per the incident report, contributing to the issue was a constraint shared between a database query and some Rust code that the result of the query would not exceed 200 lines. Unfortunately this constraint was not explicitly represented anywhere in the system. When the query generated results longer than 200 lines there was nothing to flag the constraint had been broken, other than a lot of websites breaking.
+You probably experienced the recent [Cloudflare outage][cloudflare-incident]. Per the incident report, the problem was caused by a database query generating more results than the 200 lines accepted by the code using the output. There are several ways this problem could be addressed, but I'm more interested in the nature of the problem itself: an implicitly stated contract between the query and its user, or as I prefer to call it, random bullshit. (This is my Australian upbringing coming out.) I've recently been thinking a lot about random bullshit, and ways to mitigate it, as it was also behind some bugs I recently worked on. Unlike Cloudflare, my problems could all have been prevented with some simple use of the type system, but before we get into that let's talk about systems and try to pin down what I mean by random bullshit.
 
-This reminds me of some bugs I recently released (which, fortunately, had much smaller impacts). I certainly don't like releasing bugs, but rather than beating myself up I find it much more useful to think about what kind of systems could have prevented the bug. All of us have limited cognitive resources, and striving to pay more attention or be more careful simply doesn't work over an extended duration. However, we can create systems---continuous integration is one example---that are extremely reliable and will almost always find problems if we can represent the constraints of the system in a way they can check. If not, we're left with what I call random bullshit, the bane of software development. Let's talk a bit about this and then return to the bugs I created and how they could be avoided.
+
+## Systems and Understanding
+
+It's impossible to fully understand any reasonably sized code base. Instead we rely on various signs and signifiers to help us build understanding. Code style, naming conventions, directory layout, types, and comments are all examples of ways a code base can communicate meaning to the reader without them having to get into the details of code. If we see a method parameter named `userId` with type `UUID` we can reasonably infer it's the user's identifier, represented as a UUID. This is *principled knowledge*, and we rely on it all the time when reading code.
+
+If we instead of a parameter named `userId` we have a parameter named `uuid`, and instead of type `UUID` it has type `String`,  we have no way of knowing it represents the current user's identifier without tracing the value back to its origin. (Yes, this is a real example.) This is *random bullshit*. Random bullshit is the opposite of principled knowledge. If principled knowledge is something that is explicitly communicated to us or can reasonably infer, random bullshit is something we only know if we know.
+
+Despite the name, random bullshit can be very important. Domain specific knowledge is largely random bullshit, and yet is incredibly valuable. Think about, say, tax law. What can and can't be claimed as a business expense is quite arbitrary, but it's critical knowledge for a small business accountant.
+
+Other kinds of random bullshit, however, are not a source of value. 
+When we, as developer, find unnecessary random bullshit we should either try to remove it or formalize it so it is explicitly represented.
+
+
+## Systems
+
+I strongly believe that systems prevent errors. 
+All of us have limited cognitive resources, and striving to pay more attention or be more careful simply doesn't work at scale.
+Computers, however, are great at the kind of mindless rote work of running the same checks on every new software release.
+We have software systems that do this: continuous integration.
+The role of humans in the cycle of quality is converting what I call random bullshit into a form that these systems can check.
+
 
 ## Random Bullshit
 
-I have a loose mental taxonomy of knowledge, between random bullshit and principled. Principled knowledge is anything that can be derived from some principle. This could just be "works the same as other systems", to mathematical theories that give a chain proofs starting from basic axioms. Random bullshit is everything else: stuff you Just Have To Know.
-
-Despite the name, random bullshit is very important. Domain specific knowledge is largely random bullshit, and domain knowledge is incredibly valuable. What isn't valuable is random bullshit where there is no need for it. Let's see some examples.
-
-Javascript is, of course, the finest purveyor of random bullshit in modern programming. For example, equality in Javascript is just completely bizarre. Consider the following snippet:
-
-```javascript
-0 == [];
-// true
-0 == "0";
-// true
-"0" == [];
-// FALSE?!
-```
-
-It's random bullshit because it doesn't work the way equality in mathematics, or any sane language, does. If you don't want random bullshit you Just Have To Know to use `===` instead. 
-
-Javascript, of course, has much more random bullshit. Here's another fun example.
-
-```javascript
-[] + {};
-// "[object Object]"
-{} + [];
-// 0?!
-```
-
-One last example. When sorting a Javascript array, a comparison function is optional. If you don't provide one Javascript just does some random bullshit. Consider, for example
-
-```javascript
-["Zachery", 1, {name: "Ziggy"}, "~Tilde~", "$bill"].toSorted()
-//  [ "$bill", 1, "Zachery", {name: "Ziggy"}, "~Tilde~" ]
-```
-
-Strings starting with symbols can be sorted before or after numbers depending on the symbol. The object appears between two strings. What is going on here?!
-
-It's important to note that random bullshit can still be consistent. All the above behaviour is documented in the Javascript specification, but no sane person would guess these were the semantics on their own. What makes this the bad kind of random bullshit is that there is no need for this behaviour. Javascript could work in a sane way, but Brendain Eich was listening to a lot of the Smiths back in 
+My loose mental taxonomy of knowledge is divided into random bullshit and principles. Principled knowledge is anything that can be derived from other knowledge. This could be as loose as "follows existing convention", or as formal as a chain proofs starting from fundamental axioms. Random bullshit is everything else: stuff you have no way of knowing until you know it.
 
 
-Random bullshit makes learning incredibly inefficient, because everything is its own special snowflake, and you can't transfer over what you know about from other domains.
+
+Take the Cloudflare limit of 200 lines for example. It is random bullshit; it's an arbitrary choice and there is no way anyone would know this without intimate knowledge of the system. There are two choices: change the code so it can handle an arbitrary number of lines in the query result, or change the system so something shouts loudly when the limit is exceeded.
 
 
-## The Error
+## Types and Tests
 
-I was working on a system using a home-grown query DSL. I wrote what I thought was a query with two where clauses, but the second clause overwrote the first. This led to many more records being selected than I expected, and the following update made a mess. Luckily the system wasn't live for long and it was possible to restore the database from a backup.
+How should constraints be explicitly represented? 
+In software we have basically two choices: 
+
+1. Static checks, which test properties of code without running it. Types are the most accessible form of static check, but there are other approaches under the umbrella of formal methods.
+
+2. Dynamic checks, usually called tests, that run code and make assertions about its behaviour. There are various kinds of tests: unit tests, integration tests, and so on.
+
+I prefer types where they are feasible.
+Types prevent entire classes of errors,
+rather than only the specific instances a test looks for,
+and they are often cheaper to write and maintain than tests.
+However, types have limits.
+We'll get back to this later.
+Let's now turn to the bugs I created, and the random bullshit that was the cause of them.
+
+
+## My Enduring Shame
+
+I'm going to talk about three bugs, which occurred in two different projects.
+
+The first bug was fairly simple, but frustrating to find for reasons I won't get into. I was writing code for what was essentially a login system. Users entered their email address, and we checked for an existing one. The check was failing intermittently, due to a case sensitive comparison. This was an extension to an existing system, that already had an `Email` type. I assumed, in [parse, don't validate][parse] style, that this type would have normalised case upon construction. It didn't, and it was a simple fix to implement correct behaviour once I discovered the source of the problem.
+
+The second bug occurred in a system using a home-grown query DSL. I wrote what I thought was a query with two where clauses, but the second clause overwrote the first. This led to many more records being selected than desired, and the following update made a mess. Luckily the system wasn't live for long and it was possible to restore the database from a backup.
 
 The question is, why did this error occur, and what can be done to prevent it?
 
@@ -65,6 +73,8 @@ select(aTable).where(condition1).where(condition2)
 I would expect both `condition1` and `condition2` to apply. This is not how the homegrown system worked: the second `where` overwrote the first one. This meant that my query only used the second condition and selected many more records than it should have.
 
 All the existing tests, and a period of manual testing, didn't find this error. This isn't particularly surprising, as its a unusual bug to check for.
+
+The third error also involved the home-grown ORM. I called a method to update a particular table. This method had many parameters, one for each column, and all of which were optional. Some of these parameters defaulted to not changing the value of the column, while others defaulted to setting the column's value to null. All the parameters had the same `Option` type.
 
 
 ## Preventing Mistakes with Systems
@@ -153,3 +163,17 @@ object Query {
 
 [cloudflare-incident]: https://blog.cloudflare.com/18-november-2025-outage/
 [toSorted]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted
+[parse]: https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/
+
+
+
+
+Random bullshit is one of the most pernicious sources of problems, and that was behind three bugs I've worked on recently. (Fortunately, I didn't take down the Internet.)
+
+. This reminds me of several bugs I've worked on recently; not in that I brought down the Internet, but in that they arose because of implicit constraints. 
+
+My loose mental taxonomy of knowledge is divided into random bullshit and principles. Principled knowledge is anything that can be derived from other knowledge. This could be as loose as "follows existing convention", or as formal as a chain proofs starting from fundamental axioms. Random bullshit is everything else: stuff you have no way of knowing until you know it.
+
+We can view this as a shared, implicit, constraint between the query and the code using the result. There was nothing that explicitly validated this constraint. There was no `limit` on the query result, and no checks in the code parsing the result. So when it was broken the result was a lot of unusable websites, rather than, say, a type error, test failure, or error message.
+
+The Cloudflare incident reminds me of some bugs I recently released; not in that I took down a sizable portion of the Internet, but rather there were implicit constraints that I wasn't aware of. It's natural to feel bad about releasing bugs, and I've done this, but it's far more productive to think about why these bugs were caused and how they could be prevented. That's what this post is about.
