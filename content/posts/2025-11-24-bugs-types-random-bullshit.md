@@ -3,19 +3,68 @@ title = "Bugs, Types, and Random Bullshit"
 draft = true
 +++
 
-You probably experienced the recent [Cloudflare outage][cloudflare-incident]. Per the incident report, the problem was caused by a database query generating more results than the 200 lines accepted by the code using the output. There are several ways this problem could be addressed, but I'm more interested in the nature of the problem itself: an implicitly stated contract between the query and its user, or as I prefer to call it, random bullshit. (This is my Australian upbringing coming out.) I've recently been thinking a lot about random bullshit, and ways to mitigate it, as it was also behind some bugs I recently worked on. Unlike Cloudflare, my problems could all have been prevented with some simple use of the type system, but before we get into that let's talk about systems and try to pin down what I mean by random bullshit.
+Cloudflare have had a bad time recently, with [two incidents][cloudflare-incidents] at the end of 2025 causing significant outages. The [incident report for the first outage][cloudflare-incident] caught my eye. Per the incident report, the problem was caused by a database query generating more results than could be accepted by the code using the result. There are several ways this problem could be addressed, but I'm more interested in the nature of the problem itself: an implicitly stated contract between the query and its user, or as I prefer to call it, random bullshit. (This is my Australian upbringing coming out.) Constraints in code, and how these constraints are communicated, are a persistent
 
+I've recently been thinking a lot about random bullshit, and ways to mitigate it, as it was also behind some bugs I recently worked on. Unlike Cloudflare, my problems could all have been prevented with some simple use of the type system, but before we get into that let's talk about systems and try to pin down what I mean by random bullshit.
+
+<!-- more -->
 
 ## Systems and Understanding
 
-It's impossible to fully understand any reasonably sized code base. Instead we rely on various signs and signifiers to help us build understanding. Code style, naming conventions, directory layout, types, and comments are all examples of ways a code base can communicate meaning to the reader without them having to get into the details of code. If we see a method parameter named `userId` with type `UUID` we can reasonably infer it's the user's identifier, represented as a UUID. This is *principled knowledge*, and we rely on it all the time when reading code.
+This article is based on two propositions.
+The first is that
+any reasonably sized code base has many constraints.
+By constraints I mean things like "you have to call *this* function before you call *that* function", or "only one of these fields can be set at any one time".
+More formally, we might talk of invariants, preconditions, postconditions, or [contracts][contracts].
 
-If we instead of a parameter named `userId` we have a parameter named `uuid`, and instead of type `UUID` it has type `String`,  we have no way of knowing it represents the current user's identifier without tracing the value back to its origin. (Yes, this is a real example.) This is *random bullshit*. Random bullshit is the opposite of principled knowledge. If principled knowledge is something that is explicitly communicated to us or can reasonably infer, random bullshit is something we only know if we know.
+The second proposition is that it's impossible to fully understand any reasonably sized code base.
+There is only so much that will fit into a human head or an LLM context window, 
+so both must inevitably rely on abstraction when understanding code.
+These abstractions need not be formal.
+For example, naming is a form of abstraction.
+If we see the name `userId` in a code base, we might reasonably assume it refers to the user's identifier.
+If `userId` has type `UUID` it lends further strength to our inference.
+If we see that name in multiple places, we might also reasonably assume they all refer to the same concept.
 
-Despite the name, random bullshit can be very important. Domain specific knowledge is largely random bullshit, and yet is incredibly valuable. Think about, say, tax law. What can and can't be claimed as a business expense is quite arbitrary, but it's critical knowledge for a small business accountant.
+The corollary of these two propositions is that we should author code to effectively communicate constraints.
+There are many ways of doing this, including naming conventions, tests, types, and programming patterns.
+Which brings me to random bullshit.
+Random bullshit is anything that cannot be reasonably inferred from code, or alternatively, constraints that a code base fails to communicate.
+If instead of a parameter named `userId` we have a parameter named `uuid`, and instead of type `UUID` it has type `String`,  we have no way of knowing it represents the current user's identifier without tracing the value back to its origin.
+This is random bullshit, and yes, it is a real example.
+The Cloudflare incident is also random bullshit.
 
-Other kinds of random bullshit, however, are not a source of value. 
-When we, as developer, find unnecessary random bullshit we should either try to remove it or formalize it so it is explicitly represented.
+When speaking of random bullshit, I'm conversing in the Australian manner. (In fact this post was written on [Australia Day][australia-day].) Australians use invectives like fish use water. 
+We must acknowledge that communication has both a transmitter and a receiver. 
+We may think we are clearly communicating a constraint, but we'll fail if the reader doesn't have the background to understand us.
+This could be because they aren't familiar with the programming concepts we use,
+or simply because we wrote a comment in a language they don't read.
+There are also some constraints that it's simply too hard to communicate, often due to economic reasons.
+For example, it may simply be too expensive to reproduce the load needed to test a complex distributed system.
+
+
+## My Enduring Shame
+
+Cloudlfare are not alone in having issues in production. 
+I've had three incidents I can recall where
+
+The first bug was fairly simple. I was writing code for what was essentially a login system. Users entered their email address, and we checked for a match. The check was failing intermittently, which we finally tracked to a case sensitive comparison. This project was building on an existing system where emails were represented by an `Email` type. I assumed, in [parse, don't validate][parse] style, that this type would have normalised case upon construction. It didn't, and it was a simple fix to implement correct behaviour once I discovered the source of the problem.
+
+The second bug occurred in a system using a home-grown query DSL. I wrote what I thought was a query with two where clauses, but the second clause overwrote the first. This led to many more records being selected than desired, and the following update made a mess. Luckily the system wasn't live for long and it was possible to restore the database from a backup.
+
+The question is, why did this error occur, and what can be done to prevent it?
+
+The basic issue of why the error occurred is a mismatch between my expectations of how the query DSL worked and how it did work. Concretely, if I wrote something like
+
+```scala
+select(aTable).where(condition1).where(condition2)
+```
+
+I would expect both `condition1` and `condition2` to apply. This is not how the homegrown system worked: the second `where` overwrote the first one. This meant that my query only used the second condition and selected many more records than it should have.
+
+All the existing tests, and a period of manual testing, didn't find this error. This isn't particularly surprising, as its a unusual bug to check for.
+
+The third error also involved the home-grown ORM. I called a method to update a particular table. This method had many parameters, one for each column, and all of which were optional. Some of these parameters defaulted to not changing the value of the column, while others defaulted to setting the column's value to null. All the parameters had the same `Option` type.
 
 
 ## Systems
@@ -23,17 +72,8 @@ When we, as developer, find unnecessary random bullshit we should either try to 
 I strongly believe that systems prevent errors. 
 All of us have limited cognitive resources, and striving to pay more attention or be more careful simply doesn't work at scale.
 Computers, however, are great at the kind of mindless rote work of running the same checks on every new software release.
-We have software systems that do this: continuous integration.
+    We have software systems that do this .: continuous integration.
 The role of humans in the cycle of quality is converting what I call random bullshit into a form that these systems can check.
-
-
-## Random Bullshit
-
-My loose mental taxonomy of knowledge is divided into random bullshit and principles. Principled knowledge is anything that can be derived from other knowledge. This could be as loose as "follows existing convention", or as formal as a chain proofs starting from fundamental axioms. Random bullshit is everything else: stuff you have no way of knowing until you know it.
-
-
-
-Take the Cloudflare limit of 200 lines for example. It is random bullshit; it's an arbitrary choice and there is no way anyone would know this without intimate knowledge of the system. There are two choices: change the code so it can handle an arbitrary number of lines in the query result, or change the system so something shouts loudly when the limit is exceeded.
 
 
 ## Types and Tests
@@ -53,28 +93,6 @@ However, types have limits.
 We'll get back to this later.
 Let's now turn to the bugs I created, and the random bullshit that was the cause of them.
 
-
-## My Enduring Shame
-
-I'm going to talk about three bugs, which occurred in two different projects.
-
-The first bug was fairly simple, but frustrating to find for reasons I won't get into. I was writing code for what was essentially a login system. Users entered their email address, and we checked for an existing one. The check was failing intermittently, due to a case sensitive comparison. This was an extension to an existing system, that already had an `Email` type. I assumed, in [parse, don't validate][parse] style, that this type would have normalised case upon construction. It didn't, and it was a simple fix to implement correct behaviour once I discovered the source of the problem.
-
-The second bug occurred in a system using a home-grown query DSL. I wrote what I thought was a query with two where clauses, but the second clause overwrote the first. This led to many more records being selected than desired, and the following update made a mess. Luckily the system wasn't live for long and it was possible to restore the database from a backup.
-
-The question is, why did this error occur, and what can be done to prevent it?
-
-The basic issue of why the error occurred is a mismatch between my expectations of how the query DSL worked and how it did work. Concretely, if I wrote something like
-
-```scala
-select(aTable).where(condition1).where(condition2)
-```
-
-I would expect both `condition1` and `condition2` to apply. This is not how the homegrown system worked: the second `where` overwrote the first one. This meant that my query only used the second condition and selected many more records than it should have.
-
-All the existing tests, and a period of manual testing, didn't find this error. This isn't particularly surprising, as its a unusual bug to check for.
-
-The third error also involved the home-grown ORM. I called a method to update a particular table. This method had many parameters, one for each column, and all of which were optional. Some of these parameters defaulted to not changing the value of the column, while others defaulted to setting the column's value to null. All the parameters had the same `Option` type.
 
 
 ## Preventing Mistakes with Systems
@@ -161,7 +179,10 @@ object Query {
 }
 ```
 
+[cloudflare-incidents]: https://blog.cloudflare.com/q4-2025-internet-disruption-summary/#cloudflare 
 [cloudflare-incident]: https://blog.cloudflare.com/18-november-2025-outage/
+[contracts]: https://dl.acm.org/doi/10.1145/2692915.2632855
+[australia-day]: https://en.wikipedia.org/wiki/Australia_Day
 [toSorted]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted
 [parse]: https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/
 
