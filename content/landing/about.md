@@ -3,7 +3,19 @@ title = "About Me"
 template = "default.html"
 +++
 
-I'm Noel and this is my personal site. You can find me on Twitter as [\@noelwelsh](https://twitter.com/noelwelsh) or email me at [noel@noelwelsh.com](mailto:noel@noelwelsh.com).
+I'm Noel and this is my personal site. 
+
+
+## Contact
+
+Email me at [noel@noelwelsh.com](mailto:noel@noelwelsh.com), or find me on social media at
+
+- [noelwelsh.bsky.social](https://bsky.app/profile/noelwelsh.bsky.social) on Bluesky
+- [\@noelwelsh@types.pl](https://types.pl/@noelwelsh) on Mastodon
+- [\@noelwelsh](https://twitter.com/noelwelsh) on Twitter
+
+
+## A Brief Bio
 
 I currently work at [Inner Product][inner-product] and [Underscore][underscore] where I split time between the business and technical sides. In the past I founded a company called Myna that brought bandit algorithms to the world of A/B testing.
 
