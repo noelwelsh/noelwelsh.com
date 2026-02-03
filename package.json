@@ -7,10 +7,10 @@
     "@tailwindcss/postcss": "^4.0.3",
     "autoprefixer": "^10.2.4",
     "postcss": "^8.4.31",
-    "postcss-cli": "^8.3.1",
-    "postcss-import": "^14.0.0",
-    "postcss-loader": "^5.0.0",
-    "tailwindcss": "^4.0.0"
+    "postcss-cli": "^11.0.0",
+    "postcss-import": "^16.0.0",
+    "postcss-loader": "^8.0.0",
+    "tailwindcss": "^4.1.0"
   },
   "scripts": {
     "build": "postcss style/style.css --output static/style/style.css --no-map",
@@ -19,5 +19,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19"
+  }
 }

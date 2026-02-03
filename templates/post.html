@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block title %} {{ page.title }} {% endblock title
 %} {% block content %}
-<div class="prose lg:prose-xl">
+<div class="prose lg:prose-xl max-w-full">
   <div class="pb-8">
     <h1>
       {{ page.title }}
@@ -12,7 +12,7 @@
   {{ page.content | safe }}
 </div>
 
-<div id="subscribe" class="bg-gray-100 p-4 rounded-md w-3xl">
+<div id="subscribe" class="bg-gray-100 p-4 rounded-md w-3xl max-w-full">
   <h4 class="text-lg font-semibold text-emerald-600 pb-1">
     Like what you're reading? Subscribe to my mailing list.
   </h4>
