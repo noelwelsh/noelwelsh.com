@@ -26,7 +26,7 @@ Unfortunately, I found that OxCaml is too new for LLMs, and the OxCaml documenta
 
 ## Unboxed Types in Practice
 
-In starting my OxCaml adventure, I wanted an example that both very simple and demonstrated the utility of OxCaml. An arithmetic interpreter was the simplest example I could come up with. This rerpsents arithmetic expressions as an algebraic data type (or abstract syntax tree), and defines the standard interpreter for them using structural recursion. (All this terminology is explained in [my book][fps], if you're not familiar with it.) In OCaml code, the expression data structure is
+In starting my OxCaml adventure, I wanted an example that both very simple and demonstrated the utility of OxCaml. An arithmetic interpreter was the simplest example I could come up with. This represents arithmetic expressions as an algebraic data type (or abstract syntax tree), and defines the standard interpreter for them using structural recursion. (All this terminology is explained in [my book][fps], if you're not familiar with it.) In OCaml code, the expression data structure is
 
 ```ocaml
 type expr =
