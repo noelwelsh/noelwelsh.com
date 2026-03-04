@@ -1,6 +1,5 @@
 +++
 title = "Parametricity, or Comptime is Bonkers"
-draft = true
 +++
 
 Here's a puzzle. Without looking at the body, what does this [Rust][rust] function do? 
@@ -13,6 +12,8 @@ If you know a little type theory, you might already see it: this function must r
 
 This property—that a type signature can determine an implementation—is called *parametricity*, and it's one of the most underappreciated ideas in
  programming language design. It's also exactly what [Zig's][zig] [comptime][comptime] gives up.
+
+<!-- more -->
 
 A [recent post][bonkers] made the case that comptime is "bonkers good", and I don't want to argue against that. Comptime is genuinely powerful. But power has a shape, and understanding what parametricity is—and what we lose without it—makes for a much richer picture of what Zig is doing and why it's an interesting design choice.
 
@@ -39,7 +40,7 @@ If the results surprised you, welcome to comptime. The function returns the valu
 
 ## Parametricity
 
-Ok, so what exactly is parametricity? It's a property of functions with generic types, also known as type parameters. It says that inside the body of such a function we cannot know anything about a type parameter beyond what is passed as a function argument.
+Ok, so what exactly is parametricity? It's a property of functions with generic types, also known as type parameters. It says that inside the body of a function we cannot know anything about a type parameter beyond what is passed as a function argument.
 
 In the Rust function
 
@@ -72,7 +73,7 @@ Parametricity is the dual of abstraction. Abstraction hides unnecessary details 
 works. Parametricity hides unnecessary details from the implementer—we write a function without being able to know what types it will be called
 with. Both are the same idea at work: managing which knowledge is available where, so that reasoning stays tractable.
 
-One consequence of this is that parametric functions have uniform behaviour. If the body can't branch on the type, it can't behave differently per
+One consequence is that parametric functions have uniform behaviour. If the body can't branch on the type, it can't behave differently per
 type. We can learn a parametric function once and trust that knowledge everywhere we use it.
 
 
@@ -81,8 +82,6 @@ type. We can learn a parametric function once and trust that knowledge everywher
 Studies ([for][prog-comp] [example][40-years]) consistently find that developers spend around half their time simply reading and comprehending code—not writing it nor debugging it, but just understanding what existing code does. That's a striking figure and anything that reduces comprehension cost has an outsized effect on productivity.
 
 Parametricity directly attacks this cost. When a function is parametric its type signature is not just a hint about the implementation, but a language-enforced constraint on what the function can possibly do. We don't need to read the body, check the tests, or trust that the name is accurate, to understand properties of the function. The types are a proof, which gives [theorems for free][theorems-for-free][^reynolds].
-
-[^reynolds]: Phil Wadler's [Theorems for Free][theorems-for-free] paper is probably the best known in the programming language theory, but parametricity was introduced much earlier, in John Reynolds' 1983 paper [Types, abstraction and parametric polymorphism][reynolds].
 
 This compounds through a codebase. Once we understand what map does—applies a function to every element of a collection—we understand it for
   `Iterator`, for `Option`, for `Result`, for any type at all. The knowledge transfers because the behaviour is uniform. We learn it once.
@@ -97,8 +96,6 @@ The failure mode when this breaks is instructive. JavaScript's `Array.toSorted()
 The integer `1` lands between `"$bill"` and `"Zachery"` because `"1"` sorts there lexicographically. Nothing in the function signature suggests this behaviour. That's the comprehension tax that parametricity eliminates—not just on the first reading, but every time we encounter code we haven't seen before. The same logic applies to any reader working under context constraints. The more we can infer from a type signature alone, the less we need to expand and read. Parametric types are a compact, verifiable representation of behaviour, which is useful whether the reader is a person doing code review or a tool with a limited window into our codebase.
 
 This might prompt a question: what if we genuinely need different behaviour per type? Modern parametric languages[^java] have a solution to this, which we'll turn to now.
-
-[^java]: Some older languages, such as Java, do not have a solution to this problem, but even Java [has plans to add a solution][growing-java].
 
 
 ## Choices at Compile Time
@@ -126,6 +123,9 @@ The deeper issue is that comptime conflates two things: staging (running code at
 
 So yes—comptime is bonkers. But not entirely in the good way.
 
+[^reynolds]: Phil Wadler's [Theorems for Free][theorems-for-free] paper is probably the best known in the programming language theory, but parametricity was introduced much earlier, in John Reynolds' 1983 paper [Types, abstraction and parametric polymorphism][reynolds].
+
+[^java]: Some older languages, such as Java, do not have a solution to this problem, but even Java [has plans to add a one][growing-java].
 
 [rust]: https://rust-lang.org/
 [bonkers]: https://www.scottredig.com/blog/bonkers_comptime/
