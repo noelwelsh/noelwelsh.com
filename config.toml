@@ -10,7 +10,9 @@ build_search_index = true
 generate_feeds = true
 feed_filenames = ["atom.xml"]
 
-[markdown]
+[markdown.highlighting]
+style = "inline"
+theme = "catppuccin-latte"
 
 [extra]
 # Put all your custom variables here
