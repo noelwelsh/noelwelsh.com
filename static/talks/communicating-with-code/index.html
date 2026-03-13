@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Code As Communication</title>
+
+        <link rel="stylesheet" href="dist/reset.css">
+        <link rel="stylesheet" href="dist/reveal.css">
+        <link rel="stylesheet" href="dist/theme/night.css">
+        <link rel="stylesheet" href="dist/theme/imperial.css">
+
+        <!-- Theme used for syntax highlighted code -->
+        <link rel="stylesheet" href="plugin/highlight/monokai.css">
+        <script src="plugin/highlight/highlight.js"></script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+              <section>
+                <section class="blur">
+                  <h2 class="outline-black"><span class="math-blue">Code As </span><span class="sb-red">Communication</span></h1>
+                  <h4><span class="outline-black">Lessons from Crashing Production</span></h3>
+                  <h4><span class="outline-black">Noel Welsh</span></h3>
+                  <h4><span class="outline-black">Inner Product</span></h3>
+                </section>
+              </section>
+              <section data-markdown>
+                <textarea data-template>
+# Day One
+
+```scala
+uuid: String
+```
+
+Sigh. Ok, this code base is going to be work.
+
+---
+
+## What's Wrong With It?
+
+You tell me!
+
+---
+
+## Meaning and Representation
+
+`uuid: String` tells us two things:
+
+- **Meaning** (name): this is a UUID
+- **Representation** (type): it's stored as a String
+
+---
+
+## The Problems
+
+- `String` is too broad — most strings aren't UUIDs
+- `uuid` doesn't say what it *means* — turns out it's a user ID
+- Shouldn't the type be `UserId`?
+
+---
+
+## Talking to Two Audiences
+
+- **The computer** cares about representation
+- **The developer** cares about meaning
+
+---
+
+## Opaque Types to the Rescue
+
+```scala
+opaque type UserId = UUID
+```
+
+Now the type communicates representation *and* meaning.
+
+---
+
+## Two Kinds of Communication
+
+|           | Focus | 
+|---|---|
+| Computer  | How to run the program. Operational |
+| Developer | What the program means. Denotational |
+
+---
+
+## This Talk
+
+How to use code to communicate more effectively — focusing on developers.
+
+Most code is not bottlenecked by its runtime, but by developer comprehension.
+
+---
+
+# The Sad Stories
+
+---
+
+## The Sad Story of the Email Address
+
+App going live. Some users can't log in. (Details have been simplified.)
+
+---
+
+## The Sad Story of the Email Address
+
+After painful debugging: **case-sensitive comparison**.
+
+---
+
+## The Sad Story of the Email Address
+
+Mobile phones capitalize the first letter. Case-sensitive comparison didn't account for it.
+
+---
+
+## Is This Rookie Hour?
+
+Why did this take so long to find?
+
+Many reasons, but one is I didn't think to look there.
+
+---
+
+## We Had an Email Type!
+
+```scala
+final case class Email(value: String)
+```
+
+To me: this asserts it maintains all the properties of email addresses.
+**Including case insensitivity.**
+
+---
+
+## We Had an Email Type!
+
+```scala
+final case class Email(value: String)
+```
+
+To the original author: this is whatever. It's just a wrapper.
+
+---
+
+## A Communication Failure
+
+- I assumed `Email` maintained email invariants
+- The original author meant "whatever string claims to be an email"
+
+**We disagreed on what types are for.**
+
+---
+
+## Two Lessons from the Email
+
+1. Like spoken language, we need shared understanding — most teams don't establish it
+2. Types that encode meaning convey more information than types that encode representation
+
+---
+
+## The Sad Story of the Database Updates
+
+A different project. Home-made ORM. Each table has a class and companion object.
+
+```scala
+class User(/* Lots of fields */)
+object User {
+  /* Lots of methods */
+}
+```
+
+---
+
+## Updates
+
+- Methods on the companion object do updates.
+- Fairly typical wide tables
+- Updates usually change only a handful of value
+- Lots of `Option[A]` parameters; keep the existing value.
+
+---
+
+## Production Data Corruption
+
+Fields that shouldn't change are being set to `null`!
+
+---
+
+## The Culprit
+
+Surprise! Update methods take `Option[A]` parameters:
+
+- `None` *usually* means "keep current value"
+- `None` *sometimes* means "set to NULL"
+
+**One type. Two meanings. Ambiguity.**
+
+---
+
+## The Lesson
+
+A type should mean *one thing*. Use different types for different meanings.
+
+**Defining new types is cheap**
+
+---
+
+## The Sad Story of the Where Clauses
+
+Same project. New feature: add extra WHERE conditions to some queries.
+
+Tests pass. Staging looks fine. Ship it.
+
+**Production goes haywire.** Unrelated data is being modified.
+
+---
+
+## The ORM's Little Secret
+
+```scala
+// Condition A is *replaced* by B
+aQuery.where(A).where(B)
+```
+
+My second `.where()` silently dropped the first clause.
+
+---
+
+## Why Tests Didn't Catch It
+
+Who checks that unrelated records are *not* modified?
+
+Staging didn't have enough data. Nobody was looking that hard.
+
+---
+
+## Unidiomatic
+
+I've used a lot of ORMs. I'd never seen an ORM like this. I had no expectation it would work this way.
+
+**Programming languages have cultures. We build expectations based on them**
+
+---
+
+# Lessons Learned
+
+---
+
+## Time to Hang 'Em Up?
+
+Am I just a big dumbo? Maybe. But also...
+
+---
+
+## All Four Are Communication Failures
+
+| Bug | Problem |
+|---|---|
+| `uuid: String` | Representation, not meaning |
+| `Email` | Disagreement over meaning |
+| `Option[A]` | Ambiguity of meaning |
+| `.where()` | Unidiomatic meaning |
+
+---
+
+## It's Not Rocket Science
+
+None of these bugs involve:
+- Tricky logic
+- Complex distributed systems
+
+They're basic misunderstandings, fixable with basic techniques.
+
+**Most of our code ain't rocket science. It's barely even computer science!**
+
+---
+
+## Developer Time
+
+Multiple studies: developers spend the **majority of time on program comprehension**.
+
+Notation matters more than machine control.
+
+**Being clear is one of the most impactful things we can do.**
+
+---
+
+## The Psychopath Theory of Programmers
+
+*Assume everyone has implemented things in the craziest way possible.*
+
+I don't like this — it's inefficient, and I don't want to think about people that way.
+
+---
+
+## Systems Over Psychopaths
+
+**There's a reason aircraft safety doesn't just rely on pilots being very, very careful.**
+
+Systems scale. Individual vigilance doesn't.
+
+---
+
+## Example: Testing the Where Clauses
+
+A test harness that diffs the database before and after each operation would have caught this.
+
+Complex to write — but an excellent job for an LLM.
+
+---
+
+## The Type System Is a System
+
+3 out of 4 bugs go away with basic use of the type system.
+
+All 4, if we want to get a little bit complicated.
+
+**Multiple systems are good.**
+
+---
+
+## A System At Rest...
+
+*...tends to stay at rest.*
+
+Someone has to build and maintain these systems.
+
+**Every bug is a prompt: how do we stop this happening again?**
+
+---
+
+## Tools
+
+- **Code review**: check naming, types, shared understanding (and document it!)
+- **The type system**: communicates to developer *and* computer
+- **LLMs**: great for large-scale mechanical refactoring
+
+---
+
+## Go Forth and Communicate
+
+You'll make your job easier.
+
+And your colleagues happier.
+
+---
+
+## Thanks!
+
+`noel@noelwelsh.com`
+
+[functionalprogrammingstrategies.com](https://functionalprogrammingstrategies.com/)
+                </textarea>
+              </section>
+            </div>
+        </div>
+
+        <script src="dist/reveal.js"></script>
+        <script src="plugin/notes/notes.js"></script>
+        <script src="plugin/markdown/markdown.js"></script>
+        <script src="plugin/highlight/highlight.js"></script>
+        <script>
+            // More info about initialization & config:
+            // - https://revealjs.com/initialization/
+            // - https://revealjs.com/config/
+            Reveal.initialize({
+                hash: true,
+
+                // Learn about plugins: https://revealjs.com/plugins/
+                plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+        // Add in the special background for certain slides
+        function updateBackground(currentSlide) {
+            let element = document.querySelector('.reveal.slide');
+            // Unset any special backgrounds
+            element.classList.remove('imperial-background');
+            element.classList.remove('white-background');
+
+            // Add any specific special background
+            if (event.currentSlide.classList.contains('bg-imperial')) {
+                element.classList.add('imperial-background');
+            } else if (event.currentSlide.classList.contains('bg-white')) {
+                element.classList.add('white-background')
+            }
+        }
+
+        // Check for background update when we load and every time we change slide
+        Reveal.on('ready', event => updateBackground(event.currentSlide));
+        Reveal.on('slidechanged', event => updateBackground(event.currentSlide));
+        </script>
+    </body>
+</html>
