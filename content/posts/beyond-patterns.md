@@ -1,6 +1,7 @@
 +++
 title = "Strategies to go Beyond Design Patterns"
 draft = true
+date = "2020-01-01"
 +++
 
 Design patterns are [originally defined as][dp]
