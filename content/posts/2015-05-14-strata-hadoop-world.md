@@ -1,10 +1,6 @@
----
-layout: post
-title: "Strata + Hadoop World London 2015 In Review"
-author: Noel Welsh
-category: data
-repost: underscore
----
++++
+title = "Strata + Hadoop World London 2015 In Review"
++++
 
 I spent last week at the rather ungainly titled [Strata + Hadoop World London][strata-london-2015], O'Reilly's big data conference. I've attended the London event since it started in [2012][strata-london-2012] and it's been interesting to observe how the conference has changed over time.
 
@@ -22,7 +18,7 @@ I liked how the [Accenture][accenture] team used live demonstrations to sell the
 
 Mikio Braun's talk on [scalable machine learning][mikio] hit all the right buttons for me. He tells me it's extracted from a semester long course he is teaching. I'm hoping the course notes will find their way online.
 
-The [talk by IDEO][ideo] impressed me with the depth they apply to their product development process. They clearly have a lot of tools in the box. This is a talk that left me wanting more depth -- a lot more depth -- on using data to inform the design process.
+The [talk by IDEO][ideo] impressed me with the depth they apply to their product development process. They clearly have a lot of tools in the box. This is a talk that left me wanting more depth&mdash;a lot more depth&mdash;on using data to inform the design process.
 
 Strata was also my introduction to [Flink][flink]. It seems similar to Spark, but is build from the start as a streaming system. It's an interesting project but I'm not sure at this stage it provides enough benefit over Spark to win market share.
 
@@ -30,7 +26,7 @@ For a while I've wanted to move back into the data world after focusing on gener
 
 [strata-london-2015]: http://strataconf.com/big-data-conference-uk-2015
 [whats-there-to-know]: http://noelwelsh.com/downloads/what-to-know-about-ab.pdf
-[strata-london-2012]: {% post_url 2012-10-01-strata-slides %}
+[strata-london-2012]: @/posts/2012-10-01-strata-slides.md
 [spark]: https://spark.apache.org/
 [julia-angwin]: http://juliaangwin.com/
 [accenture]: http://strataconf.com/big-data-conference-uk-2015/public/schedule/detail/39967

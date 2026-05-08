@@ -69,6 +69,10 @@
 
 .prose h3 {
     @apply inter text-xl xl:text-2xl font-extrabold text-gray-900 tracking-tight mt-4 mb-2;
+
+    a {
+        @apply inter text-xl xl:text-2xl font-extrabold tracking-tight mt-4 mb-2;
+    }
 }
 
 .prose a {

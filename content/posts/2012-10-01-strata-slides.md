@@ -1,11 +1,6 @@
----
-layout: post
-title: "Streaming Algorithms, Strata Edition"
-description: "Slides from my streaming algorithms talk at Strata London"
-category: data
-tags: [talk, ml, big-data, streaming-algorithms, online-learning]
----
-{% include JB/setup %}
++++
+title = "Streaming Algorithms, Strata Edition"
++++
 
 If you are interested in the slides from [my talk](http://strataconf.com/strataeu/public/schedule/detail/25984) at Strata London, [here they are](/downloads/strata-london-2012.pdf). The main content of my talk, the k-Minimum Values algorithm, is shared with my LSUG talk but the introduction provides a significantly improved motivation and a brief overview of the world of streaming algorithms and online learning.
 

@@ -1,4 +1,4 @@
-/*! tailwindcss v4.1.18 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.2.1 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -223,6 +223,12 @@
   }
   .sticky {
     position: sticky;
+  }
+  .start {
+    inset-inline-start: var(--spacing);
+  }
+  .end {
+    inset-inline-end: var(--spacing);
   }
   .isolate {
     isolation: isolate;
@@ -705,14 +711,8 @@
   .w-3xl {
     width: var(--container-3xl);
   }
-  .max-w-100 {
-    max-width: calc(var(--spacing) * 100);
-  }
   .max-w-full {
     max-width: 100%;
-  }
-  .max-w-none {
-    max-width: none;
   }
   .max-w-prose {
     max-width: 65ch;
@@ -1188,12 +1188,12 @@
   }
   .xl\:w-1\/3 {
     @media (width >= 80rem) {
-      width: calc(1/3 * 100%);
+      width: calc(1 / 3 * 100%);
     }
   }
   .xl\:w-2\/3 {
     @media (width >= 80rem) {
-      width: calc(2/3 * 100%);
+      width: calc(2 / 3 * 100%);
     }
   }
   .xl\:flex-col {
@@ -1397,6 +1397,21 @@
   @media (width >= 80rem) {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
+  }
+  a {
+    margin-top: calc(var(--spacing) * 4);
+    margin-bottom: calc(var(--spacing) * 2);
+    font-family: Inter, sans-serif;
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+    --tw-font-weight: var(--font-weight-extrabold);
+    font-weight: var(--font-weight-extrabold);
+    --tw-tracking: var(--tracking-tight);
+    letter-spacing: var(--tracking-tight);
+    @media (width >= 80rem) {
+      font-size: var(--text-2xl);
+      line-height: var(--tw-leading, var(--text-2xl--line-height));
+    }
   }
 }
 .prose a {
