@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  body {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background: #eff1f5;
+  }
+  .container { display: flex; flex-direction: column; gap: 1rem; width: 320px; }
+  .row { display: flex; gap: 0.5rem; }
+  input {
+    flex: 1;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  button {
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #999;
+    border-radius: 4px;
+    background: #eee;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.4; cursor: default; }
+  button:not(:disabled):hover { background: #ddd; }
+  #output { min-height: 1.4rem; color: #444; font-size: 0.95rem; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <input id="i" type="text" placeholder="Type something...">
+    <button id="b" disabled>Go!</button>
+  </div>
+  <div id="output"></div>
+</div>
+<script>
+  const i = document.getElementById('i');
+  const b = document.getElementById('b');
+  const output = document.getElementById('output');
+
+  i.addEventListener('input', () => {
+    b.disabled = i.value.length === 0;
+  });
+
+  b.addEventListener('click', () => {
+    output.textContent = 'Did something with: "' + i.value + '"';
+    i.value = '';
+    b.disabled = true;
+  });
+</script>
+</body>
+</html>
