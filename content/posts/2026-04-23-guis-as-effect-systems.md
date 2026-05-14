@@ -156,16 +156,16 @@ render(() => <MousePos />, document.getElementById("app")!);
 
 This defines a Solid component call `MousePos`. 
 Instantiating the component—calling the `MousePos` function—is a two stage process.
-The body of the function, up to the `return` expression, can be considered the setup phase of the component.
+The body of the function, up to the `return` expression, is the setup phase of the component.
 Anything here runs once, when `MousePos` is called.
 The most important part of the setup phase is the `createSignal` call.
 This creates a `Signal`, which we can think of as an observable (the differences are not important here).
-The `return` expression, however, runs within a tracking scope.
-Any use a signal within a tracking scope, 
+The `return` expression, however, runs within the rendering phase.
+This creates a tracking scope to records any use of signals,
 such as the calls to `pos().x` and `pos().y`, 
-will register a dependency on the signal.
+and registers a dependency on those signal.
 If the value of the signal changes,
-the expression within the tracking scope is reevaluated.
+the expression registered with the tracking scope is reevaluated.
 
 Solid uses a specialized compiler,
 and we can peel back some of the abstraction by looking at the compiler's output:
@@ -198,11 +198,10 @@ render(() => _$createComponent(MousePos, {}), document.getElementById("app"));
 _$delegateEvents(["mousemove"]);
 ```
 
-The calls to `_$insert` register dependencies. 
-This 
+The call to `render` setups up the objects that will track signal dependencies and handle cleanup. Inside `_$insert` the actual tracking scope is created, and the parameters passed to `_$insert` provide the information necessary to reevaluate on change.
 
-
-This is unlike Jetpack Compose, which will reinvoke the entire composable. This means that Solid potentially does less work, but other effects that depend on observables must be wrapped within calls to `createEffect`. 
+From the above we can tell that the layout tree in Solid is *not* an effect, but a value. 
+The browser requires DOM nodes—values—so it doesn't make a lot of sense to introduce a different abstraction. The effect graph, however, is where Solid gets interesting. The basic model is similar to reactive programming, but it has improved ergonomics. The interface to signals is very simple; the main operations are getting and setting a value. With observables the user has to learn many higher-order combinators, like `mergeMap` and `combineLatest`. With signals dependencies are automatically tracked and dependents automatically reevaluated, whereas this must all be done manually when using observables. This all works because signals run in the context of a runtime that handles these tasks for the developer.
 
 
 ### Jetpack Compose
@@ -231,23 +230,42 @@ fun HelloContent() {
 }
 ```
 
-Here `Column`, `Text`, and `OutlinedTextField` are components.
-As in immediate-mode GUIs, components are effects.
-We can see in the way the `Text` component is rendered.
-It only exists in the true branch of the `if` expression.
-If components were constructed by composing values we would have to construct a corresponding value for the false branch.
-The `Text` and `OutlinedTextField` components are rendered within the context of the surrounding `Column` field,
-which means they will appear stacked vertically.
-Therefore the `Column` component is establishing some state that at a minimum is tracking the location of rendered components.
+Here `HelloContent`, `Column`, `Text`, and `OutlinedTextField` are all components,
+known as composables in Jetpack's lingo.
+Composables are impure functions, as in immediate-mode GUIs, 
+and once again we see the layout tree represented by the structure of effectful calls.
+Notice that parent composables can change how child composables appear.
+We see that with the `Column` composable, which causes its children to appear in a vertical column.
+Therefore the `Column` composable is establishing some state that at a minimum is tracking the location of child composables.
 The `Column` component renders within the context of whatever calls the `HelloContent` function,
 and this surrounding context will determine where the `Column` is rendered.
 
-Event handling is done by observables; `name` is an example.
-When an observable changes any part of the UI that depends on that observable is rerendered.
-In the example above, changing the value of the `OutlinedTextField` will update the `name` observable, which in turn will cause a change in the value displayed by the `Text` component.
-This is done by tracking uses of observables.
-However, the granularity of rerendering is the entire function (marked `@Composable`, and called a composable in Jetpack nomenclature) in which the observable is used.
-We can think of the `@Composable` annotation as establishing a context holding a reference to a thunk that is registered with any observables used within the thunk, and reinvoked whenever any of those observables change.
+Event handling is done by signals as in Solid; `name` is an example.
+As in Solid, changing a signal rerenders any part of the UI that depends on that signal.
+In the example above, changing the value of the `OutlinedTextField` will update the `name` signal, which in turn will cause a change in the value displayed by the `Text` composable.
+The mechanism Jetpack uses is quite different to Solid, however.
+The Jetpack Compose compiler plugin rewrites composables to take an additional parameter, a [`Composer`][composer].
+It also inserts calls to the `Composer`.
+Most important for our cases are the calls that delimit regions where signal uses are tracked
+and which can be rerun when those signals change.
+
+We can see that Jetpack Compose has elements of the immediate-mode model: user interface elements are effects, and the layout tree matches the structure of calls to some layout context. It also has similarities to Solid: the event graph is constructed by establishing some context that listens for signal use and registers user interface elements to rerender when those signals change.
+
+
+## Context, Effects, and Capabilities
+
+We're now going to talk about context, effects, and capabilities, which will allow us to talk about capability-passing. An effect (and I'm using the definition in the capability-passing literature) is anything that depends on or modifies the surrounding context in which the program executes. What is the context then? It's the set of capabilities that are available to the program at any particular point together with the state of any resources those capabilities control. The capabilties? This where we get a bit philosophical. Capabilities are the ability to undertake actions that we wish to explicitly track or control. This, fundamentally, comes down to a choice on what we think is important. For example, most languages don't consider memory allocation to be a capability. In such languages a program can freely allocate memory and we wouldn't consider this to be an effect. In systems programming languages, however, memory allocation is a core concern and is treated as a capability: something that we restrict access to or wish to explicitly track.
+
+Once we have defined all these, capability-passing is simple: it's a programming style where capabilities are values that must be passed to the parts of code that need them. This gives a very simple form of effect tracking: a functions signature tells us which capabilities it needs and therefore which effects it can perform. The languages that support capability-passing, Effekt and Scala 3, add a few details for safety and ease of use, but this is not important for us right now.
+
+
+### User Interfaces as Capability-Passing
+
+Now that we understand capability-passing, we can see the modern interface framework as using capability-passing for the layout tree, event graph, or both. The layout tree is a capability in the immediate mode frameworks and Jetpack Compose. They work by mutating some data structure in the current scope; access to the data structure is the capability. Indeed, it's even explicit in egui (the `ui` value) and added by the Jetpack Compose compiler (the `Composer`). Similarly, the event graph is a capability in Solid and Jetpack Compose. We saw this with the tracking scope that Solid uses: this is exactly the capability to track a signal use and register the dependency. 
+
+What does viewing these systems as capability-passing give us? One thing is a clearer picture of how they work, abstracted away from the details of any one framework.
+
+We can also do usual thing we do with type systems: prevent running a whole bunch of incorrect programs (and some correct ones!)
 
 
 [^tangible]: Smalltalk, and later developments such as [Morphic][morphic], had a laudable focus on presenting information graphically. What you see if what you get, but what about what you don't see? The event graph is not directly rendered on the screen, and in their user interface model the event graph is a secondary concern.
@@ -270,3 +288,4 @@ We can think of the `@Composable` annotation as establishing a context holding a
 [dom]: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model
 [rest-of-us]: https://overreacted.io/algebraic-effects-for-the-rest-of-us/
 [wysiwyg]: https://link.springer.com/chapter/10.1007/978-3-030-83128-8_3
+[composer]: https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composer?hl=en
