@@ -5,10 +5,25 @@ draft = true
 
 Modern user interface libraries have converged on an underling model that represents interfaces as effects in the [capability-passing style][wysiwyg]. Others have noted that [algebraic effects are a useful mental model for user interfaces][rest-of-us], but as far as I know this has been a post hoc discovery, not a strategy that guided design from the start. When we start with the capability-passing model in mind, we get a cleaner implementation that prevents certain kinds of errors. Furthermore, capability-passing is simple and easy to work with.
 
-In this post I'm going to start by investigating what makes user interface frameworks challenging. We'll see the fundamental problem is that an interface consists of two structures, the layout tree and the event graph, and each structure refers to the other. We'll explore how different frameworks deal with this, starting with callbacks, visiting reactive programming, and ending up at three contemporary models: immediate mode GUIs, modern Javascript frameworks exemplified by Solid, and Jetpack Compose. When we dig into the details of the current systems we'll see they all use capability-passing to an extent. Finally, we'll reverse the process, and ask what happens if we design a framework using capability-passing to start with. We'll see that it gives us a simple design and we can prevent some programming errors by leveraging language support for the capability-passing style.
+In this post starts with a brief discussion of capability-passing, and then turns to investigating what makes user interface frameworks challenging. We'll see the fundamental problem is that an interface consists of two structures, the layout tree and the event graph, and each structure refers to the other. We'll explore how different frameworks deal with this, starting with callbacks, visiting reactive programming, and ending up at three contemporary models: immediate mode GUIs, modern Javascript frameworks exemplified by Solid, and Jetpack Compose. When we dig into the details of the current systems we'll see they can all be viewed as capability-passing. Finally, we'll reverse the process, and ask what happens if we design a framework using capability-passing to start with. We'll see that it gives us a simple design and we can prevent some programming errors by leveraging language support for the capability-passing style.
 
 
 <!-- more -->
+
+## Context, Effects, and Capabilities
+
+To talk about capability-passing, we need to briefly talk about context, effects, and capabilities. An **effect** (using the definition in the capability-passing literature; [see for example][effekt-publications]) is anything that depends on or modifies the surrounding context in which the program executes. What, then, is the context? **Context** is the set of capabilities that are available to the program at any particular point, together with the state of any resources those capabilities control. The capabilities? This where we get a bit philosophical. **Capabilities** are the ability to undertake actions that we wish to explicitly track or control. This, fundamentally, comes down to a choice on what we think is important. For example, most languages don't consider memory allocation to be a capability. In such languages a program can freely allocate memory and we wouldn't consider this to be an effect. In systems programming languages, however, memory allocation is a core concern and is treated as a capability: something that we restrict access to or wish to explicitly track.
+
+Once we have defined all these, **capability-passing** is simple: it's a programming style where capabilities are values that are passed to the parts of code that need them. For example, if we have capabilities for IO and memory allocation, we might write a function signature
+
+```scala
+f: (Io, Memory) => A
+```
+
+indicating that this function requires the `Io` and `Memory` capabilities to run.
+
+This gives a very simple form of effect tracking: a function's signature tells us which capabilities it needs and therefore which effects it can perform. The languages that support capability-passing, [Effekt][effekt] and [Scala 3][scala-cap], add a few details for safety and ease of use, but this is not important for us right now.
+
 
 ## The Problems of User Interfaces
 
@@ -36,7 +51,7 @@ RowContainer(i, b).show()
 
 This code is written in a callback-driven style. It will be familiar to many from the browser [DOM][dom], but this model stretches back to Smalltalk and the first GUIs.
 
-The callback-driven approach focuses on the **components** representing what is displayed on the screen[^tangible]. `Input` and `Button` represent the text input and the button, respectively, and the `RowContainer` specifies the text input and button should be displayed in a row. We can see that:
+The callback-driven approach focuses on the **components** representing what is displayed on the screen. `Input` and `Button` represent the text input and the button, respectively, and the `RowContainer` specifies the text input and button should be displayed in a row. We can see that:
 
 1. Components are values. We can pass them around and combine them to produce new components, as we do when passing `i` and `b` to the `RowContainer`.
 2. Components form a tree. We'll call this the **layout tree**.
@@ -47,9 +62,9 @@ It's natural to focus on what we see on the screen, but this ignores another str
 
 *diagram here*
 
-Expressing cyclic structures in code is difficult. The callback-driven solution is to write user interfaces in a two stage process. First we create all the components. Now that we can reference any particular component of interest, we add callbacks to define the event handling structure. Layout is straightforward to read in this model, but event handling is fragmented across a mess of callbacks and becomes difficult to reason about.
+It is difficult to express cyclic structures in code. The callback-driven solution is to write user interfaces in a two stage process. First we create all the components. Now that we can reference any component of interest we add callbacks to define the event handling structure. Layout is straightforward to read in this model, but event handling is fragmented across a mess of callbacks and becomes difficult to reason about.
 
-In summary, user interfaces require we define two structures[^other]: layout and event handling. Layout is a tree, but event handling is a cyclic graph. To further complicate things, the layout tree and event graph have references to each other. How different architectures handle this is the core of what we'll examine.
+In summary, user interfaces require we define two structures[^other]: layout and event handling. Layout is a tree, but event handling is a cyclic graph. To further complicate things, the layout tree and event graph have references to each other. How different architectures handle this is the core of what we'll examine when we look at contemporary frameworks.
 
 
 ## Reactive Programming
@@ -252,29 +267,20 @@ and which can be rerun when those signals change.
 We can see that Jetpack Compose has elements of the immediate-mode model: user interface elements are effects, and the layout tree matches the structure of calls to some layout context. It also has similarities to Solid: the event graph is constructed by establishing some context that listens for signal use and registers user interface elements to rerender when those signals change.
 
 
-## Context, Effects, and Capabilities
 
-We're now going to talk about context, effects, and capabilities, which will allow us to talk about capability-passing. An effect (and I'm using the definition in the capability-passing literature) is anything that depends on or modifies the surrounding context in which the program executes. What is the context then? It's the set of capabilities that are available to the program at any particular point together with the state of any resources those capabilities control. The capabilties? This where we get a bit philosophical. Capabilities are the ability to undertake actions that we wish to explicitly track or control. This, fundamentally, comes down to a choice on what we think is important. For example, most languages don't consider memory allocation to be a capability. In such languages a program can freely allocate memory and we wouldn't consider this to be an effect. In systems programming languages, however, memory allocation is a core concern and is treated as a capability: something that we restrict access to or wish to explicitly track.
+## User Interfaces as Capability-Passing
 
-Once we have defined all these, capability-passing is simple: it's a programming style where capabilities are values that must be passed to the parts of code that need them. This gives a very simple form of effect tracking: a functions signature tells us which capabilities it needs and therefore which effects it can perform. The languages that support capability-passing, Effekt and Scala 3, add a few details for safety and ease of use, but this is not important for us right now.
+Now that we understand capability-passing, we can see the modern interface framework as using capability-passing for the layout tree, event graph, or both. The layout tree is a capability in the immediate mode frameworks and Jetpack Compose. They work by mutating some data structure in the current scope; access to the data structure is the capability. Indeed, it's even explicit in egui (the `ui` value). Similarly, the event graph is a capability in Solid and Jetpack Compose. We saw this with the tracking scope that Solid uses: this is exactly the capability to track a signal use and register the dependency. Similarly with Jetpack Compose, where the tracking scopes are inserted by the compiler. The event graph is actually also a capability in egui: as we saw the system stores event handling state in-between frames. We can think of access to this state as the capability.
 
+What does viewing these systems as capability-passing give us? One thing is a clearer picture of how they work, abstracted away from the details of any one framework. As we've seen, there are two capabilities, layout and events, central to user interfaces.
 
-### User Interfaces as Capability-Passing
+We can also do usual thing we do with type systems: prevent running a whole bunch of incorrect programs (and some correct ones!) For example, in Solid it's possible to access a signal outside a tracking scope, which usually indicates a bug. We can statically prevent this.
 
-Now that we understand capability-passing, we can see the modern interface framework as using capability-passing for the layout tree, event graph, or both. The layout tree is a capability in the immediate mode frameworks and Jetpack Compose. They work by mutating some data structure in the current scope; access to the data structure is the capability. Indeed, it's even explicit in egui (the `ui` value) and added by the Jetpack Compose compiler (the `Composer`). Similarly, the event graph is a capability in Solid and Jetpack Compose. We saw this with the tracking scope that Solid uses: this is exactly the capability to track a signal use and register the dependency. 
-
-What does viewing these systems as capability-passing give us? One thing is a clearer picture of how they work, abstracted away from the details of any one framework.
-
-We can also do usual thing we do with type systems: prevent running a whole bunch of incorrect programs (and some correct ones!)
-
-
-[^tangible]: Smalltalk, and later developments such as [Morphic][morphic], had a laudable focus on presenting information graphically. What you see if what you get, but what about what you don't see? The event graph is not directly rendered on the screen, and in their user interface model the event graph is a secondary concern.
 
 [^other]: There are other structures in a user interface. For example, there is usually another tree to handle input events. These structures are often fairly simple and not directly constructed by the application programmer, so we'll ignore them here.
 
 [^indirection]: "All problems in computer science can be solved by another level of indirection." Attributed to David Wheeler and Butler Lampson.
 
-[morphic]: https://en.wikipedia.org/wiki/Morphic_(software)
 [reactivex]: https://reactivex.io/
 [flapjax]: https://www.flapjax-lang.org/
 [rxjs]: https://rxjs.dev
@@ -289,3 +295,6 @@ We can also do usual thing we do with type systems: prevent running a whole bunc
 [rest-of-us]: https://overreacted.io/algebraic-effects-for-the-rest-of-us/
 [wysiwyg]: https://link.springer.com/chapter/10.1007/978-3-030-83128-8_3
 [composer]: https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composer?hl=en
+[effekt]: https://effekt-lang.org/
+[scala-cap]: https://www.scala-lang.org/api/current/scala/caps/Capability.html
+[effekt-publications]: https://effekt-lang.org/publications
