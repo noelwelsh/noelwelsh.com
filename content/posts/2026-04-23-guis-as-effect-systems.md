@@ -69,7 +69,10 @@ In summary, user interfaces require we define two structures[^other]: layout and
 
 ## Reactive Programming
 
-Reactive programming, exemplified by [ReactiveX][reactivex], [RxJS][rxjs], and [Flapjax][flapjax], gives event handling first-class status. In a typical implementation we define so-called observables, which represent values that can change over time. 
+Reactive programming, exemplified by [ReactiveX][reactivex], [RxJS][rxjs], and [Flapjax][flapjax], solves the problem of the event graph by making events first-class values. We'll call them observables, and they represent a sequence of values over time.
+In a typical implementation might rewrite the example as shown below.
+In this example code I'm assuming that component properties, such as the enabled state of the button, can be set directly from observables.
+
 
 ```scala
 val text = Observable("")
@@ -83,17 +86,10 @@ val b = Button("Go!")
 RowContainer(i, b).show()
 ```
 
-In this example code I'm assuming that component properties, such as the enabled state of the button, can be set directly from observables.
+Now that events—the observables—have names they can be referred to directly. 
+This indirection via names allows us to break the cycles in the event graph[^indirection].
 
-The key insight is that by adding a layer of indirection to the event handling—communicating through the observables instead of directly from the callbacks—we break the cycles in the graph[^indirection]. 
-
-*More description here*
-
-There are still a few problems. One that is we need to pass around observables *and* components. This is inconvenient.
-
-Bidirectional flow is difficult to understand.
-
-Working with higher-order functions can be hard.
+Having written many user interfaces in this style I've found there are still a few problems. A basic one is the annoynace of dealing with two distinct structures, involving a lot of packing and unpacking of components and observables to pass them around. More serious is that observables just tend to be difficult to work with. Typical implementations have complex APIs that require careful reasoning about semantics, and when things go wrong debugging can be very hard. Still, they are an improvement over what came before.
 
 
 ## Interfaces as Capabilties
@@ -133,13 +129,16 @@ which we can see above in the call to `clicked`.
 Note that event handling requires storing state between frames.
 For example, a mouse click is differentiated from a mouse drag by the starting and ending locations of the click events.
 
-The immediate mode approach does not cleanly handle layout that depends on child elements, 
+It's clear we can view this as capability-passing; the `ui` value is exactly the capability to create components and handle events.
+The layout tree and event graph simply don't exist in this model, except in the internal state of `ui` where the application programmer doesn't have to deal with them.
+The immediate-mode approach does seem very ergonomic, but it has some serious limitations.
+For example, it cannot cleanly handle layout that depends on child elements, 
 or cycles in event handling.
 Consider the form example at the start of this post.
 When the button is clicked we clear the input. 
 The button is rendered after the input and, therefore, 
-at the point in time when we render the input we do not know if the button has been clicked.
-egui allows the programmer to [request rerendering][equi-rerender] to deal with such situations.
+at the point in time when we render the input we do not know if it should be cleared or not.
+egui allows the programmer to [request rerendering][egui-rerender] to deal with such situations, but this only pushes the problem of correctness onto the application programmer instead of solving it.
 
 
 ### Solid
