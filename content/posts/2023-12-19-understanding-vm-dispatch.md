@@ -122,27 +122,27 @@ def dispatch(sp: Int, ip: Int): Unit = {
     ins match {
       case Op.Lit(value) =>
         stack(sp) = value
-        loop(sp + 1, ip + 1)
+        dispatch(sp + 1, ip + 1)
       case Op.Add =>
         val a = stack(sp - 1)
         val b = stack(sp - 2)
         stack(sp - 2) = (a + b)
-        loop(sp - 1, ip + 1)
+        dispatch(sp - 1, ip + 1)
       case Op.Sub =>
         val a = stack(sp - 1)
         val b = stack(sp - 2)
         stack(sp - 2) = (a - b)
-        loop(sp - 1, ip + 1)
+        dispatch(sp - 1, ip + 1)
       case Op.Mul =>
         val a = stack(sp - 1)
         val b = stack(sp - 2)
         stack(sp - 2) = (a * b)
-        loop(sp - 1, ip + 1)
+        dispatch(sp - 1, ip + 1)
       case Op.Div =>
         val a = stack(sp - 1)
         val b = stack(sp - 2)
         stack(sp - 2) = (a / b)
-        loop(sp - 1, ip + 1)
+        dispatch(sp - 1, ip + 1)
     }
 }
 ```
@@ -209,7 +209,7 @@ def dispatch(ip: Int): Unit = {
     // Dispatch
     ins()
     // Loop
-    loop(ip + 1)
+    dispatch(ip + 1)
 }
 ```
 
