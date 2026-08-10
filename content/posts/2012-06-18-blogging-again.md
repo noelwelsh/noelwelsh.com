@@ -5,7 +5,7 @@ description: ""
 category: other
 tags: []
 ---
-{% include JB/setup %}
+
 
 I set up this site some time ago, but never got around to publishing it. The reason was simple: I started with Octopress but found it too difficult to customise the style of my liking. So the site just sat around gathering digital dust.
 

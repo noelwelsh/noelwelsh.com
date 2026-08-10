@@ -6,7 +6,7 @@ category: programming
 tags: [punditry, jvm]
 lead: Akka's actor framework very popular in the Scala community, but I think they are the wrong model for managing concurrency in Scala. Here are three reasons why I don't think Akka has got it right.
 ---
-{% include JB/setup %}
+
 
 We recently rewrote [Myna's](http://www.mynaweb.com/) back-end service. The architecture changed dramatically, and is now both faster and easier to extend. One of the significant architectural changes was removing all [Akka](http://akka.io) [actors](http://en.wikipedia.org/wiki/Actor_model). After heavily using them in the first version of the back-end, I have come to prefer other methods of managing concurrency. Since Akka's actors are so prominent within the Scala community I thought it might be of interest to describe why we made this change.
 

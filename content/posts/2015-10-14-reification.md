@@ -72,9 +72,9 @@ You can see the same design principle at work in [Akka Streams][akka-stream] com
 
 We've seen a simple example of how reifying a concept improves code. Are there other examples? Unsurprisingly, there are a great many. In fact, it's one of the main design tools used in functional programming. Whenever we write an [abstract syntax tree][free-monads-are-simple] or use the [interpreter pattern][runar-interpreter-pattern] we are reifying a concept as data. The interpreter pattern is in turn the big idea behind [Doodle][doodle], the [financial contracts library][financial-contracts] that [LexiFi][lexifi] is founded on, Facebook's [Haxl][haxl], Instagram's [feature gating library][instagram-feature-gate], and a whole heap more.
 
-[sealed-traits]: {% post_url 2015-06-02-everything-about-sealed %}
-[keep-scala-simple]: {% post_url 2015-06-25-keeping-scala-simple %}
-[free-monads-are-simple]: {% post_url 2015-04-14-free-monads-are-simple %}
+[sealed-traits]: @/posts/2015-06-02-everything-about-sealed.md
+[keep-scala-simple]: @/posts/2015-06-25-keeping-scala-simple.md
+[free-monads-are-simple]: @/posts/2015-04-13-free-monads-are-simple.md
 
 [your-server-as-a-function]: http://monkey.org/~marius/funsrv.pdf
 [etl]: https://en.wikipedia.org/wiki/Extract,_transform,_load

@@ -5,7 +5,7 @@ description: ""
 category: programming
 lead: Programmers often talk about expressivity, but this doesn't capture a lot of what is useful about a programming language. Real programs run in a specific implementation, and implementations differ in how much control they give you over the machine. How well do languages balance the two?
 ---
-{% include JB/setup %}
+
 
 As programmers we often talk about the expressivity of a language, which is usually taken to be something like how concisely a large class of programs can be written. This neglects the important fact that we program to real implementations on real computers. Implementations exist to allow us to control the machine, and they differ greatly in how much control they give the programmer. I think it's more useful to talk about the combination of expressivity and control provided by a particular language and implementation, which I term "expressive width".
 

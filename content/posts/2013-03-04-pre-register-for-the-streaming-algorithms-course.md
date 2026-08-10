@@ -6,7 +6,7 @@ category: data
 tags: [online-learning, streaming-algorithms, teaching, ml, big-data]
 lead: I wrote this post to gauge interest in a course on streaming algorithms. I didn't get the response I wanted, so the course is on the back-burner.
 ---
-{% include JB/setup %}
+
 
 <div class="well">
 I didn't get the response I wanted to run the course. I still hope it will go ahead some day. If you're interested, sign up to my newsletter and you'll receive announcements (and other interesting content) there.

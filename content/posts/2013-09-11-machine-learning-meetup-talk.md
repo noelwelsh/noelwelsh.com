@@ -10,4 +10,4 @@ Last night I was lucky enough to speak at the [London Machine Learning Meetup](h
 
 I had a fantastic time at the meetup. There were lots of great questions; I will definitely be hitting the books in preparation for next time (which will probably be [Strata London](http://strataconf.com/strataeu2013/public/schedule/detail/31019)).
 
-If you are interested in learning more about bandit algorithms, I'm running a [course]({% post_url 2013-08-16-free-bandit-course-draft-outline %}) via my mailing list. Sign up below to get regular doses of banditry in your inbox.
+If you are interested in learning more about bandit algorithms, I'm running a [course](@/posts/2013-08-16-free-bandit-course-draft-outline.md) via my mailing list. Sign up below to get regular doses of banditry in your inbox.

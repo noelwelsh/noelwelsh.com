@@ -5,7 +5,7 @@ description: "Slides and video from my streaming algorithms talk at Scala eXchan
 category: data
 tags: [talk, ml, big-data, streaming-algorithms, online-learning]
 ---
-{% include JB/setup %}
+
 
 On Monday I delivered a talk on streaming algorithms at [Scala eXchange 2012](http://skillsmatter.com/event/scala/scala-exchange-2012). Skillsmatter are super-fast at getting video online, so you can [view it](http://skillsmatter.com/podcast/scala/real-time-analytics-in-scala) already! My [slides](/downloads/scala-exchange-2012.pdf) are also online.
 

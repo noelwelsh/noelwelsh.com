@@ -6,15 +6,13 @@ category: programming
 tags: [punditry]
 lead: Prominent members of the Javascript community are working on a standard for Promises (or Futures) in Javascript. The proposed design is lacking in fundamental ways, repeating mistakes from Javascript's past. Isn't it time we did better?
 ---
-{% include JB/setup %}
-
 If you're a Javascript developer you've probably viewed the [Wat](https://www.destroyallsoftware.com/talks/wat) talk. If not, go watch it now. It's short, funny, and brilliantly illustrates the foibles of Javascript.
 
 Bashing on Javascript is old. Its shortcomings are well known and I don't want to dwell on them. I do hope we can learn from them, however, and not repeat the same mistakes in the future.
 
 This sequence from the talk illustrates one of the main issues in Javascript:
 
-{% highlight javascript %}
+```javascript
 > [] + []
 ''
 > [] + {}
@@ -33,14 +31,14 @@ Unfortunately, it's a false simplicity. While there might be a reasonable explan
 
 Sadly the same mistakes continue to be repeated. Take jQuery's [map](http://api.jquery.com/jQuery.map/) function for example. It works in a straight forward way:
 
-{% highlight javascript %}
+```javascript
 > $.map([1, 2, 3], function(x) { return x + 1; })
 [2, 3, 4]
 ```
 
 Except if the function returns an array, in which case that array is appended to the array of results! If you want to create an array of arrays you're SOL.
 
-{% highlight js %}
+```javascript
 > $.map([1, 2, 3], function(x) { return [x, x + 1]; })
 [1, 2, 2, 3, 3, 4] // Not [[1,2], [2,3], [3,4]] as we'd expect!
 ```

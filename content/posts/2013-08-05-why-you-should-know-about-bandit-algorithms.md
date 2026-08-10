@@ -7,7 +7,6 @@ tags: [bandits]
 lead: I think bandit algorithms are great &mdash; so much so that I'm running a free course on them. This post trys to give a quick overview of why I feel such enthusiasm for them, and tells you how you can sign up to my free course.
 list_cta: Sign up for my free course on bandit algorithms.
 ---
-{% include JB/setup %}
 
 If you're a data scientist or online marketer, I want to convince you that you need to know about bandit algorithms, and you should sign up below for my course. Here's the pitch, in three easy steps:
 

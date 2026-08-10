@@ -5,7 +5,7 @@ description: ""
 category: programming
 tags: [node, jvm, performance]
 ---
-{% include JB/setup %}
+
 
 [This](http://aphyr.com/posts/244-context-switches-and-serialization-in-node) thoughtful investigation into the performance of Node.js versus the JVM (represented by Clojure), and the [followup](http://news.ycombinator.com/item?id=4310723) comment from Node.js creator Ryan Dahl crystallized some thoughts regarding the Node.js hype-train and its intersection with reality. Within is an old lesson that anyone seeking traction with a new product would do well to remember.
 

@@ -105,6 +105,6 @@ This is why we care about laws for our type classes. They tell us what transform
 So the teacher is correct. 3&times;5 is not equal to 5&times;3, but under the standard interpretation they are equivalent. There is some deep stuff going on here. I'm not equipped to say if this is appropriate to teach children, but if it works it's awesome stuff. Maths is not about calculating but about manipulating abstract structure, and if the students are being taught that it seems to me to be a good thing. And it's entirely possible that this example will have given some adults, including me, a deeper appreciation of the depth of structure in simple arithmetic expressions.
 
 [tropical-geometry]: https://en.wikipedia.org/wiki/Tropical_geometry
-[reification]: {% post_url 2015-10-14-reification %}
-[free-monads-simple]: {% post_url 2015-04-14-free-monads-are-simple %}
-[free-monoid]: {% post_url 2015-04-23-deriving-the-free-monad %}
+[reification]: @/posts/2015-10-14-reification.md
+[free-monads-simple]: @/posts/2015-04-13-free-monads-are-simple.md
+[free-monoid]: @/posts/2015-04-23-deriving-the-free-monad.md

@@ -20,19 +20,19 @@ The core problem solved by static site generators is to create a collection of t
     
     The programming world is moving towards functional programming (FP). More developers are using languages with an explicit bias towards FP, such as Scala and Haskell, while object-oriented (OO) languages and their communities adopt FP features and practices. (A striking example of the latter is the rise of Typescript and React in the Javascript community.) &hellip;
  
-A template is usually text interpersed with escapes to a simple programming language. [Liquid][liquid] and [Nunjucks][nunjucks] are two typical examples. Both use `{%` and  `%}` to delimit statements, and `{{` and `}}` for expressions. A very simple template is below.
+A template is usually text interpersed with escapes to a simple programming language. [Liquid][liquid] and [Nunjucks][nunjucks] are two typical examples. Both use {% raw %}`{%` and  `%}`{% endraw %} to delimit statements, and {% raw %}`{{`{% endraw %} and {% raw %}`}}`{% endraw %} for expressions. A very simple template is below.
 
     <html>
       <head><title>{{ title }}</title></head>
       <body>
-        {% include header.html %}
+        {% raw %}{% include header.html %}{% endraw %}
         <h1>{{ title }}</h1>
         {{ content }}
-        {% include footer.html %}
+        {% raw %}{% include footer.html %}{% endraw %}
       </body>
     </html>
   
-Here `{{ title }}` inserts the title defined in the front-matter and `{{ content }}` the content of the blog post. The statements `{% include header.html %}` and `{% include footer.html %}` insert header and footer templates respectively, which are defined in separate files. This example shows two primary concerns of programming languages: abstraction to extract resuable components into templates, and composition to combine templates together in the final result. Eagle-eyed readers will have noticed some confusing semantics here: some text is inserted using expressions and other using statements. This hints at some of the problems we'll see later but for now let's look at what static site generators get right.
+Here `{{ title }}` inserts the title defined in the front-matter and `{{ content }}` the content of the blog post. The statements {% raw %}`{% include header.html %}`{% endraw %} and {% raw %}`{% include footer.html %}`{% endraw %} insert header and footer templates respectively, which are defined in separate files. This example shows two primary concerns of programming languages: abstraction to extract resuable components into templates, and composition to combine templates together in the final result. Eagle-eyed readers will have noticed some confusing semantics here: some text is inserted using expressions and other using statements. This hints at some of the problems we'll see later but for now let's look at what static site generators get right.
 
 
 ## Programming Systems, not Programming Languages.
@@ -54,7 +54,7 @@ val aString = "text goes in quotes"
 
 Furthermore text usually needs to worry about escaping and multi-line strings. 
 
-SSGs invert this: text is primary and an escape is needed to enter a program. We've seen the examples above, which use `{{` and `{%` to enter code and `}}` and `%}` to exit back to text. 
+SSGs invert this: text is primary and an escape is needed to enter a program. We've seen the examples above, which use `{% raw %}{{{% endraw %}` and `{% raw %}{%{% endraw %}` to enter code and `{% raw %}}}{% endraw %}` and `{% raw %}%}{% endraw %}` to exit back to text. 
 
 Text is usually written in [Markdown][commonmark] format. Markdown is a simple notation that makes common formatting commands, such as heading and lists, easier to write than in HTML.
 
@@ -76,8 +76,10 @@ A filter is the Liquid feature most like a function. It has unusual syntax, usin
 We can do normal programming language things, such as refering to names for arguments (though filters are not first-class values). The following snippet binds the name `a_number` to `42` and then evaluates to `42`
 
 ```
+{% raw %}
 {% assign a_number = 42 %}
 {{ -4 | abs | at_least: a_number }}
+{% endraw %}
 ```
 
 The most significant limitation of filters is that the user cannot define their own. Otherwise they function like, well, functions.
@@ -100,7 +102,9 @@ This include has a single parameter called `title`, and hence we can consider te
 Here is how we call an include, passing a value for a parameter.
 
 ```
+{% raw %}
 {% include header.html title="Notice" %}
+{% endraw %}
 ```
 
 This is a tag. There are already some strange things going on here. Notice the `include` is delimited with `{%` and `%}`. The Jekyll documentation says
@@ -128,7 +132,9 @@ Again, this makes no sense in light of the (supposed) meaning of the `{{ }}` del
 There is yet another quirk. If a string literal argument includes a `{{` and  `}}` pair, and there is text that matches the syntax for a variable name between the pair, the string literal is rejected. This description is a bit confusing (but so are the rules) so here is a concrete example. The following is rejected
 
 ```
+{% raw %}
 {% include header.html password="{{ wat }}" %}
+{% endraw %}
 ```
 
 with the error message

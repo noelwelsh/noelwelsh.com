@@ -23,4 +23,4 @@ When I argue for [keeping Scala simple][scala-simple], I'm talking about the kin
 
 [operators]: https://en.wikipedia.org/wiki/Vector_calculus_identities#Operator_notations
 [sicp]: https://mitpress.mit.edu/sicp/
-[scala-simple]: {% post_url 2015-06-25-keeping-scala-simple %}
+[scala-simple]: @/posts/2015-06-25-keeping-scala-simple.md

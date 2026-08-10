@@ -95,4 +95,4 @@ Probabilistic programming also fits very squarely into my interests in machine l
 [topic-model-pompeii]: http://mimno.infosci.cornell.edu/papers/pompeii.pdf
 [scigen]: https://pdos.csail.mit.edu/archive/scigen/
 [enumeration]: https://github.com/noelwelsh/pfennig/blob/master/src/main/scala/pfennig/Enumeration.scala
-[free-monad-ast]: {% post_url 2015-04-14-free-monads-are-simple %}
+[free-monad-ast]: @/posts/2015-04-13-free-monads-are-simple.md

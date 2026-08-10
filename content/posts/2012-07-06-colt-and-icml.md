@@ -5,7 +5,7 @@ description: "A quick overview of my highlights from COLT and ICML 2012"
 category: data
 tags: [ml, icml, colt, bandit, topic-model, online-learning]
 ---
-{% include JB/setup %}
+
 
 I spent last week in the lovely city of Edinburgh attending [COLT](http://www.ttic.edu/colt2012/) and [ICML](http://icml.cc/2012/). I'm still digesting a lot of what I saw, but I thought it might be interesting to give a quick list of my highlights.
 

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% import "post-summary.html" as ps %}
+{% include "post-summary.html" %}
 
 {% block title %}
 {{ section.title }}
@@ -15,12 +15,12 @@
   <ul>
     {% for page in section.pages %}
     <li class="pb-8">
-      {{ ps::post_summary(
-            title = page.title,
-            date = page.date,
-            permalink = page.permalink,
-            summary = page.summary
-          ) }}
+      {{<post_summary
+           title = {page.title}
+           date = {page.date}
+           permalink = {page.permalink}
+           summary = {page.summary}
+         />}}
     </li>
     {% endfor %}
   </ul>

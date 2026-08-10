@@ -268,11 +268,11 @@ Finally, it feels like there is a connection to initial and final encoding, but 
 
 
 [doodle]: https://github.com/underscoreio/doodle
-[pp]: {% post_url 2016-04-21-probabilistic-programming %}
+[pp]: @/posts/2016-04-21-probabilistic-programming.md
 [cats]: http://typelevel.org/cats
-[free]: {% post_url 2015-04-14-free-monads-are-simple %}
-[simple]: {% post_url 2015-06-25-keeping-scala-simple %}
+[free]: @/posts/2015-04-13-free-monads-are-simple.md
+[simple]: @/posts/2015-06-25-keeping-scala-simple.md
 [scene-graph]: https://en.wikipedia.org/wiki/Scene_graph
-[reification]: {% post_url 2015-10-14-reification %}
+[reification]: @/posts/2015-10-14-reification.md
 [hoas]: https://en.wikipedia.org/wiki/Higher-order_abstract_syntax
 [boxes-bananas]: http://repository.upenn.edu/cgi/viewcontent.cgi?article=1031&context=cis_reports

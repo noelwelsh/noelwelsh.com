@@ -142,7 +142,7 @@ type Result[Error, Success] = EitherT[Task, Error, Success]
 
 The free monad offers another approach to monad composition, via the [a la carte][a-la-carte] technique. The question then becomes, if we use the free monad should we raise all our monads into it, in the same way we do with monad transformers? So far I have not done this. My approach has been to put IO actions into the free monad but leave other monads (e.g. `Option` and `\/`) out of it. This means occasionally seeing nested `for` comprehensions but I find it simpler and more performant to work this way. One caveat: I haven't written a great deal of code using the free monad so my opinion might change.
 
-[free-monad-interpreter]: {% post_url 2015-04-13-free-monads-are-simple %}
-[free-monad-deriving]: {% post_url 2015-04-23-deriving-the-free-monad %}
+[free-monad-interpreter]: @/posts/2015-04-13-free-monads-are-simple.md
+[free-monad-deriving]: @/posts/2015-04-23-deriving-the-free-monad.md
 [`Task`]: http://docs.typelevel.org/api/scalaz/nightly/#scalaz.concurrent.Task
 [a-la-carte]: http://www.cs.ru.nl/~W.Swierstra/Publications/DataTypesALaCarte.pdf
