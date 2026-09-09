@@ -6,7 +6,7 @@
   "dependencies": {
     "@tailwindcss/postcss": "^4.0.3",
     "autoprefixer": "^10.2.4",
-    "postcss": "^8.4.31",
+    "postcss": "^8.5.25",
     "postcss-cli": "^11.0.0",
     "postcss-import": "^16.0.0",
     "postcss-loader": "^8.0.0",
